@@ -1,0 +1,117 @@
+:root {
+    --header-border-col: #0078B7;
+    --page-background-col: white;
+}
+
+* {
+    /* border: 1px grey dotted; */
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+/* ------------ HEADER ------------ */
+header {
+    height: 15dvh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 8px solid var(--header-border-col);
+}
+
+#header-logo {
+    width: 25%;
+    display: flex;
+}
+
+#header-logo img {
+    max-height: 100%;
+    margin: 5px auto;
+}
+
+#header-title {
+    width: 100%;
+    text-align: center;
+    margin: auto auto;
+}
+
+/* ------------ FOOTER ------------ */
+footer {
+    background-color: var(--page-background-col);
+    text-align: center;
+    padding: 5px;
+    flex-shrink: 0;
+}
+
+footer {
+    font-size: 0.6rem;
+}
+
+/* ------------ BODY ------------ */
+body {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* ------------ FORM ------------ */
+#filters-form {
+    display: flex;
+    flex-direction: column;
+    border: 1px darkgray solid;
+    border-radius: 10px;
+    padding: 5px;
+    width: 100%;
+}
+
+#form-header {
+    justify-content: space-between;
+}
+
+#job-count {
+    border: 1px darkgray solid;
+    border-radius: 10px;
+    padding: 0.2rem 1rem;
+
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    padding: 0.2rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-row select,
+input:not([type="checkbox"]) {
+    width: 70%;
+    align-items: center;
+}
+
+label {
+    padding-right: 0.4rem;
+}
+
+#container-villes {
+    padding: 0.1rem;
+    display: block;
+    margin: auto 0;
+}
+
+#hebergement-container {
+    display: block;
+    padding: 0.3rem;
+}
+
+.form-row input[type="submit"] {
+    margin: auto auto;
+}
