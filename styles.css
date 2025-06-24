@@ -209,9 +209,16 @@ h3 {
     text-align: center;
 }
 
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 /* ------------ MEDIA QUERIES ------------ */
 @media (max-width: 400px) {
-
+    /* ------------ INDEX PAGE ------------ */
     .form-row {
         flex-direction: column;
     }
@@ -239,4 +246,36 @@ h3 {
         width: 30%;
         margin: 0 auto;
     }
+
+    /* ------------ OFFER PAGE ------------ */
+    .row {
+        flex-direction: column;
+    }
+    .row button {
+        margin-bottom: 5px;
+    }
+}
+
+/* ------------ STLYES FOR PRINTING OFFER PAGE ------------ */
+@media print {
+    main {
+        width: 100dvw;
+    }
+    .row, footer {
+        display: none;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        max-height: 75px;
+        margin-bottom: -20px;
+    }
+    section * {
+        orphans: 2;
+        widows: 2;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        break-after: avoid-page;
+    }
+
 }

@@ -16,9 +16,9 @@ function formatDescription($text)
 
     // 3. Format section headings (basic example: bold known headings)
     // You might need to adjust these based on the actual data patterns
-    $formatted_text = str_replace('VOS MISSIONS :', '<strong>VOS MISSIONS :</strong>', $formatted_text);
-    $formatted_text = str_replace('PROFIL ET CONDITIONS DE TRAVAIL :', '<strong>PROFIL ET CONDITIONS DE TRAVAIL :</strong>', $formatted_text);
-    $formatted_text = str_replace('CANDIDATURE :', '<strong>CANDIDATURE :</strong>', $formatted_text);
+    $formatted_text = str_replace('VOS MISSIONS :', '<h4>VOS MISSIONS :</h4>', $formatted_text);
+    $formatted_text = str_replace('PROFIL ET CONDITIONS DE TRAVAIL :', '<h4>PROFIL ET CONDITIONS DE TRAVAIL :</h4>', $formatted_text);
+    $formatted_text = str_replace('CANDIDATURE :', '<h4>CANDIDATURE :</h4>', $formatted_text);
     // Add more str_replace for other potential heading patterns if needed
 
     // 4. Format list items (replace "> " at start of line/after <br> with a bullet)
@@ -29,7 +29,7 @@ function formatDescription($text)
     // You could potentially add more formatting here if you notice other patterns,
     // like converting URLs into clickable links, etc.
 
-    return $formatted_text;
+    return trim($formatted_text);
 }
 
 function isValid($field)
@@ -91,10 +91,13 @@ $offre = $dbaccess->getOffreNum($num_offre, $data);
 
 <body>
     <main>
-        <button onclick="window.location.href='<?=$back_url?>';">Revenir aux offres</button>
+        <div class="row">
+            <button onclick="window.location.href='<?= $back_url ?>';">Revenir aux offres</button>
+            <button onclick="window.print()">Imprimer offre</button>
+        </div>
         <section>
             <h2><?= $offre->PROFESSION ?></h2>
-            <p><small><?="Référence de l'offre : " . $num_offre . " (" . getDiffString($offre) . ")"?></small></p>
+            <p><small><?= "Référence de l'offre : " . $num_offre . " (" . getDiffString($offre) . ")" ?></small></p>
         </section>
         <section>
             <h3>Critères de l'offre</h3>
@@ -134,7 +137,10 @@ $offre = $dbaccess->getOffreNum($num_offre, $data);
             }
             ?>
         </section>
-        <button onclick="window.location.href='<?=$back_url?>';">Revenir aux offres</button>
+        <div class="row">
+            <button onclick="window.location.href='<?= $back_url ?>';">Revenir aux offres</button>
+            <button onclick="">Imprimer offre</button>
+        </div>
     </main>
 
     <script src="main.js" async defer></script>
