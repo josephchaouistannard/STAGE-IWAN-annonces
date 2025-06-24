@@ -17,31 +17,45 @@ function applyFilters(array $all_data)
         $commune = true;
         $hebergement = true;
         if (isset($_GET["contrat"]) and $_GET["contrat"] !== "" and $_GET["contrat"] !== "tous") {
-            $contrat = false;
-            if (stripos($offre["CONTRAT"], $_GET["contrat"]) !== false) {
-                $contrat = true;
-            }
+            $contrat = (stripos($offre["CONTRAT"], $_GET["contrat"]) !== false);
         }
         if (isset($_GET["profession"]) and $_GET["profession"] !== "" and $_GET["profession"] !== "tous") {
-            $profession = $offre["PROFESSION"] === $_GET["profession"];
+            $profession = ($offre["PROFESSION"] === $_GET["profession"]);
         }
-        if ($_GET["evenement"] !== "" and $_GET["evenement"] !== "tous") {
+        if (isset($_GET["evenement"]) and $_GET["evenement"] !== "" and $_GET["evenement"] !== "tous") {
+             // Add event filtering logic here if needed
         }
-        if ($_GET["mot-cle"] !== "") {
+        if (isset($_GET["mot-cle"]) and $_GET["mot-cle"] !== "") {
+             $motcle = (stripos($offre["PROFESSION"], $_GET["mot-cle"]) !== false);
+             // Add search in other fields if needed
         }
         if (
             isset($_GET["epine"]) || isset($_GET["noirmoutier"]) || isset($_GET["gueriniere"]) || isset($_GET["barbatre"])
         ) {
+            $commune = false;
+            if (isset($_GET["epine"]) && $offre["LIEU"] === "L'Epine") {
+                $commune = true;
+            }
+            elseif (isset($_GET["noirmoutier"]) && $offre["LIEU"] === "Noirmoutier-en-l'île") {
+                $commune = true;
+            }
+            elseif (isset($_GET["gueriniere"]) && $offre["LIEU"] === "La Guérinière") {
+                $commune = true;
+            }
+            elseif (isset($_GET["barbatre"]) && $offre["LIEU"] === "Barbâtre") {
+                $commune = true;
+            }
         }
         if (isset($_GET["hebergement"])) {
+             $hebergement = ($offre["HEBERGEMENT"] === "oui");
         }
-        return $contrat and $profession and $evenement and $motcle and $commune and $hebergement;
+        return $contrat && $profession && $evenement && $motcle && $commune && $hebergement;
     });
     return $filtered_data;
 }
 
 $data = $dbaccess->getAllJobData();
-$filtered_data = applyFilters($dbaccess->getAllJobData(true));
+$filtered_data = applyFilters($dbaccess->getAllJobData());
 
 ?>
 
@@ -63,7 +77,7 @@ $filtered_data = applyFilters($dbaccess->getAllJobData(true));
 
 <body>
     <main>
-        <form id="filters-form">
+        <form id="filters-form" method="get">
             <div class="form-row" id="form-header">
                 <h3>FILTREZ !</h3>
                 <p id="job-count"><?= $dbaccess->displayCount($filtered_data); ?></p>
@@ -118,33 +132,33 @@ $filtered_data = applyFilters($dbaccess->getAllJobData(true));
             <div class="form-row">
                 <div id="container-villes">
                     <h5>Filtrez par commune :</h5>
-                    <input type="checkbox" id="noirmoutier" name="noirmoutier" value="1">
+                    <input type="checkbox" id="noirmoutier" name="noirmoutier" value="Noirmoutier-en-l'île">
                     <label for="noirmoutier">Noirmoutier-en-l'île</label>
                     <br>
-                    <input type="checkbox" id="epine" name="epine" value="1">
+                    <input type="checkbox" id="epine" name="epine" value="L'Epine">
                     <label for="epine">L'Epine</label>
                     <br>
-                    <input type="checkbox" id="gueriniere" name="gueriniere" value="1">
+                    <input type="checkbox" id="gueriniere" name="gueriniere" value="La Guérinière">
                     <label for="gueriniere">La Guérinière</label>
                     <br>
-                    <input type="checkbox" id="barbatre" name="barbatre" value="1">
+                    <input type="checkbox" id="barbatre" name="barbatre" value="Barbâtre">
                     <label for="barbatre">Barbâtre</label>
                 </div>
             </div>
             <div class="form-row" id="hebergement-container">
-                <input type="checkbox" id="hebergement" name="hebergement" value="1">
+                <input type="checkbox" id="hebergement" name="hebergement" value="oui">
                 <label for="hebergement">Uniquement avec hébergement</label>
             </div>
             <div class="form-row">
                 <input type="submit" value="Rechercher">
-                <button onclick="resetForm()">Réinitialiser</button>
+                <button type="button" onclick="resetForm()">Réinitialiser</button>
             </div>
         </form>
 
         <div id="job-list">
             <?php
             foreach ($filtered_data as $offre) {
-                $diff_string = getDiffStringArray($offre);
+                $diff_string = getDiffString($offre);
                 echo "
                 <div class=\"job-list-item\">
                     <div class=\"job-list-item-left\">

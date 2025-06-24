@@ -1,7 +1,7 @@
 <?php
 class Dbaccess
 {
-    function getAllJobData($returnArray = false)
+    function getAllJobData($returnArray = true)
     {
         $file_contents = file_get_contents(dirname(__DIR__) . "/db.json");
         $data = json_decode($file_contents, $returnArray);
@@ -23,49 +23,35 @@ class Dbaccess
         return "pas d'offre trouvée";
     }
 
-    function getOffreNum($num_offre, $unfiltered_data)
+    function getOffreNum($num_offre, array $unfiltered_data)
     {
-        $filtered = array_filter((array) $unfiltered_data->offres, function ($offre) use ($num_offre) {
-            return $offre->NUMOFFRE === $num_offre;
+        $filtered = array_filter($unfiltered_data["offres"], function (array $offre) use ($num_offre) {
+            return $offre["NUMOFFRE"] === $num_offre;
         });
         return reset($filtered);
     }
 }
 
-function getDiffString($offre)
-{
-    $date = DateTime::createFromFormat('d/m/Y', $offre->DATE_ACTU);
-    $now = new DateTime();
-    $diff = $now->diff($date);
-    if ($diff === 0) {
-        $diff_string = "aujourd'hui";
-    } elseif ($diff === 1) {
-        $diff_string = "hier";
-    } else {
-        $diff_string = "il y a " . $diff->d . " jours";
-    }
-    return $diff_string;
-}
-
-function getDiffStringArray($offre)
+function getDiffString(array $offre)
 {
     $date = DateTime::createFromFormat('d/m/Y', $offre['DATE_ACTU']);
     $now = new DateTime();
     $diff = $now->diff($date);
     if ($diff->days === 0) {
-        return "aujourd'hui";
+        $diff_string = "aujourd'hui";
     } elseif ($diff->days === 1) {
-        return "hier";
+        $diff_string = "hier";
     } else {
-        return "il y a " . $diff->days . " jours";
+        $diff_string = "il y a " . $diff->days . " jours";
     }
+    return $diff_string;
 }
 
-function getProfessionsUniques($all_data)
+function getProfessionsUniques(array $all_data)
 {
     $professions = [];
-    foreach ($all_data->offres as $offre) {
-        $professions[] = $offre->PROFESSION;
+    foreach ($all_data["offres"] as $offre) {
+        $professions[] = $offre["PROFESSION"];
     }
     $professions = array_unique($professions);
     $string = "";
