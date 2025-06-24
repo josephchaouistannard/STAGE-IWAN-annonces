@@ -1,0 +1,11 @@
+update printing
+
+responsiveness
+
+correct filtering
+
+add pagination of results (after sql?)
+
+voir above header
+
+make independent of their brand

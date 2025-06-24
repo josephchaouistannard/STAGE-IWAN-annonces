@@ -33,9 +33,9 @@ function applyFilters(array $all_data)
             isset($_GET["epine"]) || isset($_GET["noirmoutier"]) || isset($_GET["gueriniere"]) || isset($_GET["barbatre"])
         ) {
             $commune = false;
-            if (isset($_GET["epine"]) && $offre["LIEU"] === "L'Epine") {
+            if (isset($_GET["epine"]) && (stripos($offre["LIEU"], "L Epine"))) {
                 $commune = true;
-            } elseif (isset($_GET["noirmoutier"]) && $offre["LIEU"] === "Noirmoutier-en-l'île") {
+            } elseif (isset($_GET["noirmoutier"]) && $offre["LIEU"] === "Noirmoutier en l île") {
                 $commune = true;
             } elseif (isset($_GET["gueriniere"]) && $offre["LIEU"] === "La Guérinière") {
                 $commune = true;
@@ -131,16 +131,16 @@ $filtered_data = applyFilters($dbaccess->getAllJobData());
                 <div class="form-row">
                     <div id="container-villes">
                         <h5>Filtrez par commune :</h5>
-                        <input type="checkbox" id="noirmoutier" name="noirmoutier" value="Noirmoutier-en-l'île">
+                        <input type="checkbox" id="noirmoutier" name="noirmoutier" value="1">
                         <label for="noirmoutier">Noirmoutier-en-l'île</label>
                         <br>
-                        <input type="checkbox" id="epine" name="epine" value="L'Epine">
+                        <input type="checkbox" id="epine" name="epine" value="1">
                         <label for="epine">L'Epine</label>
                         <br>
-                        <input type="checkbox" id="gueriniere" name="gueriniere" value="La Guérinière">
+                        <input type="checkbox" id="gueriniere" name="gueriniere" value="1">
                         <label for="gueriniere">La Guérinière</label>
                         <br>
-                        <input type="checkbox" id="barbatre" name="barbatre" value="Barbâtre">
+                        <input type="checkbox" id="barbatre" name="barbatre" value="1">
                         <label for="barbatre">Barbâtre</label>
                     </div>
                 </div>
