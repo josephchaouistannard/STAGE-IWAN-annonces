@@ -8,6 +8,7 @@
     --button-hover-text-col: black;
     --button-click-col: darkblue;
     --button-click-text-col: white;
+    --input-background-col: hsla(0, 0%, 100%, 0.885);
 }
 
 * {
@@ -30,7 +31,7 @@ header {
 #header-logo {
     width: 25%;
     display: flex;
-    padding : 5px;
+    padding: 5px;
 }
 
 #header-logo img {
@@ -72,7 +73,8 @@ body {
     flex-direction: column;
 }
 
-button, input[type="submit"] {
+button,
+input[type="submit"] {
     background-color: var(--button-col);
     text-align: center;
     vertical-align: center;
@@ -102,7 +104,7 @@ main {
     padding: 20px;
     box-sizing: border-box;
     max-width: 1000px;
-    width: 80dvw;
+    width: 90dvw;
     margin: 0 auto;
 }
 
@@ -143,6 +145,9 @@ main {
 .form-row input[type="password"] {
     width: 70%;
     align-items: center;
+    background-color: var(--input-background-col);
+    border: 1px solid darkgrey;
+    padding: 0.2rem;
 }
 
 label {
@@ -158,11 +163,6 @@ label {
 #hebergement-container {
     display: block;
     padding: 0.3rem;
-}
-
-.form-row input[type="submit"] {
-    margin: auto auto;
-
 }
 
 /* ------------ JOB LIST ------------ */
@@ -203,6 +203,40 @@ section {
     padding: 10px;
     margin: 10px 0;
 }
-h2, h3 {
+
+h2,
+h3 {
     text-align: center;
+}
+
+/* ------------ MEDIA QUERIES ------------ */
+@media (max-width: 400px) {
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-row input[type="submit"] {
+        margin-bottom: 5px;
+    }
+
+    #hebergement-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .job-list-item {
+        flex-direction: column;
+    }
+
+    .job-list-row h3 {
+        width: 100%;
+        text-align: center;
+    }
+
+    .job-list-item-right button {
+        width: 30%;
+        margin: 0 auto;
+    }
 }

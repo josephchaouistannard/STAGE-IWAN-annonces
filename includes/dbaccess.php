@@ -4,17 +4,16 @@ class Dbaccess
     function getAllJobData($returnArray = false)
     {
         $file_contents = file_get_contents(dirname(__DIR__) . "/db.json");
-        $data = json_decode($file_contents);
+        $data = json_decode($file_contents, $returnArray);
         if ($data) {
             return $data;
         }
         return null;
     }
 
-    function displayCount()
+    function displayCount(array $filtered_data)
     {
-        global $data;
-        $count = count((array) $data->offres);
+        $count = count($filtered_data);
         if ($count > 1) {
             return "$count offres trouvées";
         }

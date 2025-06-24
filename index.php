@@ -2,14 +2,9 @@
 include_once "includes/dbaccess.php";
 $dbaccess = new Dbaccess();
 
-function applyFilters($all_data)
+function applyFilters(array $all_data)
 {
     // duree=1&
-    // noirmoutier=noirmoutier&
-    // epine=epine&
-    // gueriniere=gueriniere&
-    // barbatre=barbatre&
-    // hebergement=hebergement
 
     $filtered_data = array_filter($all_data["offres"], function ($offre) {
         $contrat = true;
@@ -18,19 +13,24 @@ function applyFilters($all_data)
         $motcle = true;
         $commune = true;
         $hebergement = true;
-        if ($_GET["contrat"] !== "" or $_GET["contrat"] !== "tous") {
-            $contrat = $offre["CONTRAT"] === $_GET["contrat"];
+        if (isset($_GET["contrat"]) and $_GET["contrat"] !== "" and $_GET["contrat"] !== "tous") {
+            $contrat = false;
+            if (stripos($offre["CONTRAT"], $_GET["contrat"]) !== false) {
+                $contrat = true;
+            }
         }
-        if ($_GET["profession"] !== "" or $_GET["profession"] !== "tous") {
+        if (isset($_GET["profession"]) and $_GET["profession"] !== "" and $_GET["profession"] !== "tous") {
             $profession = $offre["PROFESSION"] === $_GET["profession"];
         }
-        if ($_GET["evenement"] !== "" or $_GET["evenement"] !== "tous") {
+        if ($_GET["evenement"] !== "" and $_GET["evenement"] !== "tous") {
         }
         if ($_GET["mot-cle"] !== "") {
         }
-        if ($_GET["epine"] == "1" or $_GET["noirmoutier"] == "1" or $_GET["gueriniere"] == "1" or $_GET["barbatre"] == "1") {
+        if (
+            isset($_GET["epine"]) || isset($_GET["noirmoutier"]) || isset($_GET["gueriniere"]) || isset($_GET["barbatre"])
+        ) {
         }
-        if ($_GET["hebergement"] == "1") {
+        if (isset($_GET["hebergement"])) {
         }
         return $contrat and $profession and $evenement and $motcle and $commune and $hebergement;
     });
@@ -39,6 +39,7 @@ function applyFilters($all_data)
 
 $data = $dbaccess->getAllJobData();
 $filtered_data = applyFilters($dbaccess->getAllJobData(true));
+
 ?>
 
 <?php include "includes/header.php" ?>
@@ -62,10 +63,10 @@ $filtered_data = applyFilters($dbaccess->getAllJobData(true));
         <form id="filters-form">
             <div class="form-row" id="form-header">
                 <h3>FILTREZ !</h3>
-                <p id="job-count"><?= $dbaccess->displayCount(); ?></p>
+                <p id="job-count"><?= $dbaccess->displayCount($filtered_data); ?></p>
             </div>
             <div class="form-row"><label for="contrat">Contrat</label>
-                <select name="contrat" id="contrat" value="Tous" required>
+                <select name="contrat" id="contrat">
                     <option value="tous" selected>Tous</option>
                     <option value="cdd">CDD</option>
                     <option value="cdi">CDI</option>
@@ -75,13 +76,13 @@ $filtered_data = applyFilters($dbaccess->getAllJobData(true));
                 </select>
             </div>
             <div class="form-row"><label for="profession">Profession</label>
-                <select name="profession" id="profession" value="Toutes" required>
-                    <option value="" selected>Toutes</option>
+                <select name="profession" id="profession">
+                    <option value="tous" selected>Toutes</option>
                     <?= getProfessionsUniques($data); ?>
                 </select>
             </div>
             <div class="form-row"><label for="duree">Durée</label>
-                <select name="duree" id="duree" value="Toutes durées" required>
+                <select name="duree" id="duree">
                     <option value="tous" selected>Toutes durées</option>
                     <option value="1">1 jour</option>
                     <option value="2">5 semaines</option>
@@ -104,7 +105,7 @@ $filtered_data = applyFilters($dbaccess->getAllJobData(true));
                 </select>
             </div>
             <div class="form-row"><label for="evenement">Evénement</label>
-                <select name="evenement" id="evenement" value="Tous événements confondus" required>
+                <select name="evenement" id="evenement">
                     <option value="tous" selected>Tous événements confondus</option>
                 </select>
             </div>
@@ -128,11 +129,12 @@ $filtered_data = applyFilters($dbaccess->getAllJobData(true));
                 </div>
             </div>
             <div class="form-row" id="hebergement-container">
-                <input type="checkbox" id="hebergement" name="hebergement" value="hebergement">
+                <input type="checkbox" id="hebergement" name="hebergement" value="1">
                 <label for="hebergement">Uniquement avec hébergement</label>
             </div>
             <div class="form-row">
                 <input type="submit" value="Rechercher">
+                <button onclick="resetForm()">Réinitialiser</button>
             </div>
         </form>
 
@@ -179,12 +181,5 @@ $filtered_data = applyFilters($dbaccess->getAllJobData(true));
 </body>
 
 </html>
-
-
-
-
-
-
-
 
 <?php include "includes/footer.php" ?>
