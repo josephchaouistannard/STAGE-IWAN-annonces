@@ -20,14 +20,14 @@ function resetForm() {
     const hebergementElement = document.getElementById('hebergement');
     if (hebergementElement) hebergementElement.checked = false;
 
-    // Instead of form.submit(), call the function that handles submission logic
+    // Call the function that handles submission logic
     const form = document.getElementById("filters-form");
     if (form) {
         handleFormSubmission(form);
     }
 }
 
-// New function to handle the form submission logic
+// Function to handle the form submission logic
 function handleFormSubmission(form) {
     // Get the base URL for the submission (current page path without query string)
     const baseUrl = window.location.href.split('?')[0];
@@ -54,7 +54,7 @@ function handleFormSubmission(form) {
                 if (element.type === 'checkbox') {
                     // For checkboxes, ONLY add if they are checked
                     if (element.checked) {
-                        // Ensure the value matches what your PHP expects (e.g., '1')
+                        // Ensure the value matches what your PHP expects (e.g., 'oui')
                         params.push(`${name}=${encodeURIComponent(value)}`);
                     }
                 } else if (element.type === 'text') {
@@ -75,13 +75,6 @@ function handleFormSubmission(form) {
     // Add the query string only if there are parameters
     const newUrl = baseUrl + (queryString ? '?' + queryString : '');
 
-    // --- Debugging: Log the constructed URL ---
-    console.log('Original URL:', window.location.href);
-    console.log('Base URL:', baseUrl);
-    console.log('Parameters collected:', params);
-    console.log('Constructed URL:', newUrl);
-    // ----------------------------------------
-
     // Redirect the browser to the new URL
     window.location.href = newUrl;
 }
@@ -89,13 +82,19 @@ function handleFormSubmission(form) {
 
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('filters-form');
+    const submitLink = document.getElementById('submit-filters'); // Get the new link
 
-    if (form) { // Make sure the form element exists
-        form.addEventListener('submit', function (event) {
-            // Prevent the default form submission
-            event.preventDefault();
-            // Call the shared submission logic
-            handleFormSubmission(form);
+    if (form && submitLink) { // Make sure both elements exist
+        // Remove the form submit listener as the link will trigger the logic
+        // form.addEventListener('submit', function (event) {
+        //     event.preventDefault();
+        //     handleFormSubmission(form);
+        // });
+
+        // Add a click listener to the new link
+        submitLink.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link navigation
+            handleFormSubmission(form); // Trigger the submission logic
         });
     }
 

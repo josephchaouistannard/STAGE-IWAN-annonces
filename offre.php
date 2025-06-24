@@ -12,9 +12,9 @@ function formatDescription($text)
 
     $formatted_text = nl2br($safe_text);
 
-    $formatted_text = str_replace('VOS MISSIONS :', '<h4>VOS MISSIONS :</h4>', $formatted_text);
-    $formatted_text = str_replace('PROFIL ET CONDITIONS DE TRAVAIL :', '<h4>PROFIL ET CONDITIONS DE TRAVAIL :</h4>', $formatted_text);
-    $formatted_text = str_replace('CANDIDATURE :', '<h4>CANDIDATURE :</h4>', $formatted_text);
+    $formatted_text = str_replace('VOS MISSIONS :', '<h4 class="title--4">VOS MISSIONS :</h4>', $formatted_text);
+    $formatted_text = str_replace('PROFIL ET CONDITIONS DE TRAVAIL :', '<h4 class="title--4">PROFIL ET CONDITIONS DE TRAVAIL :</h4>', $formatted_text);
+    $formatted_text = str_replace('CANDIDATURE :', '<h4 class="title--4">CANDIDATURE :</h4>', $formatted_text);
 
     $formatted_text = preg_replace('/(<br\s*\/?>\s*|^)>\s*/', '$1• ', $formatted_text);
 
@@ -62,23 +62,35 @@ $offre = $dbaccess->getOffreNum($num_offre, $data);
     <title><?= $offre["PROFESSION"] ?></title>
     <meta name="description" content="Consulter les offres d'emploi de l'île de Noirmoutier">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="screen.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
+    <link rel="icon" href="https://www.cdc-iledenoirmoutier.com/themes/custom/noirmoutiercc/favicon.png"
+        type="image/png">
 </head>
 
 <body>
     <main>
         <div class="row">
-            <button onclick="window.location.href='<?= $back_url ?>';">Revenir aux offres</button>
-            <button onclick="window.print()">Imprimer offre</button>
+            <div class="cta" data-paragraph-animate-component="cta"
+                style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px);">
+                <a href="<?= $back_url ?>"><span class="cta-label" data-label="Revenir aux offres">Revenir aux
+                        offres</span></a>
+            </div>
+            <div class="cta" data-paragraph-animate-component="cta"
+                style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px);">
+                <a onclick="window.print()"><span class="cta-label" data-label="Imprimer offre">Imprimer
+                        offre</span></a>
+            </div>
         </div>
-        <section>
-            <h2><?= $offre["PROFESSION"] ?></h2>
-            <p><small><?= "Référence de l'offre : " . $num_offre . " (" . getDiffString($offre) . ")" ?></small></p>
+        <section class="job-offer-section">
+            <h2 class="title--2"><?= $offre["PROFESSION"] ?></h2>
+            <p class="center">
+                <small><?= "Référence de l'offre : " . $num_offre . " (" . getDiffString($offre) . ")" ?></small></p>
         </section>
-        <section>
-            <h3>Critères de l'offre</h3>
+        <section class="job-offer-section">
+            <h3 class="title--4">Critères de l'offre</h3>
             <?php
             if (isValid($offre["LIEU"])) {
                 echo "<p><strong>Lieux : </strong>{$offre['LIEU']}</p>";
@@ -103,12 +115,12 @@ $offre = $dbaccess->getOffreNum($num_offre, $data);
             }
             ?>
         </section>
-        <section>
-            <h3>Description du poste</h3>
+        <section class="job-offer-section">
+            <h3 class="title--4">Description du poste</h3>
             <?= formatDescription($offre["DESCRIPTIF"]) ?>
         </section>
-        <section>
-            <h3>Contact</h3>
+        <section class="job-offer-section">
+            <h3 class="title--4">Contact</h3>
             <?php
             if (isValid($offre["CONTACT"])) {
                 echo "<p>{$offre['CONTACT']}</p>";
@@ -116,8 +128,16 @@ $offre = $dbaccess->getOffreNum($num_offre, $data);
             ?>
         </section>
         <div class="row">
-            <button onclick="window.location.href='<?= $back_url ?>';">Revenir aux offres</button>
-            <button onclick="window.print()">Imprimer offre</button>
+            <div class="cta" data-paragraph-animate-component="cta"
+                style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px);">
+                <a href="<?= $back_url ?>"><span class="cta-label" data-label="Revenir aux offres">Revenir aux
+                        offres</span></a>
+            </div>
+            <div class="cta" data-paragraph-animate-component="cta"
+                style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px);">
+                <a href="" onclick="window.print()"><span class="cta-label" data-label="Imprimer offre">Imprimer
+                        offre</span></a>
+            </div>
         </div>
     </main>
 
