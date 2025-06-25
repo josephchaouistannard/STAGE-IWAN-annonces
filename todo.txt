@@ -12,10 +12,4 @@ make independent of their brand
 responsiveness
 update printing
 
-INPUT VALIDATION
--client side html js
--server side
-
 FIX REVENIR AUX OFFRES BUTTON
-
-CLEAN AND COMMENT MAIN.JS
