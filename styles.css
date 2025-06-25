@@ -37,7 +37,8 @@ header {
     align-items: center;
     justify-content: space-between;
     height: 8dvh;
-    padding: 10px;
+    padding: 1rem;
+    margin-bottom: 20px;
 
 }
 
@@ -46,6 +47,7 @@ header {
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
+    width: 100%;
 }
 
 /* ------------ FOOTER ------------ */
@@ -55,7 +57,8 @@ footer {
     height: 20dvh;
     align-items: center;
     justify-content: space-around;
-    padding: 10px;
+    padding: 1rem;
+    margin-top: 20px;
 }
 
 #footer-img {
@@ -68,7 +71,7 @@ body {
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    max-width: 1000px;
+    max-width: 1200px;
     width: 90dvw;
     margin: 0 auto;
 }
@@ -158,6 +161,9 @@ h6 {
 #filters-form input[type="text"],
 .filters-form-select {
     flex-basis: 80%;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     padding: 0.3rem;
     padding-left: 0.5rem;
     border-radius: 5px;
@@ -222,7 +228,8 @@ label {
 /* ------------ OFFER PAGE ------------ */
 .job-offer-section {
     border-bottom: var(--border);
-    padding: 10px 20px 10px 20px;
+    padding: 1rem;
+    text-align: left;
 }
 
 .job-offer-section:first-of-type,
@@ -239,11 +246,40 @@ label {
 }
 
 /* ------------ MEDIA QUERIES ------------ */
-@media (max-width: 400px) {
+@media (max-width: 1100px) {
+    header {
+        flex-direction: column;
+        justify-content: center;
+    }
+    .header-text-container {
+        display: none;
+    }
+}
+
+@media (max-width: 700px) {
+    #footer-img {
+        display: none;
+    }
+    .footer-container {
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        width: 100dvw;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
 
     /* ------------ INDEX PAGE ------------ */
     .form-row {
         flex-direction: column;
+    }
+    .form-row button:first-child {
+        margin-bottom: 1rem;
     }
 
     .form-row input[type="submit"] {
@@ -253,11 +289,15 @@ label {
     #hebergement-container {
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: center;
+    }
+    #hebergement-container label {
+        padding-left: 0.2rem;
     }
 
     .job-list-item {
         flex-direction: column;
+        padding: 8px 10px;
     }
 
     .job-list-row h3 {
@@ -267,7 +307,7 @@ label {
 
     .job-list-item-right button {
         width: 30%;
-        margin: 0 auto;
+        margin: 0.5rem auto 0 auto;
     }
 
     /* ------------ OFFER PAGE ------------ */
@@ -282,8 +322,9 @@ label {
 
 /* ------------ STLYES FOR PRINTING OFFER PAGE ------------ */
 @media print {
-    main {
+    body, main {
         width: 100dvw;
+        height: 100dvh;
     }
 
     .row,
@@ -294,8 +335,8 @@ label {
     }
 
     header {
-        max-height: 75px;
-        margin-bottom: -20px;
+        max-height: 50px;
+        display: block;
     }
 
     section * {
