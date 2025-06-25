@@ -20,7 +20,11 @@ $offre = $dbaccess->getOffreParNum(validerParamNumOffre());
     <title><?= $offre["PROFESSION"] ?></title>
     <meta name="description" content="Consulter les offres d'emploi de l'île de Noirmoutier">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="screen.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat&family=Noto+Serif+Display:wght@500&family=Roboto:wght@400&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
@@ -31,25 +35,17 @@ $offre = $dbaccess->getOffreParNum(validerParamNumOffre());
 <body>
     <main>
         <div class="row">
-            <div class="cta" data-paragraph-animate-component="cta"
-                style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px);">
-                <a href=""><span class="cta-label" data-label="Revenir aux offres">Revenir aux
-                        offres</span></a>
-            </div>
-            <div class="cta" data-paragraph-animate-component="cta"
-                style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px);">
-                <a onclick="window.print()"><span class="cta-label" data-label="Imprimer offre">Imprimer
-                        offre</span></a>
-            </div>
+            <button onclick="location.href = 'index.php'">Revenir aux offres</button>
+            <button onclick="window.print()">Imprimer offre</button>
         </div>
         <section class="job-offer-section">
-            <h2 class="title--2"><?= $offre["PROFESSION"] ?></h2>
+            <h2><?= $offre["PROFESSION"] ?></h2>
             <p class="center">
                 <small><?= "Référence de l'offre : " . $offre["NUMOFFRE"] . " (" . afficherEcartTemps($offre) . ")" ?></small>
             </p>
         </section>
         <section class="job-offer-section">
-            <h3 class="title--4">Critères de l'offre</h3>
+            <h3>Critères de l'offre</h3>
             <?php
             if (estRempli($offre["LIEU"])) {
                 echo "<p><strong>Lieux : </strong>{$offre['LIEU']}</p>";
@@ -75,11 +71,11 @@ $offre = $dbaccess->getOffreParNum(validerParamNumOffre());
             ?>
         </section>
         <section class="job-offer-section">
-            <h3 class="title--4">Description du poste</h3>
+            <h3>Description du poste</h3>
             <?= formatterDescriptif($offre["DESCRIPTIF"]) ?>
         </section>
         <section class="job-offer-section">
-            <h3 class="title--4">Contact</h3>
+            <h3>Contact</h3>
             <?php
             if (estRempli($offre["CONTACT"])) {
                 echo "<p>{$offre['CONTACT']}</p>";
@@ -87,16 +83,8 @@ $offre = $dbaccess->getOffreParNum(validerParamNumOffre());
             ?>
         </section>
         <div class="row">
-            <div class="cta" data-paragraph-animate-component="cta"
-                style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px);">
-                <a href=""><span class="cta-label" data-label="Revenir aux offres">Revenir aux
-                        offres</span></a>
-            </div>
-            <div class="cta" data-paragraph-animate-component="cta"
-                style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px);">
-                <a href="" onclick="window.print()"><span class="cta-label" data-label="Imprimer offre">Imprimer
-                        offre</span></a>
-            </div>
+            <button onclick="location.href = 'index.php'">Revenir aux offres</button>
+            <button onclick="window.print()">Imprimer offre</button>
         </div>
     </main>
 

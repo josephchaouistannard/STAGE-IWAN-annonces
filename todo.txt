@@ -11,5 +11,6 @@ voir above header
 make independent of their brand
 responsiveness
 update printing
+customise options possible
 
 FIX REVENIR AUX OFFRES BUTTON

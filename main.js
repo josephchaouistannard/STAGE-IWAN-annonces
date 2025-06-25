@@ -1,33 +1,20 @@
 /**
- * Reinitialise le formulaire de filtrage, en mettant tous les champs à leur valeur par défaut
+ * Réinitialise le formulaire de filtrage en rechargeant la page sans aucun paramètre de filtre.
+ * Doit être appelé avec l'objet 'event' pour empêcher la soumission par défaut du formulaire.
+ *
+ * @param {Event} event - L'événement de clic du bouton.
  */
-function reinitialiserFiltersForm() {
-    const contratElement = document.getElementById('contrat');
-    if (contratElement) contratElement.value = "tous";
-    const professionElement = document.getElementById('profession');
-    if (professionElement) professionElement.value = "tous";
-    const dureeElement = document.getElementById('duree');
-    if (dureeElement) dureeElement.value = "tous";
-    const evenementElement = document.getElementById('evenement');
-    if (evenementElement) evenementElement.value = "tous";
-    const motcleElement = document.getElementById('mot-cle');
-    if (motcleElement) motcleElement.value = ""
-    const noirmoutierElement = document.getElementById('noirmoutier');
-    if (noirmoutierElement) noirmoutierElement.checked = false;
-    const epineElement = document.getElementById('epine');
-    if (epineElement) epineElement.checked = false;
-    const gueriniereElement = document.getElementById('gueriniere');
-    if (gueriniereElement) gueriniereElement.checked = false;
-    const barbatreElement = document.getElementById('barbatre');
-    if (barbatreElement) barbatreElement.checked = false;
-    const hebergementElement = document.getElementById('hebergement');
-    if (hebergementElement) hebergementElement.checked = false;
-
-    // Appelle le fonction qui soumet le formulaire, donc la page recharge avec toutes les offres
-    const form = document.getElementById("filters-form");
-    if (form) {
-        submitFiltersForm(form);
+function reinitialiserFiltersForm(event) {
+    // ÉTAPE CRUCIALE : Empêche le formulaire de se soumettre de manière standard.
+    if (event) {
+        event.preventDefault();
     }
+
+    // Obtenir l'URL de base (sans les paramètres GET)
+    const baseUrl = window.location.href.split('?')[0];
+    
+    // Recharger la page à cette URL de base. Cela supprime tous les filtres.
+    window.location.href = baseUrl;
 }
 
 /**
