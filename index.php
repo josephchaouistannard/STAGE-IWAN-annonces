@@ -7,7 +7,7 @@ $dbaccess = new Dbaccess(); // Creation d'objet d'accès aux données
 // Obtention de toutes les offres d'emploi du JSON
 $toutes_offres = $dbaccess->getToutesOffres();
 // Filtrage selon requête GET
-$offres_filtrees = filtrerOffres($toutes_offres);
+$offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
 ?>
 
 <?php include "includes/header.php" ?>

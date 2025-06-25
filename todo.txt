@@ -1,21 +1,21 @@
-update printing
-
-responsiveness
-
 FILTERING
 -evenment et hebergment n'existent pas dans db
 -mot clé juste dans certains champs
+-commune
+better done after SQL
 
 add pagination of results (after sql?)
 
+RESTYLE AGAIN
 voir above header
-
 make independent of their brand
+responsiveness
+update printing
 
-input validation
+INPUT VALIDATION
 -client side html js
 -server side
 
-TIDY CODE AND COMMENT
-
 FIX REVENIR AUX OFFRES BUTTON
+
+CLEAN AND COMMENT MAIN.JS

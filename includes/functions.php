@@ -34,11 +34,14 @@ function estRempli($champ)
 /**
  * Filtre un array d'arrays contentant toutes les offres
  * @param array $toutes_offres
+ * @param array $params array de parametres nettoyés et validés
  * @return array array d'array d'offres qui correspondent aux filtres
  */
-function filtrerOffres(array $toutes_offres)
+function filtrerOffres(array $toutes_offres, array $params)
 {
-    $offres_filtrees = array_filter($toutes_offres["offres"], function ($offre) {
+
+    // Filtrage de toutes offres selon parametres
+    $offres_filtrees = array_filter($toutes_offres["offres"], function ($offre) use ($params) {
         $contrat = true;
         $profession = true;
         $evenement = true;
@@ -47,47 +50,46 @@ function filtrerOffres(array $toutes_offres)
         $hebergement = true;
         $duree = true;
         // Selon type de contrat
-        if (isset($_GET["contrat"]) and $_GET["contrat"] !== "" and $_GET["contrat"] !== "tous") {
-            $contrat = (stripos($offre["CONTRAT"], $_GET["contrat"]) !== false);
+        if (isset($params["contrat"]) and $params["contrat"] !== "" and $params["contrat"] !== "tous") {
+            $contrat = (stripos($offre["CONTRAT"], $params["contrat"]) !== false);
         }
         // Selon titre d'annonce
-        if (isset($_GET["profession"]) and $_GET["profession"] !== "" and $_GET["profession"] !== "tous") {
-            $profession = ($offre["PROFESSION"] === $_GET["profession"]);
+        if (isset($params["profession"]) and $params["profession"] !== "" and $params["profession"] !== "tous") {
+            $profession = ($offre["PROFESSION"] === $params["profession"]);
         }
         // Selon durée (match exacte seulement, elimine aussi durée non précisé)
-        if (isset($_GET["duree"]) and $_GET["duree"] !== "" and $_GET["duree"] !== "tous") {
-            $duree = (stripos($offre["DUREE"], $_GET["duree"]) !== false);
+        if (isset($params["duree"]) and $params["duree"] !== "" and $params["duree"] !== "tous") {
+            $duree = (stripos($offre["DUREE"], $params["duree"]) !== false);
         }
         // PAS DE FILTRE POUR LE MOMENT - PAS DANS LES DONNEES
-        if (isset($_GET["evenement"]) and $_GET["evenement"] !== "" and $_GET["evenement"] !== "tous") {
-        }
+        // if (isset($params["evenement"]) and $params["evenement"] !== "" and $params["evenement"] !== "tous") {
+        // }
         // Mot clé dans CERTAINS CHAMPS SEULEMENT
-        if (isset($_GET["mot-cle"]) and $_GET["mot-cle"] !== "") {
+        if (isset($params["mot-cle"]) and $params["mot-cle"] !== "") {
             $motcle = (
-                (stripos($offre["PROFESSION"], $_GET["mot-cle"]) !== false) or
-                (stripos($offre["DESCRIPTIF"], $_GET["mot-cle"]) !== false) or
-                (stripos($offre["LIEU"], $_GET["mot-cle"]) !== false) or
-                (stripos($offre["HORAIRES"], $_GET["mot-cle"]) !== false) or
-                (stripos($offre["SALAIRE"], $_GET["mot-cle"]) !== false));
+                (stripos($offre["PROFESSION"], $params["mot-cle"]) !== false) or
+                (stripos($offre["DESCRIPTIF"], $params["mot-cle"]) !== false) or
+                (stripos($offre["LIEU"], $params["mot-cle"]) !== false) or
+                (stripos($offre["HORAIRES"], $params["mot-cle"]) !== false) or
+                (stripos($offre["SALAIRE"], $params["mot-cle"]) !== false));
         }
         // Selon commune
         if (
-            isset($_GET["epine"]) || isset($_GET["noirmoutier"]) || isset($_GET["gueriniere"]) || isset($_GET["barbatre"])
-        ) {
-            $commune = false;
-            if (isset($_GET["epine"]) && (stripos($offre["LIEU"], "L Epine"))) {
+            $params["epine"] || $params["noirmoutier"] || $params["gueriniere"] || $params["barbatre"]
+        ) {           $commune = false;
+            if ($params["epine"] && stripos($offre["LIEU"], "L EPINE") !== false) {
                 $commune = true;
-            } elseif (isset($_GET["noirmoutier"]) && $offre["LIEU"] === "Noirmoutier en l île") {
+            } elseif ($params["noirmoutier"] && stripos($offre["LIEU"], "NOIRMOUTIER EN L ILE") !== false) {
                 $commune = true;
-            } elseif (isset($_GET["gueriniere"]) && $offre["LIEU"] === "La Guérinière") {
+            } elseif ($params["gueriniere"] && stripos($offre["LIEU"], "LA GUERINIERE") !== false) {
                 $commune = true;
-            } elseif (isset($_GET["barbatre"]) && $offre["LIEU"] === "Barbâtre") {
+            } elseif ($params["barbatre"] && stripos($offre["LIEU"], "BARBATRE") !== false) {
                 $commune = true;
             }
         }
         // PAS DE FILTRE POUR LE MOMENT - PAS DANS LES DONNEES
-        if (isset($_GET["hebergement"])) {
-        }
+        // if (isset($params["hebergement"])) {
+        // }
         return $contrat && $profession && $evenement && $motcle && $commune && $hebergement && $duree;
     });
     return $offres_filtrees;
@@ -147,4 +149,46 @@ function remplirSelectProfessionsUniques(array $toutes_offres)
         $string_options_html .= "<option value=\"$profession\">$profession</option>";
     }
     return $string_options_html;
+}
+
+/**
+ * Valide et nettoie les paramètres de filtre reçus via la requête GET.
+ *
+ * Retourne un tableau associatif des paramètres validés et nettoyés.
+ * Les valeurs par défaut sont utilisées si un paramètre est manquant ou invalide.
+ *
+ * @return array Un tableau associatif des paramètres de filtre validés.
+ */
+function validerParamsFiltrage()
+{
+    $params = [];
+
+    // Lire les valeurs GET ou appliquer par défaut
+    $params['contrat'] = $_GET['contrat'] ?? 'tous';
+    $params['profession'] = $_GET['profession'] ?? 'tous';
+    $params['duree'] = $_GET['duree'] ?? 'tous';
+    $params['evenement'] = $_GET['evenement'] ?? 'tous';
+    $params['mot-cle'] = $_GET['mot-cle'] ?? '';
+    $params['epine'] = isset($_GET['epine']);
+    $params['noirmoutier'] = isset($_GET['noirmoutier']);
+    $params['gueriniere'] = isset($_GET['gueriniere']);
+    $params['barbatre'] = isset($_GET['barbatre']);
+    $params['hebergement'] = isset($_GET['hebergement']);
+
+    // Nettoyer les valeurs
+    $params['contrat'] = htmlspecialchars(trim($params['contrat']));
+    $params['profession'] = htmlspecialchars(trim($params['profession']));
+    $params['duree'] = htmlspecialchars(trim($params['duree']));
+    $params['evenement'] = htmlspecialchars(trim($params['evenement']));
+    $params['mot-cle'] = htmlspecialchars(trim($params['mot-cle']));
+
+    return $params;
+}
+
+/**
+ * Valide le GET parametre NUMOFFRE
+ * @return string NUMOFFRE validé
+ */
+function validerParamNumOffre() {
+    return htmlspecialchars(trim($_GET['NUMOFFRE']));
 }

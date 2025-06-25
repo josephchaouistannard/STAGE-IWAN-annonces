@@ -5,8 +5,7 @@ include_once "includes/dbaccess.php"; // Class d'accès aux données
 $dbaccess = new Dbaccess(); // Creation d'objet d'accès aux données
 
 // Recherche de l'offre selon son numéro
-$num_offre = $_GET["NUMOFFRE"];
-$offre = $dbaccess->getOffreParNum($num_offre);
+$offre = $dbaccess->getOffreParNum(validerParamNumOffre());
 
 ?>
 
@@ -34,7 +33,7 @@ $offre = $dbaccess->getOffreParNum($num_offre);
         <div class="row">
             <div class="cta" data-paragraph-animate-component="cta"
                 style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px);">
-                <a href="<?= $back_url ?>"><span class="cta-label" data-label="Revenir aux offres">Revenir aux
+                <a href=""><span class="cta-label" data-label="Revenir aux offres">Revenir aux
                         offres</span></a>
             </div>
             <div class="cta" data-paragraph-animate-component="cta"
@@ -46,7 +45,7 @@ $offre = $dbaccess->getOffreParNum($num_offre);
         <section class="job-offer-section">
             <h2 class="title--2"><?= $offre["PROFESSION"] ?></h2>
             <p class="center">
-                <small><?= "Référence de l'offre : " . $num_offre . " (" . afficherEcartTemps($offre) . ")" ?></small>
+                <small><?= "Référence de l'offre : " . $offre["NUMOFFRE"] . " (" . afficherEcartTemps($offre) . ")" ?></small>
             </p>
         </section>
         <section class="job-offer-section">
@@ -90,7 +89,7 @@ $offre = $dbaccess->getOffreParNum($num_offre);
         <div class="row">
             <div class="cta" data-paragraph-animate-component="cta"
                 style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px);">
-                <a href="<?= $back_url ?>"><span class="cta-label" data-label="Revenir aux offres">Revenir aux
+                <a href=""><span class="cta-label" data-label="Revenir aux offres">Revenir aux
                         offres</span></a>
             </div>
             <div class="cta" data-paragraph-animate-component="cta"
