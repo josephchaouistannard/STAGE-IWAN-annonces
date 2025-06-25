@@ -16,18 +16,26 @@ function applyFilters(array $all_data)
         $motcle = true;
         $commune = true;
         $hebergement = true;
+        $duree = true;
         if (isset($_GET["contrat"]) and $_GET["contrat"] !== "" and $_GET["contrat"] !== "tous") {
             $contrat = (stripos($offre["CONTRAT"], $_GET["contrat"]) !== false);
         }
         if (isset($_GET["profession"]) and $_GET["profession"] !== "" and $_GET["profession"] !== "tous") {
             $profession = ($offre["PROFESSION"] === $_GET["profession"]);
         }
+        if (isset($_GET["duree"]) and $_GET["duree"] !== "" and $_GET["duree"] !== "tous") {
+            $duree = (stripos($offre["DUREE"], $_GET["duree"]) !== false);
+        }
         if (isset($_GET["evenement"]) and $_GET["evenement"] !== "" and $_GET["evenement"] !== "tous") {
             // Add event filtering logic here if needed
         }
         if (isset($_GET["mot-cle"]) and $_GET["mot-cle"] !== "") {
-            $motcle = (stripos($offre["PROFESSION"], $_GET["mot-cle"]) !== false);
-            // Add search in other fields if needed
+            $motcle = (
+                (stripos($offre["PROFESSION"], $_GET["mot-cle"]) !== false) or
+                (stripos($offre["DESCRIPTIF"], $_GET["mot-cle"]) !== false) or
+                (stripos($offre["LIEU"], $_GET["mot-cle"]) !== false) or
+                (stripos($offre["HORAIRES"], $_GET["mot-cle"]) !== false) or
+                (stripos($offre["SALAIRE"], $_GET["mot-cle"]) !== false));
         }
         if (
             isset($_GET["epine"]) || isset($_GET["noirmoutier"]) || isset($_GET["gueriniere"]) || isset($_GET["barbatre"])
@@ -46,7 +54,8 @@ function applyFilters(array $all_data)
         if (isset($_GET["hebergement"])) {
             $hebergement = ($offre["HEBERGEMENT"] === "oui");
         }
-        return $contrat && $profession && $evenement && $motcle && $commune && $hebergement;
+        // Combine filter results, including the new $duree variable
+        return $contrat && $profession && $evenement && $motcle && $commune && $hebergement && $duree;
     });
     return $filtered_data;
 }
@@ -100,24 +109,24 @@ $filtered_data = applyFilters($dbaccess->getAllJobData());
                 <div class="form-row"><label for="duree">Durée</label>
                     <select class="filters-form-select" name="duree" id="duree">
                         <option value="tous" selected>Toutes durées</option>
-                        <option value="1">1 jour</option>
-                        <option value="2">5 semaines</option>
-                        <option value="3">1 mois</option>
-                        <option value="4">1.5 mois</option>
-                        <option value="5">2 mois</option>
-                        <option value="6">2.5 mois</option>
-                        <option value="7">3 mois</option>
-                        <option value="8">3.5 mois</option>
-                        <option value="9">4 mois</option>
-                        <option value="10">4.5 mois</option>
-                        <option value="11">5 mois</option>
-                        <option value="12">5.5 mois</option>
-                        <option value="13">6 mois</option>
-                        <option value="14">6.5 mois</option>
-                        <option value="15">7 mois</option>
-                        <option value="16">8 mois</option>
-                        <option value="17">A l'année</option>
-                        <option value="18">CDI</option>
+                        <option value="1 jour">1 jour</option>
+                        <option value="5 semaines">5 semaines</option>
+                        <option value="1 mois">1 mois</option>
+                        <option value="1.5 mois">1.5 mois</option>
+                        <option value="2 mois">2 mois</option>
+                        <option value="2.5 mois">2.5 mois</option>
+                        <option value="3 mois">3 mois</option>
+                        <option value="3.5 mois">3.5 mois</option>
+                        <option value="4 mois">4 mois</option>
+                        <option value="4.5 mois">4.5 mois</option>
+                        <option value="5 mois">5 mois</option>
+                        <option value="5.5 mois">5.5 mois</option>
+                        <option value="6 mois">6 mois</option>
+                        <option value="6.5 mois">6.5 mois</option>
+                        <option value="7 mois">7 mois</option>
+                        <option value="8 mois">8 mois</option>
+                        <option value="A l'année">A l'année</option>
+                        <option value="CDI">CDI</option>
                     </select>
                 </div>
                 <div class="form-row"><label for="evenement">Evénement</label>
