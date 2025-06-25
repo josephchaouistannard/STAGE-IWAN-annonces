@@ -23,12 +23,12 @@ function resetForm() {
     // Call the function that handles submission logic
     const form = document.getElementById("filters-form");
     if (form) {
-        handleFormSubmission(form);
+        submitFiltersForm(form);
     }
 }
 
 // Function to handle the form submission logic
-function handleFormSubmission(form) {
+function submitFiltersForm(form) {
     // Get the base URL for the submission (current page path without query string)
     const baseUrl = window.location.href.split('?')[0];
 
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Add a click listener to the new link
         submitLink.addEventListener('click', function(event) {
             event.preventDefault(); // Prevent the default link navigation
-            handleFormSubmission(form); // Trigger the submission logic
+            submitFiltersForm(form); // Trigger the submission logic
         });
     }
 
