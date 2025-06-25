@@ -1,4 +1,7 @@
-function resetForm() {
+/**
+ * Reinitialise le formulaire de filtrage, en mettant tous les champs à leur valeur par défaut
+ */
+function reinitialiserFiltersForm() {
     const contratElement = document.getElementById('contrat');
     if (contratElement) contratElement.value = "tous";
     const professionElement = document.getElementById('profession');
@@ -20,86 +23,78 @@ function resetForm() {
     const hebergementElement = document.getElementById('hebergement');
     if (hebergementElement) hebergementElement.checked = false;
 
-    // Call the function that handles submission logic
+    // Appelle le fonction qui soumet le formulaire, donc la page recharge avec toutes les offres
     const form = document.getElementById("filters-form");
     if (form) {
-        handleFormSubmission(form);
+        submitFiltersForm(form);
     }
 }
 
-// Function to handle the form submission logic
-function handleFormSubmission(form) {
-    // Get the base URL for the submission (current page path without query string)
+/**
+ * Gère la soumission du formulaire de filtrage
+ */
+function submitFiltersForm(form) {
+    // Obtenir URL de base (sans parametres GET)
     const baseUrl = window.location.href.split('?')[0];
 
     const params = [];
-    // Define the default value for your select elements
+
+    // Valeur par defaut pour select elements
     const defaultSelectValue = 'tous';
 
-    // Select relevant form elements
+    // Selectionner les elements du formulaire
     const elements = form.querySelectorAll('select, input[type="text"], input[type="checkbox"]');
 
     elements.forEach(element => {
         const name = element.name;
         const value = element.value;
 
-        // Always check for name, it's essential for a valid parameter
+        // Verifies que chaque element a un attribut name
         if (name) {
             if (element.tagName === 'SELECT') {
-                // For select elements, ONLY add if the value is NOT the default 'tous'
+                // Pour select, ajouter valuer si different du défaut
                 if (value !== defaultSelectValue) {
                     params.push(`${name}=${encodeURIComponent(value)}`);
                 }
             } else if (element.tagName === 'INPUT') {
                 if (element.type === 'checkbox') {
-                    // For checkboxes, ONLY add if they are checked
+                    // Pour cases à cocher, ajouter valeur si cochée
                     if (element.checked) {
-                        // Ensure the value matches what your PHP expects (e.g., 'oui')
                         params.push(`${name}=${encodeURIComponent(value)}`);
                     }
                 } else if (element.type === 'text') {
-                    // For text inputs, ONLY add if they are not empty after trimming whitespace
+                    // Pour text, ajouter si'ils ne sont pas vides
                     if (value.trim() !== '') {
                         params.push(`${name}=${encodeURIComponent(value)}`);
                     }
                 }
             }
-            // Add logic for other input types if needed (e.g., radio buttons)
         }
     });
-
-    // Join the collected parameters into a query string
+    // Creer un string avec les parametres obtenus
     const queryString = params.join('&');
-
-    // Construct the new URL
-    // Add the query string only if there are parameters
+    // Ajouter ce string seuelement s'il n'est pas vide
     const newUrl = baseUrl + (queryString ? '?' + queryString : '');
-
-    // Redirect the browser to the new URL
+    // Aller à ce URL
     window.location.href = newUrl;
 }
 
-
+/**
+ * Après chargement de de la page, crée evenement de soumission de formulaire.
+ * Rempli aussi le formulaire s'il exist des parametres dans URL
+ */
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('filters-form');
-    const submitLink = document.getElementById('submit-filters'); // Get the new link
+    const submitLink = document.getElementById('submit-filters');
 
-    if (form && submitLink) { // Make sure both elements exist
-        // Remove the form submit listener as the link will trigger the logic
-        // form.addEventListener('submit', function (event) {
-        //     event.preventDefault();
-        //     handleFormSubmission(form);
-        // });
-
-        // Add a click listener to the new link
-        submitLink.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the default link navigation
-            handleFormSubmission(form); // Trigger the submission logic
+    if (form && submitLink) {
+        submitLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            submitFiltersForm(form);
         });
     }
 
-    // FILL FORM ACCORDING TO GET PARAMETERS
-    // Get the search parameters from the URL
+    // Remplir formulaire selon parametres GET
     const params = new URLSearchParams(window.location.search);
 
     const contratSelected = params.get('contrat');

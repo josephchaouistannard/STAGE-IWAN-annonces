@@ -1,67 +1,13 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+include_once "includes/config.php"; // Paramêtres PHP comme affichage d'erreurs
+include_once "includes/functions.php"; // Functions utilitaires communes
+include_once "includes/dbaccess.php"; // Class d'accès aux données
+$dbaccess = new Dbaccess(); // Creation d'objet d'accès aux données
 
-include_once "includes/dbaccess.php";
-$dbaccess = new Dbaccess();
-
-function applyFilters(array $all_data)
-{
-    // duree=1&
-
-    $filtered_data = array_filter($all_data["offres"], function ($offre) {
-        $contrat = true;
-        $profession = true;
-        $evenement = true;
-        $motcle = true;
-        $commune = true;
-        $hebergement = true;
-        $duree = true;
-        if (isset($_GET["contrat"]) and $_GET["contrat"] !== "" and $_GET["contrat"] !== "tous") {
-            $contrat = (stripos($offre["CONTRAT"], $_GET["contrat"]) !== false);
-        }
-        if (isset($_GET["profession"]) and $_GET["profession"] !== "" and $_GET["profession"] !== "tous") {
-            $profession = ($offre["PROFESSION"] === $_GET["profession"]);
-        }
-        if (isset($_GET["duree"]) and $_GET["duree"] !== "" and $_GET["duree"] !== "tous") {
-            $duree = (stripos($offre["DUREE"], $_GET["duree"]) !== false);
-        }
-        if (isset($_GET["evenement"]) and $_GET["evenement"] !== "" and $_GET["evenement"] !== "tous") {
-            // Add event filtering logic here if needed
-        }
-        if (isset($_GET["mot-cle"]) and $_GET["mot-cle"] !== "") {
-            $motcle = (
-                (stripos($offre["PROFESSION"], $_GET["mot-cle"]) !== false) or
-                (stripos($offre["DESCRIPTIF"], $_GET["mot-cle"]) !== false) or
-                (stripos($offre["LIEU"], $_GET["mot-cle"]) !== false) or
-                (stripos($offre["HORAIRES"], $_GET["mot-cle"]) !== false) or
-                (stripos($offre["SALAIRE"], $_GET["mot-cle"]) !== false));
-        }
-        if (
-            isset($_GET["epine"]) || isset($_GET["noirmoutier"]) || isset($_GET["gueriniere"]) || isset($_GET["barbatre"])
-        ) {
-            $commune = false;
-            if (isset($_GET["epine"]) && (stripos($offre["LIEU"], "L Epine"))) {
-                $commune = true;
-            } elseif (isset($_GET["noirmoutier"]) && $offre["LIEU"] === "Noirmoutier en l île") {
-                $commune = true;
-            } elseif (isset($_GET["gueriniere"]) && $offre["LIEU"] === "La Guérinière") {
-                $commune = true;
-            } elseif (isset($_GET["barbatre"]) && $offre["LIEU"] === "Barbâtre") {
-                $commune = true;
-            }
-        }
-        if (isset($_GET["hebergement"])) {
-            $hebergement = ($offre["HEBERGEMENT"] === "oui");
-        }
-        // Combine filter results, including the new $duree variable
-        return $contrat && $profession && $evenement && $motcle && $commune && $hebergement && $duree;
-    });
-    return $filtered_data;
-}
-
-$data = $dbaccess->getAllJobData();
-$filtered_data = applyFilters($dbaccess->getAllJobData());
+// Obtention de toutes les offres d'emploi du JSON
+$toutes_offres = $dbaccess->getToutesOffres();
+// Filtrage selon requête GET
+$offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
 ?>
 
 <?php include "includes/header.php" ?>
@@ -79,7 +25,8 @@ $filtered_data = applyFilters($dbaccess->getAllJobData());
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
-    <link rel="icon" href="https://www.cdc-iledenoirmoutier.com/themes/custom/noirmoutiercc/favicon.png" type="image/png">
+    <link rel="icon" href="https://www.cdc-iledenoirmoutier.com/themes/custom/noirmoutiercc/favicon.png"
+        type="image/png">
 </head>
 
 <body>
@@ -88,7 +35,7 @@ $filtered_data = applyFilters($dbaccess->getAllJobData());
             <form id="filters-form" method="get">
                 <div class="form-row" id="form-header">
                     <h3 class="title--4">FILTREZ !</h3>
-                    <p class="body--m--bold" id="job-count"><?= $dbaccess->displayCount($filtered_data); ?></p>
+                    <p class="body--m--bold" id="job-count"><?= afficherCompteOffres($offres_filtrees); ?></p>
                 </div>
                 <div class="form-row"><label for="contrat">Contrat</label>
                     <select class="filters-form-select" name="contrat" id="contrat">
@@ -103,7 +50,7 @@ $filtered_data = applyFilters($dbaccess->getAllJobData());
                 <div class="form-row"><label for="profession">Profession</label>
                     <select class="filters-form-select" name="profession" id="profession">
                         <option value="tous" selected>Toutes</option>
-                        <?= getProfessionsUniques($data); ?>
+                        <?= remplirSelectProfessionsUniques($toutes_offres); ?>
                     </select>
                 </div>
                 <div class="form-row"><label for="duree">Durée</label>
@@ -172,8 +119,8 @@ $filtered_data = applyFilters($dbaccess->getAllJobData());
 
             <div id="job-list">
                 <?php
-                foreach ($filtered_data as $offre) {
-                    $diff_string = getDiffString($offre);
+                foreach ($offres_filtrees as $offre) {
+                    $diff_string = afficherEcartTemps($offre);
                     echo "
                 <div class=\"job-list-item\">
                     <div class=\"job-list-item-left\">
@@ -200,7 +147,7 @@ $filtered_data = applyFilters($dbaccess->getAllJobData());
                     <div class=\"job-list-item-right\">
                         <div class=\"cta\" data-paragraph-animate-component=\"cta\"
                         style=\"translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px);\">
-                        <a href=\"offre.php?NUMOFFRE={$offre['NUMOFFRE']}\"><span class=\"cta-label\"
+                        <a href=\"offre.php?NUMOFFRE={$offre['NUMOFFRE']}&back_params={$_SERVER['QUERY_STRING']}\"><span class=\"cta-label\"
                                 data-label=\"Voir\">Voir</span></a>
                     </div>
                     </div>

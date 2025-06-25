@@ -1,7 +1,17 @@
 <?php
+/**
+ * Class d'access aux données (actuellement pour fichier JSON)
+ * 
+ * Contient des méthodes pour obtenir toutes les offres, et une offre spécifique par son numéro
+ */
 class Dbaccess
 {
-    function getAllJobData($returnArray = true)
+    /**
+     * Retourne toutes les offres contenus dans un fichier JSON.
+     * @param bool $returnArray Vrai retourne un array associatif, Faux retourne des objets (non utilisé).
+     * @return mixed array ou objet si reussi, null autrement
+     */
+    function getToutesOffres(bool $returnArray = true)
     {
         $file_contents = file_get_contents(dirname(__DIR__) . "/db.json");
         $data = json_decode($file_contents, $returnArray);
@@ -11,52 +21,18 @@ class Dbaccess
         return null;
     }
 
-    function displayCount(array $filtered_data)
+    /**
+     * Rechercher offre specific dans la base de données
+     * @param string $num_offre numéro identifiant de l'offre
+     * @return mixed array de l'offre s'il exist, null autrement
+     */
+    function getOffreParNum(string $num_offre)
     {
-        $count = count($filtered_data);
-        if ($count > 1) {
-            return "$count offres trouvées";
+        $offres_filtrees = array_filter($this->getToutesOffres()["offres"], fn(array $offre) => $offre["NUMOFFRE"] === $num_offre);
+        if (!empty($offres_filtrees)) {
+            $offre = reset($offres_filtrees);
+            return $offre;
         }
-        if ($count === 1) {
-            return "1 offre trouvée";
-        }
-        return "pas d'offre trouvée";
+        return null;
     }
-
-    function getOffreNum($num_offre, array $unfiltered_data)
-    {
-        $filtered = array_filter($unfiltered_data["offres"], function (array $offre) use ($num_offre) {
-            return $offre["NUMOFFRE"] === $num_offre;
-        });
-        return reset($filtered);
-    }
-}
-
-function getDiffString(array $offre)
-{
-    $date = DateTime::createFromFormat('d/m/Y', $offre['DATE_ACTU']);
-    $now = new DateTime();
-    $diff = $now->diff($date);
-    if ($diff->days === 0) {
-        $diff_string = "aujourd'hui";
-    } elseif ($diff->days === 1) {
-        $diff_string = "hier";
-    } else {
-        $diff_string = "il y a " . $diff->days . " jours";
-    }
-    return $diff_string;
-}
-
-function getProfessionsUniques(array $all_data)
-{
-    $professions = [];
-    foreach ($all_data["offres"] as $offre) {
-        $professions[] = $offre["PROFESSION"];
-    }
-    $professions = array_unique($professions);
-    $string = "";
-    foreach ($professions as $profession) {
-        $string .= "<option value=\"$profession\">$profession</option>";
-    }
-    return $string;
 }
