@@ -1,7 +1,6 @@
 FILTERING
 -evenment et hebergment n'existent pas dans db
 -mot clé juste dans certains champs
--commune
 better done after SQL
 
 add pagination of results (after sql?)
