@@ -35,7 +35,7 @@ $offre = $dbaccess->getOffreParNum(validerParamNumOffre());
 <body>
     <main>
         <div class="row">
-            <button onclick="location.href = 'index.php'">Revenir aux offres</button>
+            <button class="js-back-button">Revenir aux offres</button>
             <button onclick="window.print()">Imprimer offre</button>
         </div>
         <section class="job-offer-section">
@@ -83,12 +83,27 @@ $offre = $dbaccess->getOffreParNum(validerParamNumOffre());
             ?>
         </section>
         <div class="row">
-            <button onclick="location.href = 'index.php'">Revenir aux offres</button>
+            <button class="js-back-button">Revenir aux offres</button>
             <button onclick="window.print()">Imprimer offre</button>
         </div>
     </main>
 
     <script src="main.js" async defer></script>
+
+    <script>
+        const backButtons = document.querySelectorAll('.js-back-button');
+        backButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                if (document.referrer && document.referrer.includes(window.location.hostname)) {
+                    history.back();
+                } else {
+                    window.location.href = '/index.php';
+                }
+            });
+        });
+    </script>
+
+
 </body>
 
 </html>

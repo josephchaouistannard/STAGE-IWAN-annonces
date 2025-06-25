@@ -6,11 +6,4 @@ better done after SQL
 
 add pagination of results (after sql?)
 
-RESTYLE AGAIN
-voir above header
-make independent of their brand
-responsiveness
-update printing
-customise options possible
-
-FIX REVENIR AUX OFFRES BUTTON
+customise options commune adaptable
