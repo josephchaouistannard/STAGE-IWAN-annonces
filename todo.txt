@@ -1,7 +1,12 @@
 FILTERING
 evenment
 
+OPTIMISATION
 add caching of json to speed up?
+cache all data, with age and sorted
+cache list of professions
+prepare html of job list in advance
+format description in advance?
 
 customise options commune adaptable
 

@@ -28,7 +28,7 @@ $offre = $dbaccess->getOffreParNum(validerParamNumOffre());
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
-    <link rel="icon" href="https://www.cdc-iledenoirmoutier.com/themes/custom/noirmoutiercc/favicon.png"
+    <link rel="icon" href="assets/favicon.png"
         type="image/png">
 </head>
 
