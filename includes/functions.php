@@ -149,7 +149,7 @@ function afficherAgeJours($ageJours)
  * @param array $toutes_offres les offres avant filtrage
  * @return string string de html à afficher
  */
-function remplirSelectProfessionsUniques(array $toutes_offres)
+function getSelectProfessionsUniques(array $toutes_offres)
 {
     $professions = [];
     foreach ($toutes_offres as $offre) {
@@ -203,4 +203,45 @@ function validerParamsFiltrage()
  */
 function validerParamNumOffre() {
     return htmlspecialchars(trim($_GET['NUMOFFRE']));
+}
+
+/**
+ * Ajoute pour chaque offre la representation html pour afficher dans la liste d'offres
+ * @param mixed $offres
+ * @return void
+ */
+function creerHtmlListe(&$offres) {
+    foreach ($offres as &$offre) {
+                $diff_string = afficherAgeJours($offre['ageJours']);
+                $html_string = "
+                <div class=\"job-list-item\">
+                    <div class=\"job-list-item-left\">
+                        <div class=\"job-list-row\">
+                            <h3>{$offre['LibPoste']}</h3>
+                        </div>
+                        <div class=\"job-list-row\">
+                            <span class='material-symbols-outlined'>label</span>
+                            <p>Référence de l'offre : {$offre['NumOffre']} ($diff_string)</p>
+                        </div>
+                        <div class=\"job-list-row\">
+                            <span class='material-symbols-outlined'>contract</span>
+                            <p>{$offre['TypeContrat']}</p>
+                        </div>
+                        <div class=\"job-list-row\">
+                            <span class='material-symbols-outlined'>distance</span>
+                            <p>{$offre['Ville']}</p>
+                        </div>
+                        <div class=\"job-list-row\">
+                            <span class='material-symbols-outlined'>account_box</span>
+                            <p>{$offre['Contact']}</p>
+                        </div>
+                    </div>
+                    <div class=\"job-list-item-right\">
+                        <button onclick=\"location.href = 'offre.php?NUMOFFRE={$offre['NumOffre']}'\">Voir</button>
+                    </div>
+                </div>
+                ";
+                $offre['htmlListe'] = $html_string;
+            }
+            unset($offre);
 }

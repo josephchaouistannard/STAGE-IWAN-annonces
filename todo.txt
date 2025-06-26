@@ -1,12 +1,18 @@
+OPTIMISATION
+one process data function that performs all tasks below, called by create cache or by index.php if cache fails
+otherwise if cache fails for professionsUniques, call that function in index.php
+
+cache all data, with age and sorted DONE BUT NEED REDUNDANCY
+cache list of professions DONE BUT NEED REDUNDANCY
+prepare html of job list in advance DONE BUT NEED REDUNDANCY
+format description in advance?
+put all in one function if cache fails
+add time to cache
+
+clean it all up
+
 FILTERING
 evenment
-
-OPTIMISATION
-add caching of json to speed up?
-cache all data, with age and sorted
-cache list of professions
-prepare html of job list in advance
-format description in advance?
 
 customise options commune adaptable
 

@@ -2,24 +2,42 @@
 include_once "includes/config.php"; // Paramêtres PHP comme affichage d'erreurs
 include_once "includes/functions.php"; // Functions utilitaires communes
 include_once "includes/dbaccess.php"; // Class d'accès aux données
-$dbaccess = new Dbaccess(); // Creation d'objet d'accès aux données
 
-// Obtention de toutes les offres d'emploi du JSON
-$toutes_offres = $dbaccess->getToutesOffres();
+// Define the path to the cache file (must match createcache.php)
+$cacheOffres = __DIR__ . '/cache/toutesOffres.cache';
+$cacheProfessions = __DIR__ . '/cache/professionsUniques.cache';
+
+$toutes_offres = []; // Initialize the variable
+
+$professions_uniques = @unserialize(file_get_contents($cacheProfessions));
+
+// --- Attempt to load from cache ---
+if (file_exists($cacheOffres) && is_readable($cacheOffres)) {
+    $cachedData = file_get_contents($cacheOffres);
+    if ($cachedData !== false) {
+        $unserializedData = @unserialize($cachedData); // Use @ to suppress potential unserialize errors
+
+        // Check if unserialization was successful and the data is an array
+        if ($unserializedData !== false && is_array($unserializedData)) {
+            $toutes_offres = $unserializedData;
+            // Optionally, add a check for cache freshness here if needed
+            // e.g., check filemtime($cacheFile) against a desired cache lifetime
+            // If cache is stale, proceed to load from DB below.
+        } else {
+            // Unserialization failed or data format is wrong
+            // recreate toutes offres avec age et trié ici
+        }
+    } else {
+        // Failed to read cache file
+        // recreate toutes offres avec age et trié ici
+    }
+} else {
+    // Cache file does not exist or is not readable
+    // recreate toutes offres avec age et trié ici
+}
 
 // Filtrage selon requête GET
 $offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
-
-// Calculer l'age des offres
-foreach ($offres_filtrees as &$offre) {
-    $offre['ageJours'] = calculerAgeJours($offre);
-}
-unset($offre);
-
-// Trier les offres du plus récent au plus ancien (ageJours croissant)
-usort($offres_filtrees, function ($a, $b) {
-    return $a['ageJours'] <=> $b['ageJours'];
-});
 ?>
 
 <?php include "includes/header.php" ?>
@@ -41,8 +59,7 @@ usort($offres_filtrees, function ($a, $b) {
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
-    <link rel="icon" href="assets/favicon.png"
-        type="image/png">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
 </head>
 
 <body>
@@ -65,7 +82,7 @@ usort($offres_filtrees, function ($a, $b) {
             <div class="form-row"><label for="profession">Profession</label>
                 <select class="filters-form-select" name="profession" id="profession">
                     <option value="tous" selected>Toutes</option>
-                    <?= remplirSelectProfessionsUniques($toutes_offres); ?>
+                    <?= $professions_uniques ?>
                 </select>
             </div>
             <div class="form-row"><label for="duree">Durée</label>
@@ -126,41 +143,9 @@ usort($offres_filtrees, function ($a, $b) {
         </form>
 
         <div id="job-list">
-            <?php
-            foreach ($offres_filtrees as $offre) {
-                $diff_string = afficherAgeJours($offre['ageJours']);
-                echo "
-                <div class=\"job-list-item\">
-                    <div class=\"job-list-item-left\">
-                        <div class=\"job-list-row\">
-                            <h3>{$offre['LibPoste']}</h3>
-                        </div>
-                        <div class=\"job-list-row\">
-                            <span class='material-symbols-outlined'>label</span>
-                            <p>Référence de l'offre : {$offre['NumOffre']} ($diff_string)</p>
-                        </div>
-                        <div class=\"job-list-row\">
-                            <span class='material-symbols-outlined'>contract</span>
-                            <p>{$offre['TypeContrat']}</p>
-                        </div>
-                        <div class=\"job-list-row\">
-                            <span class='material-symbols-outlined'>distance</span>
-                            <p>{$offre['Ville']}</p>
-                        </div>
-                        <div class=\"job-list-row\">
-                            <span class='material-symbols-outlined'>account_box</span>
-                            <p>{$offre['Contact']}</p>
-                        </div>
-                    </div>
-                    <div class=\"job-list-item-right\">
-                        <button onclick=\"location.href = 'offre.php?NUMOFFRE={$offre['NumOffre']}'\">Voir</button>
-                    </div>
-                </div>
-                ";
-            }
-
-            ?>
-
+            <?php foreach ($offres_filtrees as $offre) { 
+                echo $offre['htmlListe']; 
+                } ?>
         </div>
         <div id="pagination-controls">
         </div>
