@@ -104,7 +104,7 @@ $offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
                 </div>
             </div>
             <div class="form-row" id="hebergement-container">
-                <input type="checkbox" id="hebergement" name="hebergement" value="oui">
+                <input type="checkbox" id="hebergement" name="hebergement" value="1">
                 <label for="hebergement">Uniquement avec hébergement</label>
             </div>
             <div class="form-row">

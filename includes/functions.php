@@ -87,9 +87,9 @@ function filtrerOffres(array $toutes_offres, array $params)
                 $commune = true;
             }
         }
-        // PAS DE FILTRE POUR LE MOMENT - PAS DANS LES DONNEES
-        // if (isset($params["hebergement"])) {
-        // }
+        if ($params["hebergement"]) {
+            $hebergement = ($offre["logementfourni"] == "1");
+        }
         return $contrat && $profession && $evenement && $motcle && $commune && $hebergement && $duree;
     });
     return $offres_filtrees;
