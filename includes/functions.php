@@ -116,21 +116,30 @@ function afficherCompteOffres(array $offres_filtrees)
 }
 
 /**
- * Calcule le nombre de jours depuis la mise à jour d'une offre
- * @param array $offre
- * @return string text à afficher
+ * Calcule l'age en jours de l'offre passée en parametre ET AJOUTE CETTE VALEUR à l'offre
+ * @param mixed $offre offre qui sera moifiée
+ * @return int l'age de l'offre en jours
  */
-function afficherEcartTemps(array $offre)
-{
+function calculerAgeJours($offre) {
     $date = DateTime::createFromFormat('Ymd', $offre['DateOffreAct']);
     $now = new DateTime();
     $ecart = $now->diff($date);
-    if ($ecart->days === 0) {
+    return $ecart->days;
+}
+
+/**
+ * Retounre l'age de l'offre sous forme de text
+ * @param $ageJours l'age de l'annonce en jours
+ * @return string text à afficher
+ */
+function afficherAgeJours($ageJours)
+{
+    if ($ageJours == 0) {
         $diff_string = "aujourd'hui";
-    } elseif ($ecart->days === 1) {
+    } elseif ($ageJours == 1) {
         $diff_string = "hier";
     } else {
-        $diff_string = "il y a " . $ecart->days . " jours";
+        $diff_string = "il y a " . $ageJours . " jours";
     }
     return $diff_string;
 }

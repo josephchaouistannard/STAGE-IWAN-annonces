@@ -6,8 +6,20 @@ $dbaccess = new Dbaccess(); // Creation d'objet d'accès aux données
 
 // Obtention de toutes les offres d'emploi du JSON
 $toutes_offres = $dbaccess->getToutesOffres();
+
 // Filtrage selon requête GET
 $offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
+
+// Calculer l'age des offres
+foreach ($offres_filtrees as &$offre) {
+    $offre['ageJours'] = calculerAgeJours($offre);
+}
+unset($offre);
+
+// Trier les offres du plus récent au plus ancien (ageJours croissant)
+usort($offres_filtrees, function ($a, $b) {
+    return $a['ageJours'] <=> $b['ageJours'];
+});
 ?>
 
 <?php include "includes/header.php" ?>
@@ -116,7 +128,7 @@ $offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
         <div id="job-list">
             <?php
             foreach ($offres_filtrees as $offre) {
-                $diff_string = afficherEcartTemps($offre);
+                $diff_string = afficherAgeJours($offre['ageJours']);
                 echo "
                 <div class=\"job-list-item\">
                     <div class=\"job-list-item-left\">

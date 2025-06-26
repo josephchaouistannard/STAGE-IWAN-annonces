@@ -41,7 +41,7 @@ $offre = $dbaccess->getOffreParNum(validerParamNumOffre());
         <section class="job-offer-section">
             <h2><?= $offre["LibPoste"] ?></h2>
             <p class="center">
-                <small><?= "Référence de l'offre : " . $offre["NumOffre"] . " (" . afficherEcartTemps($offre) . ")" ?></small>
+                <small><?= "Référence de l'offre : " . $offre["NumOffre"] . " (" . afficherAgeJours(calculerAgeJours($offre)) . ")" ?></small>
             </p>
         </section>
         <section class="job-offer-section">

@@ -1,8 +1,6 @@
 FILTERING
 evenment
 
-TRIER par date?
-
 add caching of json to speed up?
 
 customise options commune adaptable
