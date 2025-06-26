@@ -37,6 +37,7 @@ header {
     height: 8dvh;
     padding: 1rem;
     margin-bottom: 20px;
+    border-bottom: var(--border);
 
 }
 
@@ -48,6 +49,11 @@ header {
     width: 100%;
 }
 
+header img {
+    height: 100%;
+    width: auto;
+}
+
 /* ------------ FOOTER ------------ */
 footer {
     display: flex;
@@ -57,6 +63,7 @@ footer {
     justify-content: space-around;
     padding: 1rem;
     margin-top: 20px;
+    border-top: var(--border);
 }
 
 #footer-img {
@@ -244,7 +251,7 @@ label {
 }
 
 /* ------------ MEDIA QUERIES ------------ */
-@media (max-width: 1100px) {
+@media (max-width: 850px) {
     header {
         flex-direction: column;
         justify-content: center;
