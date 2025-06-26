@@ -150,6 +150,8 @@ $offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
             ?>
 
         </div>
+        <div id="pagination-controls">
+        </div>
     </main>
     <script src="main.js"></script>
 </body>

@@ -1,8 +1,11 @@
 FILTERING
-add pagination of results
 mot cle fields to check
 evenment
 hebergement
+
+TRIER par date?
+
+add caching of json to speed up?
 
 customise options commune adaptable
 

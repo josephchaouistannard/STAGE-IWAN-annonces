@@ -12,7 +12,7 @@ function reinitialiserFiltersForm(event) {
 
     // Obtenir l'URL de base (sans les paramètres GET)
     const baseUrl = window.location.href.split('?')[0];
-    
+
     // Recharger la page à cette URL de base. Cela supprime tous les filtres.
     window.location.href = baseUrl;
 }
@@ -67,21 +67,68 @@ function submitFiltersForm(form) {
 }
 
 /**
- * Après chargement de de la page, crée evenement de soumission de formulaire.
- * Rempli aussi le formulaire s'il exist des parametres dans URL
+ * Verifie le nombre de pages nécessaire pour afficher les offres filtrées et crée les boutons si besoin
  */
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('filters-form');
-    const submitLink = document.getElementById('submit-filters');
+function setupPagination() {
+    jobListItems = document.querySelectorAll('.job-list-item');
+    const totalOffres = jobListItems.length;
+    nbPages = Math.ceil(totalOffres / offresParPage);
 
-    if (form && submitLink) {
-        submitLink.addEventListener('click', function (event) {
-            event.preventDefault();
-            submitFiltersForm(form);
-        });
+    const container = document.getElementById('pagination-controls');
+    if (nbPages > 1) {
+        const prevButton = document.createElement('button');
+        prevButton.textContent = '<';
+        prevButton.id = 'prevButton';
+        prevButton.addEventListener('click', () => {
+            if (page > 1) {
+                page--;
+                afficherPage();
+            }
+        })
+        container.appendChild(prevButton);
+
+        const numPage = document.createElement('p');
+        numPage.id = 'page-count';
+        numPage.textContent = 'Page ' + page + ' de ' + nbPages;
+        container.appendChild(numPage);
+
+        const nextButton = document.createElement('button');
+        nextButton.textContent = '>';
+        nextButton.id = 'nextButton';
+        nextButton.addEventListener('click', () => {
+            if (page < nbPages) {
+                page++;
+                afficherPage();
+            }
+        })
+        container.appendChild(nextButton);
+
+        afficherPage();
     }
+}
 
-    // Remplir formulaire selon parametres GET
+/**
+ * Change la page d'offres affichées et met à jour le compteur de page en bas
+ */
+function afficherPage() {
+    const startIndex = (page - 1) * offresParPage;
+    const endIndex = startIndex + offresParPage;
+    const numPage = document.getElementById('page-count');
+    numPage.textContent = 'Page ' + page + ' de ' + nbPages;
+
+    jobListItems.forEach((item, index) => {
+        if (index >= startIndex && index < endIndex) {
+            item.style.display = 'flex';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+/**
+ * Remplir formulaire selon parametres GET
+ */
+function remplirFormulaire() {
     const params = new URLSearchParams(window.location.search);
 
     const contratSelected = params.get('contrat');
@@ -143,4 +190,35 @@ document.addEventListener('DOMContentLoaded', function () {
     if (hebergementSelected && hebergementElement) {
         hebergementElement.checked = hebergementSelected === hebergementElement.value;
     }
-});
+}
+
+/**
+ * Changer comportement de click sur bouton formulaire filtrage
+ */
+function changerSubmit() {
+    const form = document.getElementById('filters-form');
+    const submitLink = document.getElementById('submit-filters');
+
+    if (form && submitLink) {
+        submitLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            submitFiltersForm(form);
+        });
+    }
+}
+
+// Initialisation des variables necessaires pour la pagination
+let page = 1;
+let nbPages = 1;
+let jobListItems = [];
+const offresParPage = 10;
+
+/**
+ * Après chargement de de la page, crée evenement de soumission de formulaire.
+ * Rempli aussi le formulaire s'il exist des parametres dans URL
+ */
+document.addEventListener('DOMContentLoaded', function () {
+    changerSubmit();
+    remplirFormulaire();
+    setupPagination();
+})
