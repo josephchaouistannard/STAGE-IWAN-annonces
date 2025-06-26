@@ -1,8 +1,9 @@
 FILTERING
--evenment et hebergment n'existent pas dans db
--mot clé juste dans certains champs
-better done after SQL
-
-add pagination of results (after sql?)
+add pagination of results
+mot cle fields to check
+evenment
+hebergement
 
 customise options commune adaptable
+
+make more robust parameters...
