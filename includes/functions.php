@@ -71,6 +71,9 @@ function filtrerOffres(array $toutes_offres, array $params)
                 (stripos($offre["Description"], $params["mot-cle"]) !== false) or
                 (stripos($offre["Ville"], $params["mot-cle"]) !== false) or
                 (stripos($offre["horaire"], $params["mot-cle"]) !== false) or
+                (stripos($offre["LibSOC"], $params["mot-cle"]) !== false) or
+                (stripos($offre["formation"], $params["mot-cle"]) !== false) or
+                (stripos($offre["langues"], $params["mot-cle"]) !== false) or
                 (stripos($offre["salaire"], $params["mot-cle"]) !== false));
         }
         // Selon commune

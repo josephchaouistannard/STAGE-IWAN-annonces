@@ -1,7 +1,5 @@
 FILTERING
-mot cle fields to check
 evenment
-hebergement
 
 TRIER par date?
 
