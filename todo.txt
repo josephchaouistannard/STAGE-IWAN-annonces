@@ -1,15 +1,8 @@
 FILTERING
 -evenment et hebergment n'existent pas dans db
 -mot clé juste dans certains champs
--commune
 better done after SQL
 
 add pagination of results (after sql?)
 
-RESTYLE AGAIN
-voir above header
-make independent of their brand
-responsiveness
-update printing
-
-FIX REVENIR AUX OFFRES BUTTON
+customise options commune adaptable
