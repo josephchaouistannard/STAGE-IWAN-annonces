@@ -121,27 +121,27 @@ $offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
                 <div class=\"job-list-item\">
                     <div class=\"job-list-item-left\">
                         <div class=\"job-list-row\">
-                            <h3>{$offre['PROFESSION']}</h3>
+                            <h3>{$offre['LibPoste']}</h3>
                         </div>
                         <div class=\"job-list-row\">
                             <span class='material-symbols-outlined'>label</span>
-                            <p>Référence de l'offre : {$offre['NUMOFFRE']} ($diff_string)</p>
+                            <p>Référence de l'offre : {$offre['NumOffre']} ($diff_string)</p>
                         </div>
                         <div class=\"job-list-row\">
                             <span class='material-symbols-outlined'>contract</span>
-                            <p>{$offre['CONTRAT']}</p>
+                            <p>{$offre['TypeContrat']}</p>
                         </div>
                         <div class=\"job-list-row\">
                             <span class='material-symbols-outlined'>distance</span>
-                            <p>{$offre['LIEU']}</p>
+                            <p>{$offre['Ville']}</p>
                         </div>
                         <div class=\"job-list-row\">
                             <span class='material-symbols-outlined'>account_box</span>
-                            <p>{$offre['CONTACT_ENT']}</p>
+                            <p>{$offre['Contact']}</p>
                         </div>
                     </div>
                     <div class=\"job-list-item-right\">
-                        <button onclick=\"location.href = 'offre.php?NUMOFFRE={$offre['NUMOFFRE']}'\">Voir</button>
+                        <button onclick=\"location.href = 'offre.php?NUMOFFRE={$offre['NumOffre']}'\">Voir</button>
                     </div>
                 </div>
                 ";

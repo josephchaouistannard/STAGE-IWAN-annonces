@@ -1,11 +1,22 @@
 <?php
 
+$driver = 'pgsql';
 $host = 'localhost';
+$port = '5432';
 $dbname = 'testpdo';
 $user = 'postgres';
 $pass = 'admin';
 
-$connexion = new PDO('pgsql:host='.$host.';dbname='.$dbname, $user, $pass);
+class Dbaccess
+{
+    private $connexion = new PDO('pgsql:host='.$host.';port='.$port.';dbname='.$dbname, $user, $pass);
+
+    function requeteSelect() {
+
+    }
+}
+
+
 
 $num_offre = 13917;
 

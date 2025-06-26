@@ -41,7 +41,7 @@ function filtrerOffres(array $toutes_offres, array $params)
 {
 
     // Filtrage de toutes offres selon parametres
-    $offres_filtrees = array_filter($toutes_offres["offres"], function ($offre) use ($params) {
+    $offres_filtrees = array_filter($toutes_offres, function ($offre) use ($params) {
         $contrat = true;
         $profession = true;
         $evenement = true;
@@ -51,15 +51,15 @@ function filtrerOffres(array $toutes_offres, array $params)
         $duree = true;
         // Selon type de contrat
         if (isset($params["contrat"]) and $params["contrat"] !== "" and $params["contrat"] !== "tous") {
-            $contrat = (stripos($offre["CONTRAT"], $params["contrat"]) !== false);
+            $contrat = (stripos($offre["TypeContrat"], $params["contrat"]) !== false);
         }
         // Selon titre d'annonce
         if (isset($params["profession"]) and $params["profession"] !== "" and $params["profession"] !== "tous") {
-            $profession = ($offre["PROFESSION"] === $params["profession"]);
+            $profession = ($offre["LibPoste"] === $params["profession"]);
         }
         // Selon durée (match exacte seulement, elimine aussi durée non précisé)
         if (isset($params["duree"]) and $params["duree"] !== "" and $params["duree"] !== "tous") {
-            $duree = (stripos($offre["DUREE"], $params["duree"]) !== false);
+            $duree = (stripos($offre["DureeContrat"], $params["duree"]) !== false);
         }
         // PAS DE FILTRE POUR LE MOMENT - PAS DANS LES DONNEES
         // if (isset($params["evenement"]) and $params["evenement"] !== "" and $params["evenement"] !== "tous") {
@@ -67,23 +67,23 @@ function filtrerOffres(array $toutes_offres, array $params)
         // Mot clé dans CERTAINS CHAMPS SEULEMENT
         if (isset($params["mot-cle"]) and $params["mot-cle"] !== "") {
             $motcle = (
-                (stripos($offre["PROFESSION"], $params["mot-cle"]) !== false) or
-                (stripos($offre["DESCRIPTIF"], $params["mot-cle"]) !== false) or
-                (stripos($offre["LIEU"], $params["mot-cle"]) !== false) or
-                (stripos($offre["HORAIRES"], $params["mot-cle"]) !== false) or
-                (stripos($offre["SALAIRE"], $params["mot-cle"]) !== false));
+                (stripos($offre["LibPoste"], $params["mot-cle"]) !== false) or
+                (stripos($offre["Description"], $params["mot-cle"]) !== false) or
+                (stripos($offre["Ville"], $params["mot-cle"]) !== false) or
+                (stripos($offre["horaire"], $params["mot-cle"]) !== false) or
+                (stripos($offre["salaire"], $params["mot-cle"]) !== false));
         }
         // Selon commune
         if (
             $params["epine"] || $params["noirmoutier"] || $params["gueriniere"] || $params["barbatre"]
         ) {           $commune = false;
-            if ($params["epine"] && stripos($offre["LIEU"], "L EPINE") !== false) {
+            if ($params["epine"] && stripos($offre["Ville"], "L EPINE") !== false) {
                 $commune = true;
-            } elseif ($params["noirmoutier"] && stripos($offre["LIEU"], "NOIRMOUTIER EN L ILE") !== false) {
+            } elseif ($params["noirmoutier"] && stripos($offre["Ville"], "NOIRMOUTIER EN L ILE") !== false) {
                 $commune = true;
-            } elseif ($params["gueriniere"] && stripos($offre["LIEU"], "LA GUERINIERE") !== false) {
+            } elseif ($params["gueriniere"] && stripos($offre["Ville"], "LA GUERINIERE") !== false) {
                 $commune = true;
-            } elseif ($params["barbatre"] && stripos($offre["LIEU"], "BARBATRE") !== false) {
+            } elseif ($params["barbatre"] && stripos($offre["Ville"], "BARBATRE") !== false) {
                 $commune = true;
             }
         }
@@ -119,7 +119,7 @@ function afficherCompteOffres(array $offres_filtrees)
  */
 function afficherEcartTemps(array $offre)
 {
-    $date = DateTime::createFromFormat('d/m/Y', $offre['DATE_ACTU']);
+    $date = DateTime::createFromFormat('Ymd', $offre['DateOffreAct']);
     $now = new DateTime();
     $ecart = $now->diff($date);
     if ($ecart->days === 0) {
@@ -140,8 +140,8 @@ function afficherEcartTemps(array $offre)
 function remplirSelectProfessionsUniques(array $toutes_offres)
 {
     $professions = [];
-    foreach ($toutes_offres["offres"] as $offre) {
-        $professions[] = $offre["PROFESSION"];
+    foreach ($toutes_offres as $offre) {
+        $professions[] = $offre["LibPoste"];
     }
     $professions = array_unique($professions);
     $string_options_html = "";
@@ -186,8 +186,8 @@ function validerParamsFiltrage()
 }
 
 /**
- * Valide le GET parametre NUMOFFRE
- * @return string NUMOFFRE validé
+ * Valide le GET parametre NumOffre
+ * @return string NumOffre validé
  */
 function validerParamNumOffre() {
     return htmlspecialchars(trim($_GET['NUMOFFRE']));

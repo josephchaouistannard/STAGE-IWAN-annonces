@@ -28,7 +28,7 @@ class Dbaccess
      */
     function getOffreParNum(string $num_offre)
     {
-        $offres_filtrees = array_filter($this->getToutesOffres()["offres"], fn(array $offre) => $offre["NUMOFFRE"] === $num_offre);
+        $offres_filtrees = array_filter($this->getToutesOffres(), fn(array $offre) => $offre["NumOffre"] === $num_offre);
         if (!empty($offres_filtrees)) {
             $offre = reset($offres_filtrees);
             return $offre;

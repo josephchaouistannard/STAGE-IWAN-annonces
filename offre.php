@@ -17,7 +17,7 @@ $offre = $dbaccess->getOffreParNum(validerParamNumOffre());
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?= $offre["PROFESSION"] ?></title>
+    <title><?= $offre["LibPoste"] ?></title>
     <meta name="description" content="Consulter les offres d'emploi de l'île de Noirmoutier">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,46 +39,47 @@ $offre = $dbaccess->getOffreParNum(validerParamNumOffre());
             <button onclick="window.print()">Imprimer offre</button>
         </div>
         <section class="job-offer-section">
-            <h2><?= $offre["PROFESSION"] ?></h2>
+            <h2><?= $offre["LibPoste"] ?></h2>
             <p class="center">
-                <small><?= "Référence de l'offre : " . $offre["NUMOFFRE"] . " (" . afficherEcartTemps($offre) . ")" ?></small>
+                <small><?= "Référence de l'offre : " . $offre["NumOffre"] . " (" . afficherEcartTemps($offre) . ")" ?></small>
             </p>
         </section>
         <section class="job-offer-section">
             <h3>Critères de l'offre</h3>
             <?php
-            if (estRempli($offre["LIEU"])) {
-                echo "<p><strong>Lieux : </strong>{$offre['LIEU']}</p>";
+            if (estRempli($offre["Ville"])) {
+                echo "<p><strong>Lieux : </strong>{$offre['Ville']}</p>";
             }
-            if (estRempli($offre["CONTRAT"])) {
-                echo "<p><strong>Type de contrat : </strong>{$offre['CONTRAT']}</p>";
+            if (estRempli($offre["TypeContrat"])) {
+                echo "<p><strong>Type de contrat : </strong>{$offre['TypeContrat']}</p>";
             }
-            if (estRempli($offre["HORAIRES"])) {
-                echo "<p><strong>Horaires : </strong>{$offre['HORAIRES']}</p>";
+            if (estRempli($offre["horaire"])) {
+                echo "<p><strong>Horaires : </strong>{$offre['horaire']}</p>";
             }
-            if (estRempli($offre["EXPERIENCE"])) {
-                echo "<p><strong>Expérience : </strong>{$offre['EXPERIENCE']}</p>";
+            if (estRempli($offre["experience"])) {
+                echo "<p><strong>Expérience : </strong>{$offre['experience']}</p>";
             }
-            if (estRempli($offre["DEPLACEMENT"])) {
-                echo "<p><strong>Déplacement : </strong>{$offre['DEPLACEMENT']}</p>";
+            if (estRempli($offre["deplacement"])) {
+                echo "<p><strong>Déplacement : </strong>{$offre['deplacement']}</p>";
             }
-            if (estRempli($offre["SALAIRE"])) {
-                echo "<p><strong>Salaire : </strong>{$offre['SALAIRE']}</p>";
+            if (estRempli($offre["salaire"])) {
+                echo "<p><strong>Salaire : </strong>{$offre['salaire']}</p>";
             }
-            if (estRempli($offre["FORMATION"])) {
-                echo "<p><strong>Formation : </strong>{$offre['FORMATION']}</p>";
+            if (estRempli($offre["formation"])) {
+                echo "<p><strong>Formation : </strong>{$offre['formation']}</p>";
             }
             ?>
         </section>
         <section class="job-offer-section">
             <h3>Description du poste</h3>
-            <?= formatterDescriptif($offre["DESCRIPTIF"]) ?>
+            <?= formatterDescriptif($offre["Description"]) ?>
         </section>
         <section class="job-offer-section">
             <h3>Contact</h3>
             <?php
-            if (estRempli($offre["CONTACT"])) {
-                echo "<p>{$offre['CONTACT']}</p>";
+            if (estRempli($offre["Contact"])) {
+                echo "<p>{$offre['Contact']}</p>";
+                echo "<p>{$offre['email']}</p>";
             }
             ?>
         </section>
