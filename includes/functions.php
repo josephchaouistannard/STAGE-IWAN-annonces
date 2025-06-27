@@ -4,6 +4,7 @@
  */
 require_once __DIR__ . "/config.php"; // Paramêtres PHP comme affichage d'erreurs
 require_once __DIR__ . "/dbaccess.php"; // Class d'accès aux données
+$dbaccess = new Dbaccess();
 
 /**
  * Prendre en parametre le descriptif d'une offre et retourne un string formatté
@@ -153,7 +154,8 @@ function afficherAgeJours($ageJours)
  * @param mixed $toutes_offres les offes avant filtrage
  * @return string code html
  */
-function creerHtmlProfessionsUniques($toutes_offres) {
+function creerHtmlProfessionsUniques($toutes_offres)
+{
     foreach ($toutes_offres as $offre) {
         $professions[] = $offre["LibPoste"];
     }
@@ -200,7 +202,7 @@ function getProfessionsUniques(array $toutes_offres)
     // --- Autrement chargement et préparation à partir du json et stockage en cache ---
     if (!$utiliser_cache) {
         // Obtention de toutes les offres d'emploi du JSON
-        $dbaccess = new Dbaccess();
+        global $dbaccess;
         $toutes_offres_non_traitees = $dbaccess->chargerToutesOffresJSON();
         $professions_html = creerHtmlProfessionsUniques($toutes_offres_non_traitees);
 
@@ -348,7 +350,7 @@ function getToutesOffres()
     // --- Autrement chargement et préparation à partir du json et stockage en cache ---
     if (!$utiliser_cache) {
         // Obtention de toutes les offres d'emploi du JSON
-        $dbaccess = new Dbaccess();
+        global $dbaccess;
         $toutes_offres_non_traitees = $dbaccess->chargerToutesOffresJSON();
         $toutes_offres = traiterOffresJSON($toutes_offres_non_traitees);
 
@@ -388,4 +390,32 @@ function traiterOffresJSON($toutes_offres_non_traitees)
     }
     $toutes_offres_traitees = $toutes_offres_non_traitees;
     return $toutes_offres_traitees;
+}
+
+/**
+ * Charger d'abord les vues des offres, incrementer celui passé en parametre (ou creer le compteur si manquant), puis enregistre dans le même fichier json. Retourne le nombre de vues pour l'ensemble d'offres
+ * @param mixed $num_offre
+ */
+function incrementerVues($num_offre)
+{
+    global $dbaccess;
+    $data_compteur_offres = $dbaccess->chargerVues();
+    $trouve = false;
+    foreach ($data_compteur_offres as $key => $value) {
+        if ($key == $num_offre) {
+            $data_compteur_offres[$key]++;
+            $trouve = true;
+            break;
+        }
+    }
+
+    // Creation de clé et valeur si non trouvé
+    if (!$trouve) {
+        $data_compteur_offres[$num_offre] = 1;
+    }
+
+    // Enregistrement dans json
+    $dbaccess->enregistrerVues($data_compteur_offres);
+
+    return $data_compteur_offres;
 }

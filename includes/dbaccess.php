@@ -3,6 +3,7 @@
  * Class d'access aux données (actuellement pour fichier JSON)
  * 
  * Contient une méthode pour obtenir toutes les offres, non triées et sans préparation de présentation html etc
+ * Et des methodes pour lire et enregistrer le fichier json du compteur de vues
  */
 class Dbaccess
 {
@@ -33,30 +34,12 @@ class Dbaccess
     }
 
     /**
-     * Charger d'abord les vues des offres, incrementer celui passé en parametre (ou creer le compteur si manquant), puis enregistre dans le même fichier json. Retourne le nombre de vues pour l'ensemble d'offres
-     * @param mixed $num_offre
+     * Enregistre les données compteur vues passé en parametre dans fichier json
+     * @param mixed $data_compteur_offres
+     * @return void
      */
-    function incrementerVues($num_offre) {
-        $data_compteur_offres = $this->chargerVues();
-        $trouve = false;
-        foreach ($data_compteur_offres as $key => $value) {
-            if ($key == $num_offre) {
-                $data_compteur_offres[$key]++;
-                $trouve = true;
-                break;
-            }
-        }
-
-        // Creation de clé et valeur si non trouvé
-        if (!$trouve) {
-            $data_compteur_offres[$num_offre] = 1;
-        }
-
-        // Encode the updated data back to JSON
+    function enregistrerVues($data_compteur_offres) {
         $json_data = json_encode($data_compteur_offres, JSON_PRETTY_PRINT);
-        // Save the JSON data back to the file
         file_put_contents(dirname(__DIR__) . "/compteur.json", $json_data);
-
-        return $data_compteur_offres;
     }
 }

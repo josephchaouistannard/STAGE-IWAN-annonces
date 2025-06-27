@@ -5,8 +5,8 @@ $toutes_offres = getToutesOffres();
 // Recherche de l'offre selon son numéro
 $offre = getOffreParNum(validerParamNumOffre(), $toutes_offres);
 
-$dbaccess = new Dbaccess();
-$data_compteur = $dbaccess->incrementerVues($offre['NumOffre']);
+// Charger et incrementer les vues
+$data_compteur = incrementerVues($offre['NumOffre']);
 
 ?>
 
