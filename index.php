@@ -1,41 +1,9 @@
 <?php
-include_once "includes/config.php"; // Paramêtres PHP comme affichage d'erreurs
-include_once "includes/functions.php"; // Functions utilitaires communes
-include_once "includes/dbaccess.php"; // Class d'accès aux données
+require_once "includes/functions.php"; // Functions utilitaires communes  (contient aussi class d'accès aux données et config.php)
 
-// Define the path to the cache file (must match createcache.php)
-$cacheOffres = __DIR__ . '/cache/toutesOffres.cache';
-$cacheProfessions = __DIR__ . '/cache/professionsUniques.cache';
 
-$toutes_offres = []; // Initialize the variable
-
-$professions_uniques = @unserialize(file_get_contents($cacheProfessions));
-
-// --- Attempt to load from cache ---
-if (file_exists($cacheOffres) && is_readable($cacheOffres)) {
-    $cachedData = file_get_contents($cacheOffres);
-    if ($cachedData !== false) {
-        $unserializedData = @unserialize($cachedData); // Use @ to suppress potential unserialize errors
-
-        // Check if unserialization was successful and the data is an array
-        if ($unserializedData !== false && is_array($unserializedData)) {
-            $toutes_offres = $unserializedData;
-            // Optionally, add a check for cache freshness here if needed
-            // e.g., check filemtime($cacheFile) against a desired cache lifetime
-            // If cache is stale, proceed to load from DB below.
-        } else {
-            // Unserialization failed or data format is wrong
-            // recreate toutes offres avec age et trié ici
-        }
-    } else {
-        // Failed to read cache file
-        // recreate toutes offres avec age et trié ici
-    }
-} else {
-    // Cache file does not exist or is not readable
-    // recreate toutes offres avec age et trié ici
-}
-
+$toutes_offres = getToutesOffres();
+$professions_uniques = getProfessionsUniques($toutes_offres);
 // Filtrage selon requête GET
 $offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
 ?>

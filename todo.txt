@@ -17,3 +17,5 @@ evenment
 customise options commune adaptable
 
 make more robust parameters...
+
+fix header image (build style in with it) and text to lower content shift
