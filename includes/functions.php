@@ -1,7 +1,9 @@
 <?php
 /**
- * Fichier contentant les functions utilitaires communes pour le site.
+ * Fichier contentant les functions communes pour le site.
  */
+require_once __DIR__ . "/config.php"; // Paramêtres PHP comme affichage d'erreurs
+require_once __DIR__ . "/dbaccess.php"; // Class d'accès aux données
 
 /**
  * Prendre en parametre le descriptif d'une offre et retourne un string formatté
@@ -79,7 +81,8 @@ function filtrerOffres(array $toutes_offres, array $params)
         // Selon commune
         if (
             $params["epine"] || $params["noirmoutier"] || $params["gueriniere"] || $params["barbatre"]
-        ) {           $commune = false;
+        ) {
+            $commune = false;
             if ($params["epine"] && stripos($offre["Ville"], "L EPINE") !== false) {
                 $commune = true;
             } elseif ($params["noirmoutier"] && stripos($offre["Ville"], "NOIRMOUTIER EN L ILE") !== false) {
@@ -120,7 +123,8 @@ function afficherCompteOffres(array $offres_filtrees)
  * @param mixed $offre offre qui sera moifiée
  * @return int l'age de l'offre en jours
  */
-function calculerAgeJours($offre) {
+function calculerAgeJours($offre)
+{
     $date = DateTime::createFromFormat('Ymd', $offre['DateOffreAct']);
     $now = new DateTime();
     $ecart = $now->diff($date);
@@ -145,13 +149,11 @@ function afficherAgeJours($ageJours)
 }
 
 /**
- * Genère un string content des elements <option> pour chaque profession unique trouvé.
- * @param array $toutes_offres les offres avant filtrage
- * @return string string de html à afficher
+ * Genère un string contenant des elements <option> pour chaque profession unique trouvé.
+ * @param mixed $toutes_offres les offes avant filtrage
+ * @return string code html
  */
-function remplirSelectProfessionsUniques(array $toutes_offres)
-{
-    $professions = [];
+function creerHtmlProfessionsUniques($toutes_offres) {
     foreach ($toutes_offres as $offre) {
         $professions[] = $offre["LibPoste"];
     }
@@ -161,6 +163,54 @@ function remplirSelectProfessionsUniques(array $toutes_offres)
         $string_options_html .= "<option value=\"$profession\">$profession</option>";
     }
     return $string_options_html;
+}
+
+/**
+ * Charge le code html du <select> professions en cache recente ou le reproduit à partir du JSON et le stocke en cache
+ * @param array $toutes_offres les offres avant filtrage
+ * @return string string de html à afficher
+ */
+function getProfessionsUniques(array $toutes_offres)
+{
+    global $ageMaxCache, $cacheProfessions;
+
+    $professions_html = "";
+    $utiliser_cache = false;
+
+    // --- Essayer de charger à partir du cache ---
+    if (file_exists($cacheProfessions) && is_readable($cacheProfessions)) {
+        $cacheModifiedTime = filemtime($cacheProfessions);
+        $currentTime = time();
+
+        // Verifie si cache est recent
+        if ($cacheModifiedTime !== false && ($currentTime - $cacheModifiedTime) < $ageMaxCache) {
+            $cachedData = file_get_contents($cacheProfessions);
+            if ($cachedData !== false) {
+                $unserializedData = @unserialize($cachedData);
+
+                // Verifie la déserialisation et que les donnees sont dans la bonne format
+                if ($unserializedData !== false && is_string($unserializedData)) {
+                    $professions_html = $unserializedData;
+                    $utiliser_cache = true;
+                }
+            }
+        }
+    }
+
+    // --- Autrement chargement et préparation à partir du json et stockage en cache ---
+    if (!$utiliser_cache) {
+        // Obtention de toutes les offres d'emploi du JSON
+        $dbaccess = new Dbaccess();
+        $toutes_offres_non_traitees = $dbaccess->chargerToutesOffresJSON();
+        $professions_html = creerHtmlProfessionsUniques($toutes_offres_non_traitees);
+
+        // After successfully loading from DB and processing, save to cache
+        if (!empty($professions_html)) {
+            $serializedData = serialize($professions_html);
+            file_put_contents($cacheProfessions, $serializedData);
+        }
+    }
+    return $professions_html;
 }
 
 /**
@@ -201,6 +251,141 @@ function validerParamsFiltrage()
  * Valide le GET parametre NumOffre
  * @return string NumOffre validé
  */
-function validerParamNumOffre() {
+function validerParamNumOffre()
+{
     return htmlspecialchars(trim($_GET['NUMOFFRE']));
+}
+
+/**
+ * Ajoute pour chaque offre une clé avec la representation html pour afficher dans la liste d'offres
+ * @param mixed $offres
+ * @return void
+ */
+function creerHtmlListe(&$offres)
+{
+    foreach ($offres as &$offre) {
+        $diff_string = afficherAgeJours($offre['ageJours']);
+        $html_string = "
+                <div class=\"job-list-item\">
+                    <div class=\"job-list-item-left\">
+                        <div class=\"job-list-row\">
+                            <h3>{$offre['LibPoste']}</h3>
+                        </div>
+                        <div class=\"job-list-row\">
+                            <span class='material-symbols-outlined'>label</span>
+                            <p>Référence de l'offre : {$offre['NumOffre']} ($diff_string)</p>
+                        </div>
+                        <div class=\"job-list-row\">
+                            <span class='material-symbols-outlined'>contract</span>
+                            <p>{$offre['TypeContrat']}</p>
+                        </div>
+                        <div class=\"job-list-row\">
+                            <span class='material-symbols-outlined'>distance</span>
+                            <p>{$offre['Ville']}</p>
+                        </div>
+                        <div class=\"job-list-row\">
+                            <span class='material-symbols-outlined'>account_box</span>
+                            <p>{$offre['Contact']}</p>
+                        </div>
+                    </div>
+                    <div class=\"job-list-item-right\">
+                        <button onclick=\"location.href = 'offre.php?NUMOFFRE={$offre['NumOffre']}'\">Voir</button>
+                    </div>
+                </div>
+                ";
+        $offre['htmlListe'] = $html_string;
+    }
+    unset($offre);
+}
+
+/**
+ * Rechercher offre specific dans la base de données
+ * @param string $num_offre numéro identifiant de l'offre
+ * @param array $toutes_offres array contenant l'ensemble d'offres
+ * @return mixed array de l'offre s'il exist, null autrement
+ */
+function getOffreParNum(string $num_offre, array $toutes_offres)
+{
+    $offres_filtrees = array_filter($toutes_offres, fn(array $offre) => $offre["NumOffre"] === $num_offre);
+    if (!empty($offres_filtrees)) {
+        $offre = reset($offres_filtrees);
+        return $offre;
+    }
+    return null;
+}
+
+/**
+ * Charge les offres, triées et traitées, dans le cache recent. Autrement charge et traite les offres du JSON, et les met en cache
+ * @return array toutes les offres triées et traitées
+ */
+function getToutesOffres()
+{
+    global $ageMaxCache, $cacheOffres;
+
+    $toutes_offres = [];
+    $utiliser_cache = false;
+
+    // --- Essayer de charger à partir du cache ---
+    if (file_exists($cacheOffres) && is_readable($cacheOffres)) {
+        $cacheModifiedTime = filemtime($cacheOffres);
+        $currentTime = time();
+
+        // Verifie si cache est recent
+        if ($cacheModifiedTime !== false && ($currentTime - $cacheModifiedTime) < $ageMaxCache) {
+            $cachedData = file_get_contents($cacheOffres);
+            if ($cachedData !== false) {
+                $unserializedData = @unserialize($cachedData);
+
+                // Verifie la déserialisation et que les donnees sont dans la bonne format
+                if ($unserializedData !== false && is_array($unserializedData)) {
+                    $toutes_offres = $unserializedData;
+                    $utiliser_cache = true;
+                }
+            }
+        }
+    }
+
+    // --- Autrement chargement et préparation à partir du json et stockage en cache ---
+    if (!$utiliser_cache) {
+        // Obtention de toutes les offres d'emploi du JSON
+        $dbaccess = new Dbaccess();
+        $toutes_offres_non_traitees = $dbaccess->chargerToutesOffresJSON();
+        $toutes_offres = traiterOffresJSON($toutes_offres_non_traitees);
+
+        // After successfully loading from DB and processing, save to cache
+        if (!empty($toutes_offres)) {
+            $serializedData = serialize($toutes_offres);
+            file_put_contents($cacheOffres, $serializedData);
+        }
+    }
+    return $toutes_offres;
+}
+
+/**
+ * Réalise diverses opérations de traitement sur les offres, comme le triage et la creation de code html.
+ * @param mixed $toutes_offres_non_traitees
+ * @return array les offres après traitement
+ */
+function traiterOffresJSON($toutes_offres_non_traitees)
+{
+    // Calculer l'age des offres
+    foreach ($toutes_offres_non_traitees as &$offre) {
+        $offre['ageJours'] = calculerAgeJours($offre);
+    }
+    unset($offre);
+
+    // Trier les offres du plus récent au plus ancien (ageJours croissant)
+    usort($toutes_offres_non_traitees, function ($a, $b) {
+        return $a['ageJours'] <=> $b['ageJours'];
+    });
+
+    // Creer representation html pour la liste d'offres
+    creerHtmlListe($toutes_offres_non_traitees);
+
+    // Formatter description pour page offres
+    foreach ($toutes_offres_non_traitees as &$offre) {
+        $offre['formatDescription'] = formatterDescriptif($offre['Description']);
+    }
+    $toutes_offres_traitees = $toutes_offres_non_traitees;
+    return $toutes_offres_traitees;
 }

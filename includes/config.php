@@ -3,8 +3,15 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Duree de vie de cache en secondes (e.g., 5 hours = 18000 seconds)
+$ageMaxCache = 18000;
+// Chemins des fichiers cache
+$cacheProfessions = __DIR__ . '/../cache/professionUniques.cache';
+$cacheOffres = __DIR__ . '/../cache/toutesOffres.cache';
+
+
 // CONTENU A CUSTOMISER
-$header_logo = "<img id=\"header-img\" src=\"assets/logo.svg\">";
+$header_logo = "<img id=\"header-img\" src=\"assets/logo.svg\" width=\"120\" height=\"60\">";
 $header_text = "<h1>Maison de l'emploi Île de Noirmoutier</h1>";
 
 $footer_text_gauche = "<p><strong>Communauté de Communes</strong></p>
