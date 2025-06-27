@@ -3,8 +3,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Duree de vie de cache en secondes (e.g., 1 hour = 3600 seconds)
-$ageMaxCache = 3600;
+// Duree de vie de cache en secondes (e.g., 5 hours = 18000 seconds)
+$ageMaxCache = 18000;
 // Chemins des fichiers cache
 $cacheProfessions = __DIR__ . '/../cache/professionUniques.cache';
 $cacheOffres = __DIR__ . '/../cache/toutesOffres.cache';
