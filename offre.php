@@ -1,38 +1,12 @@
 <?php
 require_once "includes/functions.php"; // Functions utilitaires communes (contient aussi class d'accès aux données et config.php)
 
-// Define the path to the cache file (must match createcache.php)
-$cacheOffres = __DIR__ . '/cache/toutesOffres.cache';
-
-$toutes_offres = []; // Initialize the variable
-
-// --- Attempt to load from cache ---
-if (file_exists($cacheOffres) && is_readable($cacheOffres)) {
-    $cachedData = file_get_contents($cacheOffres);
-    if ($cachedData !== false) {
-        $unserializedData = @unserialize($cachedData); // Use @ to suppress potential unserialize errors
-
-        // Check if unserialization was successful and the data is an array
-        if ($unserializedData !== false && is_array($unserializedData)) {
-            $toutes_offres = $unserializedData;
-            // Optionally, add a check for cache freshness here if needed
-            // e.g., check filemtime($cacheFile) against a desired cache lifetime
-            // If cache is stale, proceed to load from DB below.
-        } else {
-            // Unserialization failed or data format is wrong
-            // recreate toutes offres avec age et trié ici
-        }
-    } else {
-        // Failed to read cache file
-        // recreate toutes offres avec age et trié ici
-    }
-} else {
-    // Cache file does not exist or is not readable
-    // recreate toutes offres avec age et trié ici
-}
-
+$toutes_offres = getToutesOffres();
 // Recherche de l'offre selon son numéro
 $offre = getOffreParNum(validerParamNumOffre(), $toutes_offres);
+
+$dbaccess = new Dbaccess();
+$data_compteur = $dbaccess->incrementerVues($offre['NumOffre']);
 
 ?>
 
@@ -68,7 +42,7 @@ $offre = getOffreParNum(validerParamNumOffre(), $toutes_offres);
         <section class="job-offer-section">
             <h2><?= $offre["LibPoste"] ?></h2>
             <p class="center">
-                <small><?= "Référence de l'offre : " . $offre["NumOffre"] . " (" . afficherAgeJours(calculerAgeJours($offre)) . ")" ?></small>
+                <small><?= "Référence de l'offre : " . $offre["NumOffre"] . " (" . afficherAgeJours(calculerAgeJours($offre)) . ")<br>Vue " . $data_compteur[$offre['NumOffre']] . " fois" ?></small>
             </p>
         </section>
         <section class="job-offer-section">
