@@ -13,8 +13,8 @@ class Dbaccess
      */
     function chargerToutesOffresJSON()
     {
-        $chemin_min = dirname(__DIR__) . "/db.json";
-        $chemin_maj = dirname(__DIR__) . "/db.JSON";
+        $chemin_min = dirname(__DIR__) . "/NOIRMOUTIER-PHP.json";
+        $chemin_maj = dirname(__DIR__) . "/NOIRMOUTIER-PHP.JSON";
 
         $contenu_fichier = file_get_contents($chemin_min);
 
