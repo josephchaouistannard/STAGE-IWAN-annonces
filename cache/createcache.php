@@ -18,17 +18,44 @@ if ($serializedOffres === false) {
     die('Error serializing data.');
 }
 if (file_put_contents($cacheOffres, $serializedOffres) === false) {
-    die('Error writing cache file: ' . error_get_last()['message']);
+    die('Error writing cache file: ' . error_get_last()['message'] . "<br><br>");
 }
-echo "Cache file created successfully at: " . $cacheOffres;
+echo "Offres cache reussi: " . $cacheOffres . "<br><br>";
 
 // --- CACHING profession_uniques ---
 $serializedProfessions = serialize($professions_uniques);
 if ($serializedProfessions === false) {
-    die('Error serializing data.');
+    die('Error serializing data.' . "<br><br>");
 }
 if (file_put_contents($cacheProfessions, $serializedProfessions) === false) {
-    die('Error writing cache file: ' . error_get_last()['message']);
+    die('Error writing cache file: ' . error_get_last()['message'] . "<br><br>");
 }
-echo "Cache file created successfully at: " . $cacheProfessions;
+echo "Professions cache reussi: " . $cacheProfessions . "<br><br>";
+
+// NETTOYAGE DE COMPTEUR - Suppression des annonces qui n'existent plus
+// Charger les vues actuelles
+$compteur_vues = $dbaccess->chargerVues();
+
+// Créer une liste des NumOffre toujours valides à partir de $toutes_offres
+$valid_num_offres = [];
+foreach ($toutes_offres as $offre) {
+    if (isset($offre['NumOffre'])) {
+        $valid_num_offres[] = $offre['NumOffre'];
+    }
+}
+
+// Parcourir le compteur de vues et supprimer les entrées non valides
+$nouveau_compteur_vues = [];
+foreach ($compteur_vues as $num_offre => $vues) {
+    // Check if the NumOffre from the counter exists in the list of valid offers
+    if (in_array($num_offre, $valid_num_offres)) {
+        $nouveau_compteur_vues[$num_offre] = $vues;
+    }
+}
+
+// Enregistrer le compteur de vues nettoyé
+$dbaccess->enregistrerVues($nouveau_compteur_vues);
+
+echo "Compteur de vues nettoyé. Supprimé les entrées pour les offres inexistantes.<br><br>";
+
 ?>
