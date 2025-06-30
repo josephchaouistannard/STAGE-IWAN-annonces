@@ -11,7 +11,7 @@ TESTING AT SCALE
 
 # --- Configuration ---
 $url = "http://localhost:3000/offre.php?NUMOFFRE=13894"
-$requestCount = 30
+$requestCount = 50
 # ---------------------
 
 # Create an array to hold all the background jobs
