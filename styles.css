@@ -58,7 +58,7 @@ header img {
 footer {
     display: flex;
     flex-direction: row;
-    height: 20dvh;
+    height: 25dvh;
     align-items: center;
     justify-content: space-around;
     padding: 1rem;
