@@ -2,6 +2,7 @@
 /**
  * Fichier contentant les functions communes pour le site.
  */
+session_start();
 require_once __DIR__ . "/config.php"; // Paramêtres PHP comme affichage d'erreurs
 require_once __DIR__ . "/dbaccess.php"; // Class d'accès aux données
 $dbaccess = new Dbaccess();

@@ -8,6 +8,11 @@ $offre = getOffreParNum(validerParamNumOffre(), $toutes_offres);
 // Charger et incrementer les vues
 $data_compteur = incrementerVues($offre['NumOffre']);
 
+// Verification de l'affichage de vues
+if (isset($_GET['vues']) || isset($_GET['VUES'])) {
+    $_SESSION['afficher_vues'] = true;
+}
+
 ?>
 
 <?php include "includes/header.php" ?>
@@ -42,7 +47,10 @@ $data_compteur = incrementerVues($offre['NumOffre']);
         <section class="job-offer-section">
             <h2><?= $offre["LibPoste"] ?></h2>
             <p class="center">
-                <small><?= "Référence de l'offre : " . $offre["NumOffre"] . " (" . afficherAgeJours(calculerAgeJours($offre)) . ")<br>Vue " . $data_compteur[$offre['NumOffre']] . " fois" ?></small>
+                <small><?= "Référence de l'offre : " . $offre["NumOffre"] . " (" . afficherAgeJours(calculerAgeJours($offre)) . ")" ?>
+                <?php if ($_SESSION['afficher_vues']) {
+                    echo "<br>Vue " . $data_compteur[$offre['NumOffre']] . " fois";
+                } ?></small>
             </p>
         </section>
         <section class="job-offer-section">

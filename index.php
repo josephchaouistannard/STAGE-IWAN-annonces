@@ -6,6 +6,12 @@ $toutes_offres = getToutesOffres();
 $professions_uniques = getProfessionsUniques($toutes_offres);
 // Filtrage selon requête GET
 $offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
+
+// Verification de l'affichage de vues
+if (isset($_GET['vues']) || isset($_GET['VUES'])) {
+    $_SESSION['afficher_vues'] = true;
+}
+
 ?>
 
 <?php include "includes/header.php" ?>
