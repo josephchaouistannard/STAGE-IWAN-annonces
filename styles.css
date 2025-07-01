@@ -360,8 +360,9 @@ label {
     }
 
     header {
-        max-height: 50px;
-        display: block;
+        height: 120px;
+        margin: 0;
+        padding: 0;
     }
 
     section * {
