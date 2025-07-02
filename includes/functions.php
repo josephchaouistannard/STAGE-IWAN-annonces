@@ -157,10 +157,18 @@ function afficherAgeJours($ageJours)
  */
 function creerHtmlProfessionsUniques($toutes_offres)
 {
+    // Prendre toutes les professions (même les duplicates)
     foreach ($toutes_offres as $offre) {
         $professions[] = $offre["LibPoste"];
     }
+    
+    // Prendre que les professions uniques
     $professions = array_unique($professions);
+    
+    // Trier par ordre alphabetique
+    sort($professions);
+
+    // Creer code html
     $string_options_html = "";
     foreach ($professions as $profession) {
         $string_options_html .= "<option value=\"$profession\">$profession</option>";
