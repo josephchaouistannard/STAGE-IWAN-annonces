@@ -218,11 +218,15 @@ label {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 0;
+    margin: 2px 0;
 }
 
 .job-list-row span {
     font-size: 1.5rem;
+    margin-right: 5px;
+}
+.job-list-row p {
+    margin-right: 15px;
 }
 
 .job-list-item-right {

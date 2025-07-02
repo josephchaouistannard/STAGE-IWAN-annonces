@@ -298,6 +298,10 @@ function creerHtmlListe(&$offres)
                             <span class='material-symbols-outlined'>account_box</span>
                             <p>{$offre['Contact']}</p>
                         </div>
+                        <div class=\"job-list-row\">
+                            <span class='material-symbols-outlined'>clarify</span>
+                            <p>" . substr($offre['Description'], 0, 300) . "...</p>
+                        </div>
                     </div>
                     <div class=\"job-list-item-right\">
                         <button onclick=\"location.href = 'offre.php?NUMOFFRE={$offre['NumOffre']}'\">Voir</button>
