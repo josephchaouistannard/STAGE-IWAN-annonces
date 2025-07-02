@@ -12,7 +12,7 @@ $cacheOffres = __DIR__ . '/../cache/toutesOffres.cache';
 
 // CONTENU A CUSTOMISER
 $header_logo = "<img id=\"header-img\" src=\"assets/logo.svg\" width=\"120\" height=\"60\">";
-$header_text = "<h1>Maison de l'emploi Île de Noirmoutier</h1>";
+$header_text = "<h1>Maison de l'Emploi</h1><h2>Ile de Noirmoutier</h2>";
 
 $footer_text_gauche = "<p><strong>Maison de l'Emploi - France services de l'île de Noirmoutier</strong></p>
                     <p>(Service de la Communauté de Communes)<br>
