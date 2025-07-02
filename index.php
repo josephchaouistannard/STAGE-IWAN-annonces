@@ -10,6 +10,10 @@ $offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
 // Verification de l'affichage de vues
 if (isset($_GET['vues']) || isset($_GET['VUES'])) {
     $_SESSION['afficher_vues'] = true;
+} else {
+    if (!isset($_SESSION['afficher_vues'])) {
+        $_SESSION['afficher_vues'] = false;
+    }
 }
 
 ?>
