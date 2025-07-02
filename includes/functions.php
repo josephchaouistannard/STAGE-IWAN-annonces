@@ -151,7 +151,7 @@ function afficherAgeJours($ageJours)
 }
 
 /**
- * Genère un string contenant des elements <option> pour chaque profession unique trouvé.
+ * Genère un string contenant des elements <option> pour chaque profession unique trouvé, dans l'ordre alphabetique.
  * @param mixed $toutes_offres les offes avant filtrage
  * @return string code html
  */
