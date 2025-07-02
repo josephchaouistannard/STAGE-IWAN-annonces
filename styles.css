@@ -2,13 +2,14 @@
     /* COULEURS */
     --text: #424242;
     --background: white;
-    --background-accent: hsl(0, 0%, 95%);
-    --border: 1px solid #424242;
+    --background-accent: hsl(201, 50%, 66%);
+    --border-simple: 1px solid #424242;
+    --border-colour: 2px solid hsl(201, 100%, 36%);
 
-    --button: white;
+    --button: hsl(201, 100%, 36%);
     --button-hover: #424242;
     --button-click: white;
-    --button-text: #424242;
+    --button-text: white;
     --button-text-hover: white;
     --button-text-click: #424242;
 
@@ -37,7 +38,7 @@ header {
     height: 8dvh;
     padding: 1rem;
     margin-bottom: 20px;
-    border-bottom: var(--border);
+    border-bottom: var(--border-colour);
 
 }
 
@@ -63,7 +64,7 @@ footer {
     justify-content: space-around;
     padding: 1rem;
     margin-top: 20px;
-    border-top: var(--border);
+    border-top: var(--border-colour);
 }
 
 #footer-img {
@@ -91,7 +92,7 @@ main {
 
 button {
     border-radius: 20px;
-    border: var(--border);
+    border: var(--border-simple);
     padding: 0.5rem;
     color: var(--button-text);
     background-color: var(--button);
@@ -111,7 +112,7 @@ button:active {
 
 h1 {
     font-family: var(--font-h1);
-    font-weight: 500;
+    font-weight: 600;
     font-style: normal;
     font-variation-settings: "wdth" 100;
     vertical-align: center;
@@ -137,7 +138,7 @@ h6 {
 #filters-form {
     display: flex;
     flex-direction: column;
-    border: var(--border);
+    border: var(--border-colour);
     border-radius: 20px;
     padding: 1.5rem;
     max-width: 600px;
@@ -151,7 +152,7 @@ h6 {
 
 #job-count,
 #page-count {
-    border: var(--border);
+    border: var(--border-simple);
     border-radius: 20px;
     padding: 0.7rem;
 }
@@ -174,7 +175,7 @@ h6 {
     padding-left: 0.5rem;
     border-radius: 5px;
     background-color: var(--background-input);
-    border: var(--border);
+    border: var(--border-simple);
 }
 
 label {
@@ -203,7 +204,7 @@ label {
 }
 
 .job-list-item {
-    border-bottom: var(--border);
+    border-bottom: var(--border-colour);
     padding: 8px 20px;
     display: flex;
     flex-direction: row;
@@ -211,7 +212,7 @@ label {
 }
 
 .job-list-item:first-child {
-    border-top: var(--border);
+    border-top: var(--border-colour);
 }
 
 .job-list-row {
@@ -250,7 +251,7 @@ label {
 
 /* ------------ OFFER PAGE ------------ */
 .job-offer-section {
-    border-bottom: var(--border);
+    border-bottom: var(--border-simple);
     padding: 1rem;
     text-align: left;
 }
