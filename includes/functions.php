@@ -145,7 +145,7 @@ function afficherAgeJours($ageJours)
     } elseif ($ageJours == 1) {
         $diff_string = "hier";
     } else {
-        $diff_string = "il y a " . $ageJours . " jours";
+        $diff_string = "actualisée il y a " . $ageJours . " jours";
     }
     return $diff_string;
 }

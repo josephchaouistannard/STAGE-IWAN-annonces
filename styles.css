@@ -2,16 +2,20 @@
     /* COULEURS */
     --text: #424242;
     --background: white;
-    --background-accent: hsl(201, 50%, 66%);
-    --border-simple: 1px solid #424242;
-    --border-colour: 2px solid hsl(201, 100%, 36%);
+    --accent: hsl(201, 100%, 36%);
 
-    --button: hsl(201, 100%, 36%);
-    --button-hover: #424242;
-    --button-click: white;
-    --button-text: white;
-    --button-text-hover: white;
-    --button-text-click: #424242;
+    /* BORDERS */
+    --border-simple: 2px solid var(--text);
+    --border-fin: 1px solid var(--text);
+    --border-colour: 2px solid var(--accent);
+
+    /* BUTTONS */
+    --button: var(--accent);
+    --button-hover: var(--text);
+    --button-click: var(--background);
+    --button-text: var(--background);
+    --button-text-hover: var(--background);
+    --button-text-click: var(--text);
 
     /* FONTS */
     --font-base: 'Montserrat', sans-serif;
@@ -92,7 +96,7 @@ main {
 
 button {
     border-radius: 20px;
-    border: var(--border-simple);
+    border: var(--border-fin);
     padding: 0.5rem;
     color: var(--button-text);
     background-color: var(--button);
@@ -251,7 +255,7 @@ label {
 
 /* ------------ OFFER PAGE ------------ */
 .job-offer-section {
-    border-bottom: var(--border-simple);
+    border-bottom: var(--border-colour);
     padding: 1rem;
     text-align: left;
 }
@@ -382,5 +386,13 @@ label {
     h5,
     h6 {
         break-after: avoid-page;
+    }
+
+    .job-offer-section {
+    border-bottom: var(--border-simple);
+    }
+
+    header {
+        border-bottom: var(--border-simple);
     }
 }
