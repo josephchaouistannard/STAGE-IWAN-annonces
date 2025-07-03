@@ -35,7 +35,7 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat&family=Noto+Serif+Display:wght@500&family=Roboto:wght@400&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=1001; ?>">
+    <link rel="stylesheet" href="styles.css?v=1002; ?>">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
     <link rel="icon" href="assets/favicon.png"
