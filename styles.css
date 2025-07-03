@@ -137,6 +137,11 @@ h6 {
     align-items: center;
 }
 
+a:hover {
+    text-decoration: none;
+    font-style: italic;
+}
+
 /* ------------ FORM ------------ */
 #filters-form {
     display: flex;
