@@ -2,10 +2,10 @@
     /* COULEURS */
     --text: #424242;
     --background: white;
-    --accent: hsl(201, 100%, 36%);
+    --accent: #E5F8FC;
 
     /* BORDERS */
-    --border-simple: 2px solid var(--text);
+    --border-simple: 1px solid var(--text);
     --border-fin: 1px solid var(--text);
     --border-colour: 2px solid var(--accent);
 
@@ -13,7 +13,7 @@
     --button: var(--accent);
     --button-hover: var(--text);
     --button-click: var(--background);
-    --button-text: var(--background);
+    --button-text: var(--text);
     --button-text-hover: var(--background);
     --button-text-click: var(--text);
 
