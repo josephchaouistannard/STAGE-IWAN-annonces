@@ -230,6 +230,7 @@ label {
     font-size: 1.5rem;
     margin-right: 5px;
 }
+
 .job-list-row p {
     margin-right: 15px;
 }
@@ -389,7 +390,7 @@ label {
     }
 
     .job-offer-section {
-    border-bottom: var(--border-simple);
+        border-bottom: var(--border-simple);
     }
 
     header {
