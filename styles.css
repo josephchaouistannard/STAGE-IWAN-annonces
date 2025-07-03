@@ -2,7 +2,7 @@
     /* COULEURS */
     --text: #424242;
     --background: white;
-    --accent: hsl(201, 100%, 36%);
+    --accent: hsl(10, 100%, 36%);
 
     /* BORDERS */
     --border-simple: 2px solid var(--text);
