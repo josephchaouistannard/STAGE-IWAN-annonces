@@ -232,8 +232,12 @@ function getProfessionsUniques()
 function creerHtmlEvenements(array $toutes_offres)
 {
     // Prendre toutes les evenements (même les duplicates)
+    $evenements = [];
     foreach ($toutes_offres as $offre) {
-        $evenements[] = $offre["EvenementOffre"];
+        // Verifie que clé existe avant d'accèder
+        if (isset($offre["EvenementOffre"])) {
+            $evenements[] = $offre["EvenementOffre"];
+        }
     }
 
     // Prendre que les evenements uniques et non vides
