@@ -67,7 +67,7 @@ function filtrerOffres(array $toutes_offres, array $params)
         }
         // Selon evenement
         if (isset($params["evenement"]) and $params["evenement"] !== "" and $params["evenement"] !== "tous") {
-            $evenement = (trim($offre["EvenementOffre"]) == $params["evenement"]);
+            $evenement = (trim($offre["EvenementOffre"] ?? "") == $params["evenement"]);
         }
         // Mot clé dans CERTAINS CHAMPS SEULEMENT
         if (isset($params["mot-cle"]) and $params["mot-cle"] !== "") {
