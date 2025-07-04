@@ -67,37 +67,46 @@ function filtrerOffres(array $toutes_offres, array $params)
         }
         // Selon evenement
         if (isset($params["evenement"]) and $params["evenement"] !== "" and $params["evenement"] !== "tous") {
-            $evenement = (trim($offre["EvenementOffre"] ?? "") == $params["evenement"]);
+            if (isset($offre["EvenementOffre"])) {
+                $evenement = (trim($offre["EvenementOffre"]) == $params["evenement"]);
+            } else {
+                $evenement = false;
+            }
         }
         // Mot clé dans CERTAINS CHAMPS SEULEMENT
         if (isset($params["mot-cle"]) and $params["mot-cle"] !== "") {
             $motcle = (
-                (stripos($offre["LibPoste"], $params["mot-cle"]) !== false) or
-                (stripos($offre["Description"], $params["mot-cle"]) !== false) or
-                (stripos($offre["Ville"], $params["mot-cle"]) !== false) or
-                (stripos($offre["horaire"], $params["mot-cle"]) !== false) or
-                (stripos($offre["LibSOC"], $params["mot-cle"]) !== false) or
-                (stripos($offre["formation"], $params["mot-cle"]) !== false) or
-                (stripos($offre["langues"], $params["mot-cle"]) !== false) or
-                (stripos($offre["salaire"], $params["mot-cle"]) !== false));
+                (isset($offre["LibPoste"]) && stripos($offre["LibPoste"], $params["mot-cle"]) !== false) or // Added isset checks
+                (isset($offre["Description"]) && stripos($offre["Description"], $params["mot-cle"]) !== false) or // Added isset checks
+                (isset($offre["Ville"]) && stripos($offre["Ville"], $params["mot-cle"]) !== false) or // Added isset checks
+                (isset($offre["horaire"]) && stripos($offre["horaire"], $params["mot-cle"]) !== false) or // Added isset checks
+                (isset($offre["LibSOC"]) && stripos($offre["LibSOC"], $params["mot-cle"]) !== false) or // Added isset checks
+                (isset($offre["formation"]) && stripos($offre["formation"], $params["mot-cle"]) !== false) or // Added isset checks
+                (isset($offre["langues"]) && stripos($offre["langues"], $params["mot-cle"]) !== false) or // Added isset checks
+                (isset($offre["salaire"]) && stripos($offre["salaire"], $params["mot-cle"]) !== false)); // Added isset checks
         }
         // Selon commune
         if (
             $params["epine"] || $params["noirmoutier"] || $params["gueriniere"] || $params["barbatre"]
         ) {
             $commune = false;
-            if ($params["epine"] && stripos($offre["Ville"], "L EPINE") !== false) {
+            if ($params["epine"] && isset($offre["Ville"]) && stripos($offre["Ville"], "L EPINE") !== false) { // Added isset check
                 $commune = true;
-            } elseif ($params["noirmoutier"] && stripos($offre["Ville"], "NOIRMOUTIER EN L ILE") !== false) {
+            } elseif ($params["noirmoutier"] && isset($offre["Ville"]) && stripos($offre["Ville"], "NOIRMOUTIER EN L ILE") !== false) { // Added isset check
                 $commune = true;
-            } elseif ($params["gueriniere"] && stripos($offre["Ville"], "LA GUERINIERE") !== false) {
+            } elseif ($params["gueriniere"] && isset($offre["Ville"]) && stripos($offre["Ville"], "LA GUERINIERE") !== false) { // Added isset check
                 $commune = true;
-            } elseif ($params["barbatre"] && stripos($offre["Ville"], "BARBATRE") !== false) {
+            } elseif ($params["barbatre"] && isset($offre["Ville"]) && stripos($offre["Ville"], "BARBATRE") !== false) { // Added isset check
                 $commune = true;
             }
         }
         if ($params["hebergement"]) {
-            $hebergement = ($offre["logementfourni"] == "1");
+             // Check if the key exists before accessing it
+            if (isset($offre["logementfourni"])) { // Added check here
+                $hebergement = ($offre["logementfourni"] == "1");
+            } else {
+                $hebergement = false; // If key doesn't exist, it doesn't match the filter
+            }
         }
         return $contrat && $profession && $evenement && $motcle && $commune && $hebergement && $duree;
     });
