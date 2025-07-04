@@ -2,3 +2,4 @@ compteur.json
 NOIRMOUTIER-PHP.json
 cache/professionUniques.cache
 cache/toutesOffres.cache
+cache/evenements.cache

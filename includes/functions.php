@@ -161,10 +161,10 @@ function creerHtmlProfessionsUniques($toutes_offres)
     foreach ($toutes_offres as $offre) {
         $professions[] = $offre["LibPoste"];
     }
-    
+
     // Prendre que les professions uniques
     $professions = array_unique($professions);
-    
+
     // Trier par ordre alphabetique
     sort($professions);
 
@@ -178,10 +178,9 @@ function creerHtmlProfessionsUniques($toutes_offres)
 
 /**
  * Charge le code html du <select> professions en cache recente ou le reproduit à partir du JSON et le stocke en cache
- * @param array $toutes_offres les offres avant filtrage
  * @return string string de html à afficher
  */
-function getProfessionsUniques(array $toutes_offres)
+function getProfessionsUniques()
 {
     global $ageMaxCache, $cacheProfessions;
 
@@ -222,6 +221,83 @@ function getProfessionsUniques(array $toutes_offres)
         }
     }
     return $professions_html;
+}
+
+/**
+ * Genère un string contenant des elements <option> pour chaque evenement unique trouvé, dans l'ordre alphabetique.
+ * @param mixed $toutes_offres les offes avant filtrage
+ * @return string code html
+ */
+function creerHtmlEvenements(array $toutes_offres)
+{
+    // Prendre toutes les evenements (même les duplicates)
+    foreach ($toutes_offres as $offre) {
+        $evenements[] = $offre["EvenementOffre"];
+    }
+
+    // Prendre que les professions uniques
+    $evenements = array_unique($evenements);
+
+    $evenements = array_filter($evenements, function ($value) {
+        return trim($value) !== ""; // Use trim() to handle whitespace
+    });
+
+    // Trier par ordre alphabetique
+    sort($evenements);
+
+    // Creer code html
+    $string_options_html = "";
+    foreach ($evenements as $evenement) {
+        $string_options_html .= "<option value=\"$evenement\">$evenement</option>";
+    }
+    return $string_options_html;
+}
+
+/**
+ * Charge le code html du <select> evenements en cache recente ou le reproduit à partir du JSON et le stocke en cache
+ * @return string string de html à afficher
+ */
+function getEvenements()
+{
+    global $ageMaxCache, $cacheEvenements;
+
+    $evenements_html = "";
+    $utiliser_cache = false;
+
+    // --- Essayer de charger à partir du cache ---
+    if (file_exists($cacheEvenements) && is_readable($cacheEvenements)) {
+        $cacheModifiedTime = filemtime($cacheEvenements);
+        $currentTime = time();
+
+        // Verifie si cache est recent
+        if ($cacheModifiedTime !== false && ($currentTime - $cacheModifiedTime) < $ageMaxCache) {
+            $cachedData = file_get_contents($cacheEvenements);
+            if ($cachedData !== false) {
+                $unserializedData = @unserialize($cachedData);
+
+                // Verifie la déserialisation et que les donnees sont dans la bonne format
+                if ($unserializedData !== false && is_string($unserializedData)) {
+                    $evenements_html = $unserializedData;
+                    $utiliser_cache = true;
+                }
+            }
+        }
+    }
+
+    // --- Autrement chargement et préparation à partir du json et stockage en cache ---
+    if (!$utiliser_cache) {
+        // Obtention de toutes les offres d'emploi du JSON
+        global $dbaccess;
+        $toutes_offres_non_traitees = $dbaccess->chargerToutesOffresJSON();
+        $evenements_html = creerHtmlEvenements($toutes_offres_non_traitees);
+
+        // After successfully loading from DB and processing, save to cache
+        if (!empty($evenements_html)) {
+            $serializedData = serialize($evenements_html);
+            file_put_contents($cacheEvenements, $serializedData);
+        }
+    }
+    return $evenements_html;
 }
 
 /**

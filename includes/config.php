@@ -8,6 +8,7 @@ $ageMaxCache = 18000;
 // Chemins des fichiers cache
 $cacheProfessions = __DIR__ . '/../cache/professionUniques.cache';
 $cacheOffres = __DIR__ . '/../cache/toutesOffres.cache';
+$cacheEvenements = __DIR__ . '/../cache/evenements.cache';
 
 
 // CONTENU A CUSTOMISER

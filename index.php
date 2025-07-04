@@ -3,7 +3,8 @@ require_once "includes/functions.php"; // Functions utilitaires communes  (conti
 
 
 $toutes_offres = getToutesOffres();
-$professions_uniques = getProfessionsUniques($toutes_offres);
+$professions_uniques = getProfessionsUniques();
+$evenements = getEvenements();
 // Filtrage selon requête GET
 $offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
 
@@ -89,6 +90,7 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
             <div class="form-row"><label for="evenement">Evénement</label>
                 <select class="filters-form-select" name="evenement" id="evenement">
                     <option value="tous" selected>Tous événements confondus</option>
+                    <?= $evenements ?>
                 </select>
             </div>
             <div class="form-row"><label for="mot-cle">Mot clé</label>
