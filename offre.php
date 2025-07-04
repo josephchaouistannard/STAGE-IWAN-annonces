@@ -112,7 +112,7 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
                 if (document.referrer && document.referrer.includes(window.location.hostname)) {
                     history.back();
                 } else {
-                    window.location.href = '/index.php';
+                    window.location.href = 'index.php';
                 }
             });
         });
