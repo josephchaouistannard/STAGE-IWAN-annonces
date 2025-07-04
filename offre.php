@@ -82,7 +82,7 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
                 echo "<p><strong>Formation : </strong>{$offre['formation']}</p>";
             }
             if (estRempli($offre["EvenementOffre"])) {
-                echo "<p><strong>Evenement : </strong>{$offre['EvenementOffre']}</p>";
+                echo "<p><strong>Evénement : </strong>{$offre['EvenementOffre']}</p>";
             }
             ?>
         </section>
