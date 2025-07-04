@@ -11,7 +11,11 @@ $cacheOffres = __DIR__ . '/../cache/toutesOffres.cache';
 
 
 // CONTENU A CUSTOMISER
-$header_logo = "<img id=\"header-img\" src=\"assets/logo.svg\" width=\"120\" height=\"60\">";
+$index_page_titre = "Consultation des Offres";
+$index_et_offre_page_description = "Consulter les offres d'emploi de l'île de Noirmoutier";
+
+
+$header_logo = "<img id=\"header-img\" src=\"assets/logo.svg\" alt=\"Logo de la maison d'emploi de Noirmoutier\" width=\"120\" height=\"60\">";
 $header_text = "<h1>Maison de l'Emploi</h1><h2>Ile de Noirmoutier</h2>";
 
 $footer_text_gauche = "<p><strong>Maison de l'Emploi - France services de l'île de Noirmoutier</strong></p>
@@ -24,6 +28,6 @@ $footer_text_gauche = "<p><strong>Maison de l'Emploi - France services de l'île
                     <p>Lundi, mardi, jeudi : 8h30 à 12h / 13h15 à 17h<br>
                     Mercredi et vendredi : 8h30 à 12h</p>
                     <a href=\"https://www.cdc-iledenoirmoutier.com/emploi-et-evolution-professionnelle\" target=\"_blank\"><p>Emploi et évolution professionnelle | Noirmoutier Communauté de Communes</p></a>";
-$footer_img_droite = "<img id=\"footer-img\" src=\"assets/logo.svg\">";
+$footer_img_droite = "<img id=\"footer-img\" src=\"assets/logo.svg\" alt=\"Logo de la maison d'emploi de Noirmoutier\">";
 
 // communes to add here, an array with correct names, and value from db. Need to change filter function, display checkboxes

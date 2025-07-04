@@ -1,0 +1,8 @@
+# Indique que les règles suivantes s'appliquent à tous les robots
+User-agent: *
+
+# Ne rien interdire (laisser vide après "Disallow:") signifie que tout est autorisé.
+Disallow: 
+
+# Optionnel mais recommandé : indiquer l'emplacement de votre sitemap
+# Sitemap: https://www.votresite.com/sitemap.xml

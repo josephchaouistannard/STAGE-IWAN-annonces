@@ -18,16 +18,15 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
 
 ?>
 
-<?php include "includes/header.php" ?>
 
-<!DOCTYPE html lang="fr">
-<html>
+<!DOCTYPE html>
+<html lang="fr">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Consultation des Offres</title>
-    <meta name="description" content="Consulter les offres d'emploi de l'île de Noirmoutier">
+    <title><?= $index_page_titre ?></title>
+    <meta name="description" content="<?= $index_et_offre_page_description ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,6 +40,7 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
 </head>
 
 <body>
+    <?php include "includes/header.php" ?>
     <main>
         <form id="filters-form" method="get">
             <div class="form-row" id="form-header">
@@ -121,16 +121,15 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
         </form>
 
         <div id="job-list">
-            <?php foreach ($offres_filtrees as $offre) { 
-                echo $offre['htmlListe']; 
-                } ?>
+            <?php foreach ($offres_filtrees as $offre) {
+                echo $offre['htmlListe'];
+            } ?>
         </div>
         <div id="pagination-controls">
         </div>
     </main>
+    <?php include "includes/footer.php" ?>
     <script src="main.js"></script>
 </body>
 
 </html>
-
-<?php include "includes/footer.php" ?>

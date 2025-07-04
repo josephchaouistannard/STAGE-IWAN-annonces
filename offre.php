@@ -19,30 +19,30 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
 
 ?>
 
-<?php include "includes/header.php" ?>
 
-<!DOCTYPE html lang="fr">
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?= $offre["LibPoste"] ?></title>
-    <meta name="description" content="Consulter les offres d'emploi de l'île de Noirmoutier">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
+<!DOCTYPE html>
+<html lang="fr">
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title><?= $offre["LibPoste"] ?></title>
+        <meta name="description" content="<?= $index_et_offre_page_description ?>">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
         href="https://fonts.googleapis.com/css2?family=Montserrat&family=Noto+Serif+Display:wght@500&family=Roboto:wght@400&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=1003; ?>">
-    <link rel="stylesheet"
+        <link rel="stylesheet" href="styles.css?v=1003; ?>">
+        <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
-    <link rel="icon" href="assets/favicon.png"
+        <link rel="icon" href="assets/favicon.png"
         type="image/png">
-</head>
-
-<body>
+    </head>
+    
+    <body>
+    <?php include "includes/header.php" ?>
     <main>
         <div class="row">
             <button class="js-back-button">Revenir aux offres</button>
@@ -101,6 +101,7 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
             <button onclick="window.print()">Imprimer offre</button>
         </div>
     </main>
+    <?php include "includes/footer.php" ?>
 
     <script src="main.js" async defer></script>
 
@@ -121,5 +122,3 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
 </body>
 
 </html>
-
-<?php include "includes/footer.php" ?>
