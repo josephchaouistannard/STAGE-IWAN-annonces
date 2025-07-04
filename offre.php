@@ -81,6 +81,9 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
             if (estRempli($offre["formation"])) {
                 echo "<p><strong>Formation : </strong>{$offre['formation']}</p>";
             }
+            if (estRempli($offre["EvenementOffre"])) {
+                echo "<p><strong>Evenement : </strong>{$offre['EvenementOffre']}</p>";
+            }
             ?>
         </section>
         <section class="job-offer-section">
