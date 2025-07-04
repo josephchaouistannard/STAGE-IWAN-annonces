@@ -65,9 +65,10 @@ function filtrerOffres(array $toutes_offres, array $params)
         if (isset($params["duree"]) and $params["duree"] !== "" and $params["duree"] !== "tous") {
             $duree = (stripos($offre["DureeContrat"], $params["duree"]) !== false);
         }
-        // PAS DE FILTRE POUR LE MOMENT - PAS DANS LES DONNEES
-        // if (isset($params["evenement"]) and $params["evenement"] !== "" and $params["evenement"] !== "tous") {
-        // }
+        // Selon evenement
+        if (isset($params["evenement"]) and $params["evenement"] !== "" and $params["evenement"] !== "tous") {
+            $evenement = (trim($offre["EvenementOffre"]) == $params["evenement"]);
+        }
         // Mot clé dans CERTAINS CHAMPS SEULEMENT
         if (isset($params["mot-cle"]) and $params["mot-cle"] !== "") {
             $motcle = (
@@ -235,11 +236,10 @@ function creerHtmlEvenements(array $toutes_offres)
         $evenements[] = $offre["EvenementOffre"];
     }
 
-    // Prendre que les professions uniques
+    // Prendre que les evenements uniques et non vides
     $evenements = array_unique($evenements);
-
     $evenements = array_filter($evenements, function ($value) {
-        return trim($value) !== ""; // Use trim() to handle whitespace
+        return trim($value) !== "";
     });
 
     // Trier par ordre alphabetique
