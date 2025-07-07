@@ -62,7 +62,7 @@ header img {
 footer {
     display: flex;
     flex-direction: row;
-    height: 25dvh;
+    min-height: 25dvh;
     align-items: center;
     justify-content: space-around;
     padding: 1rem;

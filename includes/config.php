@@ -20,15 +20,14 @@ $header_logo = "<img id=\"header-img\" src=\"assets/logo.svg\" alt=\"Logo de la 
 $header_text = "<h1>Maison de l'Emploi</h1><h2>Ile de Noirmoutier</h2>";
 
 $footer_text_gauche = "<p><strong>Maison de l'Emploi - France services de l'île de Noirmoutier</strong></p>
-                    <p>(Service de la Communauté de Communes)<br>
-                    11 rue de la Prée-au-Duc<br>
+                    <p>11 rue de la Prée-au-Duc<br>
                     85330 Noirmoutier en l’île<br>
                     02 51 39 32 18<br>
                     emploi@iledenoirmoutier.org<br>
                     <p><strong>Horaires d’ouverture au public</strong></p>
                     <p>Lundi, mardi, jeudi : 8h30 à 12h / 13h15 à 17h<br>
                     Mercredi et vendredi : 8h30 à 12h</p>
-                    <a href=\"https://www.cdc-iledenoirmoutier.com/emploi-et-evolution-professionnelle\" target=\"_blank\"><p>Emploi et évolution professionnelle | Noirmoutier Communauté de Communes</p></a>";
+                    <p>🔗 <a href=\"https://www.cdc-iledenoirmoutier.com/emploi-et-evolution-professionnelle\" target=\"_blank\">Emploi et évolution professionnelle | Noirmoutier Communauté de Communes</a></p>";
 $footer_img_droite = "<img id=\"footer-img\" src=\"assets/logo.svg\" alt=\"Logo de la maison d'emploi de Noirmoutier\">";
 
 // communes to add here, an array with correct names, and value from db. Need to change filter function, display checkboxes

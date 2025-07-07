@@ -389,7 +389,7 @@ function creerHtmlListe(&$offres)
                         </div>
                         <div class=\"job-list-row\">
                             <span class='material-symbols-outlined'>clarify</span>
-                            <p>" . substr($offre['Description'], 0, 300) . "...</p>
+                            <p>" . mb_substr($offre['Description'], 0, 300) . "...</p>
                         </div>
                     </div>
                     <div class=\"job-list-item-right\">
