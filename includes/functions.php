@@ -83,7 +83,8 @@ function filtrerOffres(array $toutes_offres, array $params)
                 (isset($offre["LibSOC"]) && stripos($offre["LibSOC"], $params["mot-cle"]) !== false) or // Added isset checks
                 (isset($offre["formation"]) && stripos($offre["formation"], $params["mot-cle"]) !== false) or // Added isset checks
                 (isset($offre["langues"]) && stripos($offre["langues"], $params["mot-cle"]) !== false) or // Added isset checks
-                (isset($offre["salaire"]) && stripos($offre["salaire"], $params["mot-cle"]) !== false)); // Added isset checks
+                (isset($offre["salaire"]) && stripos($offre["salaire"], $params["mot-cle"]) !== false) or // Added isset checks
+                (isset($offre["NumOffre"]) && stripos($offre["NumOffre"], $params["mot-cle"]) !== false)); // Added isset checks
         }
         // Selon commune
         if (
