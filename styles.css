@@ -10,7 +10,7 @@
     --border-colour: 2px solid var(--accent);
 
     /* BUTTONS */
-    --button: var(--background);
+    --button: rgb(229, 248, 252);
     --button-hover: var(--text);
     --button-click: var(--background);
     --button-text: var(--text);
