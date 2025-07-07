@@ -43,7 +43,7 @@ if ($serializedEvenements === false) {
 if (file_put_contents($cacheEvenements, $serializedEvenements) === false) {
     die('Error writing cache file: ' . error_get_last()['message'] . "<br><br>");
 }
-echo "Professions cache reussi: " . $cacheEvenements . "<br><br>";
+echo "Evenements cache reussi: " . $cacheEvenements . "<br><br>";
 
 // NETTOYAGE DE COMPTEUR - Suppression des annonces qui n'existent plus
 // Charger les vues actuelles
