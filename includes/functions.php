@@ -389,7 +389,7 @@ function creerHtmlListe(&$offres)
                         </div>
                         <div class=\"job-list-row\">
                             <span class='material-symbols-outlined'>clarify</span>
-                            <p>" . mb_substr($offre['Description'], 0, 300) . "...</p>
+                            <p>" . utf8_substr($offre['Description'], 0, 300) . "...</p>
                         </div>
                     </div>
                     <div class=\"job-list-item-right\">
@@ -520,4 +520,20 @@ function incrementerVues($num_offre)
     $dbaccess->enregistrerVues($data_compteur_offres);
 
     return $data_compteur_offres;
+}
+
+/**
+ * Fonction pour couper une chaîne sans l'extension mbstring qui n'était pas dispo sur le serveur
+ * @param string $str
+ * @param int $start
+ * @param int $length
+ * @return string
+ */
+function utf8_substr(string $str, int $start, int $length = null): string
+{
+    // Split into an array of code points
+    $chars = preg_split('//u', $str, -1, PREG_SPLIT_NO_EMPTY);
+
+    $slice = array_slice($chars, $start, $length);
+    return implode('', $slice);
 }
