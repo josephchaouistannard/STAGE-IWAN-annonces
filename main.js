@@ -220,5 +220,5 @@ const offresParPage = 10;
 document.addEventListener('DOMContentLoaded', function () {
     changerSubmit();
     remplirFormulaire();
-    setupPagination();
+    // setupPagination();
 })
