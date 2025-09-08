@@ -25,7 +25,7 @@ $footer_text_gauche = "<p><strong>Maison de l'Emploi - France services de l'île
                     02 51 39 32 18<br>
                     emploi@iledenoirmoutier.org<br>
                     <p><strong>Horaires d’ouverture au public</strong></p>
-                    <p>Lundi, mardi, jeudi : 8h30 à 12h / 13h15 à 17h<br>
+                    <p>Lundi, mardi, jeudi : 8h30 à 12h / 13h15 à 16h30<br>
                     Mercredi et vendredi : 8h30 à 12h</p>
                     <p>🔗 <a href=\"https://www.cdc-iledenoirmoutier.com/emploi-et-evolution-professionnelle\" target=\"_blank\">Emploi et évolution professionnelle | Noirmoutier Communauté de Communes</a></p>";
 $footer_img_droite = "<img id=\"footer-img\" src=\"assets/logo.svg\" alt=\"Logo de la maison d'emploi de Noirmoutier\">";
