@@ -75,16 +75,21 @@ function filtrerOffres(array $toutes_offres, array $params)
         }
         // Mot clé dans CERTAINS CHAMPS SEULEMENT
         if (isset($params["mot-cle"]) and $params["mot-cle"] !== "") {
+            // ignorer apostrohpe dans recherche
+            $motcle_propre = str_replace("'", "", $params["mot-cle"]);
+
+            // pour chaque comparaison, ignorer les apostrphes dans les données
             $motcle = (
-                (isset($offre["LibPoste"]) && stripos($offre["LibPoste"], $params["mot-cle"]) !== false) or 
-                (isset($offre["Description"]) && stripos($offre["Description"], $params["mot-cle"]) !== false) or 
-                (isset($offre["Ville"]) && stripos($offre["Ville"], $params["mot-cle"]) !== false) or 
-                (isset($offre["horaire"]) && stripos($offre["horaire"], $params["mot-cle"]) !== false) or 
-                (isset($offre["LibSOC"]) && stripos($offre["LibSOC"], $params["mot-cle"]) !== false) or 
-                (isset($offre["formation"]) && stripos($offre["formation"], $params["mot-cle"]) !== false) or 
-                (isset($offre["langues"]) && stripos($offre["langues"], $params["mot-cle"]) !== false) or 
-                (isset($offre["salaire"]) && stripos($offre["salaire"], $params["mot-cle"]) !== false) or 
-                (isset($offre["NumOffre"]) && stripos($offre["NumOffre"], $params["mot-cle"]) !== false)); 
+                (isset($offre["LibPoste"]) && stripos(str_replace("'", "", $offre["LibPoste"]), $motcle_propre) !== false) or
+                (isset($offre["Description"]) && stripos(str_replace("'", "", $offre["Description"]), $motcle_propre) !== false) or
+                (isset($offre["Ville"]) && stripos(str_replace("'", "", $offre["Ville"]), $motcle_propre) !== false) or
+                (isset($offre["horaire"]) && stripos(str_replace("'", "", $offre["horaire"]), $motcle_propre) !== false) or
+                (isset($offre["LibSOC"]) && stripos(str_replace("'", "", $offre["LibSOC"]), $motcle_propre) !== false) or
+                (isset($offre["formation"]) && stripos(str_replace("'", "", $offre["formation"]), $motcle_propre) !== false) or
+                (isset($offre["langues"]) && stripos(str_replace("'", "", $offre["langues"]), $motcle_propre) !== false) or
+                (isset($offre["salaire"]) && stripos(str_replace("'", "", $offre["salaire"]), $motcle_propre) !== false) or
+                (isset($offre["NumOffre"]) && stripos(str_replace("'", "", $offre["NumOffre"]), $motcle_propre) !== false)
+            );
         }
         // Selon commune
         if (
@@ -339,11 +344,11 @@ function validerParamsFiltrage()
     $params['hebergement'] = isset($_GET['hebergement']);
 
     // Nettoyer les valeurs
-    $params['contrat'] = htmlspecialchars(trim($params['contrat']));
-    $params['profession'] = htmlspecialchars(trim($params['profession']));
-    $params['duree'] = htmlspecialchars(trim($params['duree']));
-    $params['evenement'] = htmlspecialchars(trim($params['evenement']));
-    $params['mot-cle'] = htmlspecialchars(trim($params['mot-cle']));
+    $params['contrat'] = (trim($params['contrat']));
+    $params['profession'] = (trim($params['profession']));
+    $params['duree'] = (trim($params['duree']));
+    $params['evenement'] = (trim($params['evenement']));
+    $params['mot-cle'] = (trim($params['mot-cle']));
 
     return $params;
 }
