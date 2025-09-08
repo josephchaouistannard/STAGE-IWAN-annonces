@@ -76,15 +76,15 @@ function filtrerOffres(array $toutes_offres, array $params)
         // Mot clé dans CERTAINS CHAMPS SEULEMENT
         if (isset($params["mot-cle"]) and $params["mot-cle"] !== "") {
             $motcle = (
-                (isset($offre["LibPoste"]) && stripos($offre["LibPoste"], $params["mot-cle"]) !== false) or // Added isset checks
-                (isset($offre["Description"]) && stripos($offre["Description"], $params["mot-cle"]) !== false) or // Added isset checks
-                (isset($offre["Ville"]) && stripos($offre["Ville"], $params["mot-cle"]) !== false) or // Added isset checks
-                (isset($offre["horaire"]) && stripos($offre["horaire"], $params["mot-cle"]) !== false) or // Added isset checks
-                (isset($offre["LibSOC"]) && stripos($offre["LibSOC"], $params["mot-cle"]) !== false) or // Added isset checks
-                (isset($offre["formation"]) && stripos($offre["formation"], $params["mot-cle"]) !== false) or // Added isset checks
-                (isset($offre["langues"]) && stripos($offre["langues"], $params["mot-cle"]) !== false) or // Added isset checks
-                (isset($offre["salaire"]) && stripos($offre["salaire"], $params["mot-cle"]) !== false) or // Added isset checks
-                (isset($offre["NumOffre"]) && stripos($offre["NumOffre"], $params["mot-cle"]) !== false)); // Added isset checks
+                (isset($offre["LibPoste"]) && stripos($offre["LibPoste"], $params["mot-cle"]) !== false) or 
+                (isset($offre["Description"]) && stripos($offre["Description"], $params["mot-cle"]) !== false) or 
+                (isset($offre["Ville"]) && stripos($offre["Ville"], $params["mot-cle"]) !== false) or 
+                (isset($offre["horaire"]) && stripos($offre["horaire"], $params["mot-cle"]) !== false) or 
+                (isset($offre["LibSOC"]) && stripos($offre["LibSOC"], $params["mot-cle"]) !== false) or 
+                (isset($offre["formation"]) && stripos($offre["formation"], $params["mot-cle"]) !== false) or 
+                (isset($offre["langues"]) && stripos($offre["langues"], $params["mot-cle"]) !== false) or 
+                (isset($offre["salaire"]) && stripos($offre["salaire"], $params["mot-cle"]) !== false) or 
+                (isset($offre["NumOffre"]) && stripos($offre["NumOffre"], $params["mot-cle"]) !== false)); 
         }
         // Selon commune
         if (
