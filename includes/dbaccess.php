@@ -5,6 +5,9 @@
  * Contient une méthode pour obtenir toutes les offres, non triées et sans préparation de présentation html etc
  * Et des methodes pour lire et enregistrer le fichier json du compteur de vues
  */
+
+require_once __DIR__ . "/config.php";
+
 class Dbaccess
 {
     /**
@@ -13,14 +16,13 @@ class Dbaccess
      */
     function chargerToutesOffresJSON()
     {
-        $chemin_min = dirname(__DIR__) . "/NOIRMOUTIER-PHP.json";
-        $chemin_maj = dirname(__DIR__) . "/NOIRMOUTIER-PHP.JSON";
+        global $chemin_db_min, $chemin_db_maj;
 
-        $contenu_fichier = file_get_contents($chemin_min);
+        $contenu_fichier = file_get_contents($chemin_db_min);
 
         // Si .json ne marche pas, essaie .JSON
         if ($contenu_fichier === false || $contenu_fichier === '') {
-            $contenu_fichier = file_get_contents($chemin_maj);
+            $contenu_fichier = file_get_contents($chemin_db_maj);
         }
 
         $data = json_decode($contenu_fichier, true);

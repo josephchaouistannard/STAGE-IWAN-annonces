@@ -12,6 +12,9 @@ $cacheEvenements = __DIR__ . '/../cache/evenements.cache';
 
 
 // CONTENU A CUSTOMISER
+$chemin_db_min = dirname(__DIR__) . "/NOIRMOUTIER-PHP.json";
+$chemin_db_maj = dirname(__DIR__) . "/NOIRMOUTIER-PHP.JSON";
+
 $index_page_titre = "Consultation des Offres";
 $index_et_offre_page_description = "Consulter les offres d'emploi de l'île de Noirmoutier";
 
