@@ -12,6 +12,9 @@ $toutes_offres = traiterOffresJSON($toutes_offres_non_traitees);
 // Les professions uninques à partir des offres du JSON
 $professions_uniques = creerHtmlProfessionsUniques($toutes_offres);
 
+// Les durees à partir des offres du json
+$durees = creerHtmlDurees($toutes_offres);
+
 // Les evenements à partir du json
 $evenements = creerHtmlEvenements($toutes_offres);
 
@@ -34,6 +37,16 @@ if (file_put_contents($cacheProfessions, $serializedProfessions) === false) {
     die('Error writing cache file: ' . error_get_last()['message'] . "<br><br>");
 }
 echo "Professions cache reussi: " . $cacheProfessions . "<br><br>";
+
+// --- CACHING durees ---
+$serializedDurees = serialize($durees);
+if ($serializedDurees === false) {
+    die('Error serializing data.' . "<br><br>");
+}
+if (file_put_contents($cacheDurees, $serializedDurees) === false) {
+    die('Error writing cache file: ' . error_get_last()['message'] . "<br><br>");
+}
+echo "Duree cache reussi: " . $cacheDurees . "<br><br>";
 
 // --- CACHING evenements ---
 $serializedEvenements = serialize($evenements);
