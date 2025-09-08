@@ -4,6 +4,7 @@ require_once "includes/functions.php"; // Functions utilitaires communes  (conti
 
 $toutes_offres = getToutesOffres();
 $professions_uniques = getProfessionsUniques();
+$durees = getDureesUniques();
 $evenements = getEvenements();
 // Filtrage selon requête GET
 $offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
@@ -66,25 +67,7 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
             </div>
             <div class="form-row"><label for="duree">Durée</label>
                 <select class="filters-form-select" name="duree" id="duree">
-                    <option value="tous" selected>Toutes durées</option>
-                    <option value="1 jour">1 jour</option>
-                    <option value="5 semaines">5 semaines</option>
-                    <option value="1 mois">1 mois</option>
-                    <option value="1.5 mois">1.5 mois</option>
-                    <option value="2 mois">2 mois</option>
-                    <option value="2.5 mois">2.5 mois</option>
-                    <option value="3 mois">3 mois</option>
-                    <option value="3.5 mois">3.5 mois</option>
-                    <option value="4 mois">4 mois</option>
-                    <option value="4.5 mois">4.5 mois</option>
-                    <option value="5 mois">5 mois</option>
-                    <option value="5.5 mois">5.5 mois</option>
-                    <option value="6 mois">6 mois</option>
-                    <option value="6.5 mois">6.5 mois</option>
-                    <option value="7 mois">7 mois</option>
-                    <option value="8 mois">8 mois</option>
-                    <option value="A l'année">A l'année</option>
-                    <option value="CDI">CDI</option>
+                    <?= $durees ?>
                 </select>
             </div>
             <div class="form-row"><label for="evenement">Evénement</label>
