@@ -9,6 +9,7 @@ $ageMaxCache = 18000;
 $cacheProfessions = __DIR__ . '/../cache/professionUniques.cache';
 $cacheOffres = __DIR__ . '/../cache/toutesOffres.cache';
 $cacheEvenements = __DIR__ . '/../cache/evenements.cache';
+$cacheDurees = __DIR__ . '/../cache/durees.cache';
 
 
 // CONTENU A CUSTOMISER

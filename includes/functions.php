@@ -193,6 +193,57 @@ function creerHtmlProfessionsUniques($toutes_offres)
 }
 
 /**
+ *  * Genère un string contenant des elements <option> pour chaque duree trouvée, dans l'ordre defini dans la fonction.
+ * @param mixed $toutes_offres
+ * @return string
+ */
+function creerHtmlDurees($toutes_offres)
+{
+    // Durées possible dans l'ordre
+    $durees_possibles = [
+        "1 jour",
+        "5 semaines", 
+        "1 mois",
+        "1.5 mois",
+        "2 mois",
+        "2.5 mois",
+        "3 mois",
+        "3.5 mois",
+        "4 mois",
+        "4.5 mois",
+        "5 mois",
+        "5.5 mois",
+        "6 mois",
+        "6.5 mois",
+        "7 mois",
+        "8 mois",
+        "A l'année",
+        "CDI"
+    ];
+
+    // Prendre toutes les durees (même les duplicates)
+    foreach ($toutes_offres as $offre) {
+        $durees_dans_offres[] = $offre["DureeContrat"];
+    }
+
+    // Prendre que les durees uniques
+    $durees_dans_offres = array_unique($durees_dans_offres);
+
+    // Creer code html
+    $string_options_html = "<option value=\"tous\" selected>Toutes durées</option>";
+
+    // Parcourir les durées dans l'ordre souhaité
+    foreach ($durees_possibles as $duree) {
+        // Ajouter l'option seulement si cette durée existe dans les offres
+        if (in_array($duree, $durees_dans_offres)) {
+            $string_options_html .= "<option value=\"$duree\">$duree</option>";
+        }
+    }
+
+    return $string_options_html;
+}
+
+/**
  * Charge le code html du <select> professions en cache recente ou le reproduit à partir du JSON et le stocke en cache
  * @return string string de html à afficher
  */
@@ -237,6 +288,52 @@ function getProfessionsUniques()
         }
     }
     return $professions_html;
+}
+
+/**
+ *  * Charge le code html du <select> durees en cache recente ou le reproduit à partir du JSON et le stocke en cache
+ * @return string
+ */
+function getDureesUniques() {
+    global $ageMaxCache, $cacheDurees;
+
+    $durees_html = "";
+    $utiliser_cache = false;
+
+    // --- Essayer de charger à partir du cache ---
+    if (file_exists($cacheDurees) && is_readable($cacheDurees)) {
+        $cacheModifiedTime = filemtime($cacheDurees);
+        $currentTime = time();
+
+        // Verifie si cache est recent
+        if ($cacheModifiedTime !== false && ($currentTime - $cacheModifiedTime) < $ageMaxCache) {
+            $cachedData = file_get_contents($cacheDurees);
+            if ($cachedData !== false) {
+                $unserializedData = @unserialize($cachedData);
+
+                // Verifie la déserialisation et que les donnees sont dans la bonne format
+                if ($unserializedData !== false && is_string($unserializedData)) {
+                    $durees_html = $unserializedData;
+                    $utiliser_cache = true;
+                }
+            }
+        }
+    }
+
+    // --- Autrement chargement et préparation à partir du json et stockage en cache ---
+    if (!$utiliser_cache) {
+        // Obtention de toutes les offres d'emploi du JSON
+        global $dbaccess;
+        $toutes_offres_non_traitees = $dbaccess->chargerToutesOffresJSON();
+        $durees_html = creerHtmlDurees($toutes_offres_non_traitees);
+
+        // After successfully loading from DB and processing, save to cache
+        if (!empty($durees_html)) {
+            $serializedData = serialize($durees_html);
+            file_put_contents($cacheDurees, $serializedData);
+        }
+    }
+    return $durees_html;
 }
 
 /**

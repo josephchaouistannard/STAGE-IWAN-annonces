@@ -5,4 +5,5 @@ NOIRMOUTIER-PHP.JSON
 cache/professionUniques.cache
 cache/toutesOffres.cache
 cache/evenements.cache
+cache/duree.cache
 servephp.bat
