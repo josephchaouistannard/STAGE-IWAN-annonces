@@ -82,17 +82,7 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
             <div class="form-row">
                 <div id="container-villes">
                     <h5>Filtrez par commune :</h5>
-                    <input type="checkbox" id="noirmoutier" name="noirmoutier" value="1">
-                    <label for="noirmoutier">Noirmoutier-en-l'île</label>
-                    <br>
-                    <input type="checkbox" id="epine" name="epine" value="1">
-                    <label for="epine">L'Epine</label>
-                    <br>
-                    <input type="checkbox" id="gueriniere" name="gueriniere" value="1">
-                    <label for="gueriniere">La Guérinière</label>
-                    <br>
-                    <input type="checkbox" id="barbatre" name="barbatre" value="1">
-                    <label for="barbatre">Barbâtre</label>
+                    <?php echo creerHtmlCommunes() ?>
                 </div>
             </div>
             <div class="form-row" id="hebergement-container">

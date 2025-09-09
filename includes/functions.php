@@ -92,6 +92,7 @@ function filtrerOffres(array $toutes_offres, array $params)
             );
         }
         // Selon commune
+        // todo change fiters to work with new variable
         if (
             $params["epine"] || $params["noirmoutier"] || $params["gueriniere"] || $params["barbatre"]
         ) {
@@ -639,4 +640,25 @@ function utf8_substr(string $str, int $start, int $length = null): string
 
     $slice = array_slice($chars, $start, $length);
     return implode('', $slice);
+}
+
+/**
+ * Genère un string contenant le html des cases à cocher pour chaque commune.
+ * @param mixed $toutes_offres les offes avant filtrage
+ * @return string code html
+ */
+function creerHtmlCommunes()
+{
+    global $communes;
+    // Creer code html    
+    $string_communes_html = "";
+    foreach ($communes as $bdd => $affichage) {
+        $string_communes_html .= "
+        <input type=\"checkbox\" id=\"$bdd\" name=\"communes[$bdd]\" value=\"1\">
+        <label for=\"$bdd\">$affichage</label>
+        <br>
+        ";
+    }
+
+    return $string_communes_html;
 }

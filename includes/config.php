@@ -21,7 +21,7 @@ $communes = [
     "NOIRMOUTIER EN L ILE" => "Noirmoutier-en-l'île",
     "L EPINE" => "L'Epine",
     "LA GUERINIERE" => "La Guerinière",
-    "BARBATRE" => "Barbâtre"
+    "BARBATRE" => "Barbâtre",
 ];
 
 $index_page_titre = "Consultation des Offres";
