@@ -661,28 +661,36 @@ function creerHtmlGroupesGeographique()
     return $string_groupe_html;
 }
 
-function temp() {
-
-
-        // Obtention de toutes les offres d'emploi du JSON
-        global $dbaccess;
-        $toutes_offres = $dbaccess->chargerToutesOffresJSON();
-
-            // Prendre toutes les professions (même les duplicates)
+function getGroupesGeographiquesUniques() {
+    // Obtention de toutes les offres d'emploi du JSON
+    global $dbaccess;
+    $toutes_offres = $dbaccess->chargerToutesOffresJSON();
+    
+    $groupes = array();
+    
+    // Prendre toutes les professions (même les duplicates)
     foreach ($toutes_offres as $offre) {
-        $groupes[] = $offre["GroupeGeographique"];
+        // Split the GroupeGeographique by # delimiter
+        $groupes_individuels = explode('#', $offre["GroupeGeographique"]);
+        
+        // Add each individual group to our array
+        foreach ($groupes_individuels as $groupe) {
+            // Trim whitespace and only add non-empty groups
+            $groupe = trim($groupe);
+            if (!empty($groupe)) {
+                $groupes[] = $groupe;
+            }
+        }
     }
-
+    
     // Prendre que les professions uniques
     $groupes = array_unique($groupes);
-
-
+    
     // Creer code html
-    $string = "";
+    $string = "\$groupes_geographiques = [<br>";
     foreach ($groupes as $groupe) {
         $string .= "$groupe => \"\",<br>";
     }
+    $string .= "]";
     return $string;
 }
-
-echo temp();
