@@ -161,17 +161,17 @@ function remplirFormulaire() {
         motcleElement.value = motcleSelected;
     }
 
-    // Gestion des cases à cocher pour chaque commune
+    // Gestion des cases à cocher pour chaque groupe géographique
     for (const [key, value] of params.entries()) {
-        // Trouver parametre communes
-        if (key.startsWith('communes[') && key.endsWith(']')) {
-            // Extraire nom de commune de communes[NOM]
-            const communeName = key.slice(9, -1);
+        // Trouver parametre groupe géographiques
+        if (key.startsWith('geo[') && key.endsWith(']')) {
+            // Extraire nom de groupe géographique de geo[NOM]
+            const groupeName = key.slice(4, -1);
             
             // Cocher la case correspondante
-            const communeElement = document.getElementById(communeName);
-            if (communeElement && value === '1') {
-                communeElement.checked = true;
+            const groupeElement = document.getElementById(groupeName);
+            if (groupeElement && value === '1') {
+                groupeElement.checked = true;
             }
         }
     }

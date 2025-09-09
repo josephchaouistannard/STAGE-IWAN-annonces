@@ -436,7 +436,7 @@ function validerParamsFiltrage()
     $params['duree'] = $_GET['duree'] ?? 'tous';
     $params['evenement'] = $_GET['evenement'] ?? 'tous';
     $params['mot-cle'] = $_GET['mot-cle'] ?? '';
-    $params['communes'] = $_GET['communes'] ?? [];
+    $params['geo'] = $_GET['geo'] ?? [];
     $params['hebergement'] = isset($_GET['hebergement']);
 
     // Nettoyer les valeurs
@@ -641,24 +641,24 @@ function utf8_substr(string $str, int $start, int $length = null): string
 }
 
 /**
- * Genère un string contenant le html des cases à cocher pour chaque commune.
+ * Genère un string contenant le html des cases à cocher pour chaque groupe géographique.
  * @param mixed $toutes_offres les offes avant filtrage
  * @return string code html
  */
-function creerHtmlCommunes()
+function creerHtmlGroupesGeographique()
 {
     global $groupes_geographiques;
     // Creer code html    
-    $string_communes_html = "";
+    $string_groupe_html = "";
     foreach ($groupes_geographiques as $bdd => $affichage) {
-        $string_communes_html .= "
-        <input type=\"checkbox\" id=\"$bdd\" name=\"communes[$bdd]\" value=\"1\">
+        $string_groupe_html .= "
+        <input type=\"checkbox\" id=\"$bdd\" name=\"geo[$bdd]\" value=\"1\">
         <label for=\"$bdd\">$affichage</label>
         <br>
         ";
     }
 
-    return $string_communes_html;
+    return $string_groupe_html;
 }
 
 function temp() {

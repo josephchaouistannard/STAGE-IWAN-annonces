@@ -82,7 +82,7 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
             <div class="form-row">
                 <div id="container-villes">
                     <h5>Filtrez par commune :</h5>
-                    <?php echo creerHtmlCommunes() ?>
+                    <?php echo creerHtmlGroupesGeographique() ?>
                 </div>
             </div>
             <div class="form-row" id="hebergement-container">
