@@ -92,19 +92,20 @@ function filtrerOffres(array $toutes_offres, array $params)
             );
         }
         // Selon commune
-        // todo change fiters to work with new variable
-        if (
-            $params["epine"] || $params["noirmoutier"] || $params["gueriniere"] || $params["barbatre"]
-        ) {
+        // Updated filtering logic for dynamic communes
+        if (isset($params["communes"]) && !empty($params["communes"])) {
             $commune = false;
-            if ($params["epine"] && isset($offre["Ville"]) && stripos($offre["Ville"], "L EPINE") !== false) { // Added isset check
-                $commune = true;
-            } elseif ($params["noirmoutier"] && isset($offre["Ville"]) && stripos($offre["Ville"], "NOIRMOUTIER EN L ILE") !== false) { // Added isset check
-                $commune = true;
-            } elseif ($params["gueriniere"] && isset($offre["Ville"]) && stripos($offre["Ville"], "LA GUERINIERE") !== false) { // Added isset check
-                $commune = true;
-            } elseif ($params["barbatre"] && isset($offre["Ville"]) && stripos($offre["Ville"], "BARBATRE") !== false) { // Added isset check
-                $commune = true;
+            
+            foreach ($params["communes"] as $ville_name => $value) {
+                if ($value && isset($offre["Ville"])) {
+                    // URL decode the ville name (handles %20 -> space conversion)
+                    $ville_name = urldecode($ville_name);
+                    
+                    if (stripos($offre["Ville"], $ville_name) !== false) {
+                        $commune = true;
+                        break; // Exit loop once we find a match
+                    }
+                }
             }
         }
         if ($params["hebergement"]) {
@@ -435,10 +436,7 @@ function validerParamsFiltrage()
     $params['duree'] = $_GET['duree'] ?? 'tous';
     $params['evenement'] = $_GET['evenement'] ?? 'tous';
     $params['mot-cle'] = $_GET['mot-cle'] ?? '';
-    $params['epine'] = isset($_GET['epine']);
-    $params['noirmoutier'] = isset($_GET['noirmoutier']);
-    $params['gueriniere'] = isset($_GET['gueriniere']);
-    $params['barbatre'] = isset($_GET['barbatre']);
+    $params['communes'] = $_GET['communes'] ?? [];
     $params['hebergement'] = isset($_GET['hebergement']);
 
     // Nettoyer les valeurs
