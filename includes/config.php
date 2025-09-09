@@ -13,15 +13,25 @@ $cacheDurees = __DIR__ . '/../cache/durees.cache';
 
 
 // CONTENU A CUSTOMISER
-$chemin_db_min = dirname(__DIR__) . "/SAVENAY-PHP.json";
-$chemin_db_maj = dirname(__DIR__) . "/SAVENAY-PHP.JSON";
+$chemin_db_min = dirname(__DIR__) . "/NOIRMOUTIER-PHP.json";
+$chemin_db_maj = dirname(__DIR__) . "/NOIRMOUTIER-PHP.JSON";
+// $chemin_db_min = dirname(__DIR__) . "/SAVENAY-PHP.json";
+// $chemin_db_maj = dirname(__DIR__) . "/SAVENAY-PHP.JSON";
 
 // Liste de communes dans format COMMUNE BDD => COMMUNE AFFICHAGE (pour filtres)
 $groupes_geographiques = [
-    "Département" => "Département",
-    "Comcom" => "Communauté de Communes",
-    "Bassin Nazérien" => "Bassin Nazérien",
+"ILE NOIRMOUTIER" => "L'île Noirmoûtier",
+"La Guérinière" => "La Guérinière",
+"Noirmoutier-en-l'île" => " Noirmoutier-en-l'île",
+"Barbâtre" => " Barbâtre",
+"L'Epine" => " L'Epine",
 ];
+// $groupes_geographiques = [
+// "Département" => "Département",
+// "Comcom" => "Communauté de Communes",
+// "Bassin Nazérien" => "Bassin Nazérien",
+// "- 30 min" => "Moins de 30 minutes",
+// ];
 
 $index_page_titre = "Consultation des Offres";
 $index_et_offre_page_description = "Consulter les offres d'emploi de l'île de Noirmoutier";

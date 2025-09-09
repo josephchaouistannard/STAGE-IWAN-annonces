@@ -91,7 +91,7 @@ function filtrerOffres(array $toutes_offres, array $params)
                 (isset($offre["NumOffre"]) && stripos(str_replace("'", "", $offre["NumOffre"]), $motcle_propre) !== false)
             );
         }
-        // Selon commune
+        // Selon groupe geographique
         if (isset($params["geo"]) && !empty($params["geo"])) {
             $groupe_geo = false;
             
@@ -694,8 +694,8 @@ function getGroupesGeographiquesUniques() {
     // Creer code html
     $string = "\$groupes_geographiques = [<br>";
     foreach ($groupes as $groupe) {
-        $string .= "$groupe => \"\",<br>";
+        $string .= "\"$groupe\" => \"\",<br>";
     }
-    $string .= "]";
+    $string .= "];";
     return $string;
 }
