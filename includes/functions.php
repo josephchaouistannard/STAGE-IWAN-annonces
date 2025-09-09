@@ -50,7 +50,7 @@ function filtrerOffres(array $toutes_offres, array $params)
         $profession = true;
         $evenement = true;
         $motcle = true;
-        $commune = true;
+        $groupe_geo = true;
         $hebergement = true;
         $duree = true;
         // Selon type de contrat
@@ -92,18 +92,23 @@ function filtrerOffres(array $toutes_offres, array $params)
             );
         }
         // Selon commune
-        // Updated filtering logic for dynamic communes
-        if (isset($params["communes"]) && !empty($params["communes"])) {
-            $commune = false;
+        if (isset($params["geo"]) && !empty($params["geo"])) {
+            $groupe_geo = false;
             
-            foreach ($params["communes"] as $ville_name => $value) {
-                if ($value && isset($offre["Ville"])) {
+            foreach ($params["geo"] as $groupe => $valeur) {
+                if ($valeur && isset($offre["GroupeGeographique"])) {
                     // URL decode the ville name (handles %20 -> space conversion)
-                    $ville_name = urldecode($ville_name);
-                    
-                    if (stripos($offre["Ville"], $ville_name) !== false) {
-                        $commune = true;
-                        break; // Exit loop once we find a match
+                    $groupe = urldecode($groupe);
+
+                    $groupes_offre = explode('#', $offre["GroupeGeographique"]);
+
+                    foreach ($groupes_offre as $groupe_offre) {
+                        $groupe_offre = trim($groupe_offre);
+
+                        if (stripos($groupe_offre, $groupe) !== false) {
+                            $groupe_geo = true;
+                            break 2;
+                        }
                     }
                 }
             }
@@ -116,7 +121,7 @@ function filtrerOffres(array $toutes_offres, array $params)
                 $hebergement = false; // If key doesn't exist, it doesn't match the filter
             }
         }
-        return $contrat && $profession && $evenement && $motcle && $commune && $hebergement && $duree;
+        return $contrat && $profession && $evenement && $motcle && $groupe_geo && $hebergement && $duree;
     });
     return $offres_filtrees;
 }
