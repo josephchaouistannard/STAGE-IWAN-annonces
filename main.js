@@ -161,28 +161,19 @@ function remplirFormulaire() {
         motcleElement.value = motcleSelected;
     }
 
-    const noirmoutierSelected = params.get('noirmoutier');
-    const noirmoutierElement = document.getElementById('noirmoutier');
-    if (noirmoutierSelected && noirmoutierElement) {
-        noirmoutierElement.checked = noirmoutierSelected === noirmoutierElement.value;
-    }
-
-    const epineSelected = params.get('epine');
-    const epineElement = document.getElementById('epine');
-    if (epineSelected && epineElement) {
-        epineElement.checked = epineSelected === epineElement.value;
-    }
-
-    const gueriniereSelected = params.get('gueriniere');
-    const gueriniereElement = document.getElementById('gueriniere');
-    if (gueriniereSelected && gueriniereElement) {
-        gueriniereElement.checked = gueriniereSelected === gueriniereElement.value;
-    }
-
-    const barbatreSelected = params.get('barbatre');
-    const barbatreElement = document.getElementById('barbatre');
-    if (barbatreSelected && barbatreElement) {
-        barbatreElement.checked = barbatreSelected === barbatreElement.value;
+    // Gestion des cases à cocher pour chaque commune
+    for (const [key, value] of params.entries()) {
+        // Trouver parametre communes
+        if (key.startsWith('communes[') && key.endsWith(']')) {
+            // Extraire nom de commune de communes[NOM]
+            const communeName = key.slice(9, -1);
+            
+            // Cocher la case correspondante
+            const communeElement = document.getElementById(communeName);
+            if (communeElement && value === '1') {
+                communeElement.checked = true;
+            }
+        }
     }
 
     const hebergementSelected = params.get('hebergement');
