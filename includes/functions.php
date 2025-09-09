@@ -647,10 +647,10 @@ function utf8_substr(string $str, int $start, int $length = null): string
  */
 function creerHtmlCommunes()
 {
-    global $communes;
+    global $groupes_geographiques;
     // Creer code html    
     $string_communes_html = "";
-    foreach ($communes as $bdd => $affichage) {
+    foreach ($groupes_geographiques as $bdd => $affichage) {
         $string_communes_html .= "
         <input type=\"checkbox\" id=\"$bdd\" name=\"communes[$bdd]\" value=\"1\">
         <label for=\"$bdd\">$affichage</label>
@@ -660,3 +660,29 @@ function creerHtmlCommunes()
 
     return $string_communes_html;
 }
+
+function temp() {
+
+
+        // Obtention de toutes les offres d'emploi du JSON
+        global $dbaccess;
+        $toutes_offres = $dbaccess->chargerToutesOffresJSON();
+
+            // Prendre toutes les professions (même les duplicates)
+    foreach ($toutes_offres as $offre) {
+        $groupes[] = $offre["GroupeGeographique"];
+    }
+
+    // Prendre que les professions uniques
+    $groupes = array_unique($groupes);
+
+
+    // Creer code html
+    $string = "";
+    foreach ($groupes as $groupe) {
+        $string .= "$groupe => \"\",<br>";
+    }
+    return $string;
+}
+
+echo temp();

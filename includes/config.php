@@ -13,15 +13,14 @@ $cacheDurees = __DIR__ . '/../cache/durees.cache';
 
 
 // CONTENU A CUSTOMISER
-$chemin_db_min = dirname(__DIR__) . "/NOIRMOUTIER-PHP.json";
-$chemin_db_maj = dirname(__DIR__) . "/NOIRMOUTIER-PHP.JSON";
+$chemin_db_min = dirname(__DIR__) . "/SAVENAY-OFFRE.json";
+$chemin_db_maj = dirname(__DIR__) . "/SAVENAY-OFFRE.JSON";
 
 // Liste de communes dans format COMMUNE BDD => COMMUNE AFFICHAGE (pour filtres)
-$communes = [
-    "NOIRMOUTIER EN L ILE" => "Noirmoutier-en-l'île",
-    "L EPINE" => "L'Epine",
-    "LA GUERINIERE" => "La Guerinière",
-    "BARBATRE" => "Barbâtre",
+$groupes_geographiques = [
+    "Département" => "Département",
+    "Comcom" => "Communauté de Communes",
+    "Bassin Nazérien" => "Bassin Nazérien",
 ];
 
 $index_page_titre = "Consultation des Offres";
