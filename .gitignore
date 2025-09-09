@@ -9,3 +9,5 @@ cache/toutesOffres.cache
 cache/evenements.cache
 cache/durees.cache
 servephp.bat
+deployScript.bat
+deploy/*

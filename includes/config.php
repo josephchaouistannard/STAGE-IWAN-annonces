@@ -13,8 +13,8 @@ $cacheDurees = __DIR__ . '/../cache/durees.cache';
 
 
 // CONTENU A CUSTOMISER
-$chemin_db_min = dirname(__DIR__) . "/SAVENAY-OFFRE.json";
-$chemin_db_maj = dirname(__DIR__) . "/SAVENAY-OFFRE.JSON";
+$chemin_db_min = dirname(__DIR__) . "/SAVENAY-PHP.json";
+$chemin_db_maj = dirname(__DIR__) . "/SAVENAY-PHP.JSON";
 
 // Liste de communes dans format COMMUNE BDD => COMMUNE AFFICHAGE (pour filtres)
 $groupes_geographiques = [
