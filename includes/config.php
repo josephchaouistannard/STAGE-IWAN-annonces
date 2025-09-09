@@ -16,6 +16,14 @@ $cacheDurees = __DIR__ . '/../cache/durees.cache';
 $chemin_db_min = dirname(__DIR__) . "/NOIRMOUTIER-PHP.json";
 $chemin_db_maj = dirname(__DIR__) . "/NOIRMOUTIER-PHP.JSON";
 
+// Liste de communes dans format COMMUNE BDD => COMMUNE AFFICHAGE pour filtres
+$communes = [
+    "NOIRMOUTIER EN L ILE" => "Noirmoutier-en-l'île",
+    "L EPINE" => "L'Epine",
+    "LA GUERINIERE" => "La Guerinière",
+    "BARBATRE" => "Barbâtre"
+];
+
 $index_page_titre = "Consultation des Offres";
 $index_et_offre_page_description = "Consulter les offres d'emploi de l'île de Noirmoutier";
 
