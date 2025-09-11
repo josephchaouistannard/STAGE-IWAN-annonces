@@ -18,6 +18,9 @@ $durees = creerHtmlDurees($toutes_offres);
 // Les evenements à partir du json
 $evenements = creerHtmlEvenements($toutes_offres);
 
+// Les types de contrat à partir du json
+$typesDeContrat = creerHtmlTypesDeContrat($toutes_offres);
+
 // --- CACHING toutes_offres ---
 $serializedOffres = serialize($toutes_offres);
 if ($serializedOffres === false) {
@@ -57,6 +60,16 @@ if (file_put_contents($cacheEvenements, $serializedEvenements) === false) {
     die('Error writing cache file: ' . error_get_last()['message'] . "<br><br>");
 }
 echo "Evenements cache reussi: " . $cacheEvenements . "<br><br>";
+
+// --- CACHING types de contrats ---
+$serializedTypes = serialize($typesDeContrat);
+if ($serializedTypes === false) {
+    die('Error serializing data.' . "<br><br>");
+}
+if (file_put_contents($cacheTypesDeContrat, $serializedTypes) === false) {
+    die('Error writing cache file: ' . error_get_last()['message'] . "<br><br>");
+}
+echo "Evenements cache reussi: " . $cacheTypesDeContrat . "<br><br>";
 
 // NETTOYAGE DE COMPTEUR - Suppression des annonces qui n'existent plus
 // Charger les vues actuelles

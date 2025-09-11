@@ -6,6 +6,7 @@ $toutes_offres = getToutesOffres();
 $professions_uniques = getProfessionsUniques();
 $durees = getDureesUniques();
 $evenements = getEvenements();
+$types_de_contrat = getTypesDeContratUniques();
 // Filtrage selon requête GET
 $offres_filtrees = filtrerOffres($toutes_offres, validerParamsFiltrage());
 
@@ -52,11 +53,7 @@ if (isset($_GET['vues']) || isset($_GET['VUES'])) {
             <div class="form-row"><label for="contrat">Contrat</label>
                 <select class="filters-form-select" name="contrat" id="contrat">
                     <option value="tous" selected>Tous</option>
-                    <option value="cdd">CDD</option>
-                    <option value="cdi">CDI</option>
-                    <option value="cesu">CESU</option>
-                    <option value="extra">EXTRA</option>
-                    <option value="saisonnier">CONTRAT SAISONNIER</option>
+                    <?= $types_de_contrat ?>
                 </select>
             </div>
             <div class="form-row"><label for="profession">Profession</label>

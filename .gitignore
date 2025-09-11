@@ -8,6 +8,7 @@ cache/professionUniques.cache
 cache/toutesOffres.cache
 cache/evenements.cache
 cache/durees.cache
+cache/typesDeContrat.cache
 servephp.bat
 deployScript.bat
 deploy/*

@@ -10,6 +10,7 @@ $cacheProfessions = __DIR__ . '/../cache/professionUniques.cache';
 $cacheOffres = __DIR__ . '/../cache/toutesOffres.cache';
 $cacheEvenements = __DIR__ . '/../cache/evenements.cache';
 $cacheDurees = __DIR__ . '/../cache/durees.cache';
+$cacheTypesDeContrat = __DIR__ . '/../cache/typesDeContrat.cache';
 
 
 // CONTENU A CUSTOMISER

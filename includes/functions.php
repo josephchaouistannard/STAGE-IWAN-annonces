@@ -666,6 +666,10 @@ function creerHtmlGroupesGeographique()
     return $string_groupe_html;
 }
 
+/**
+ * Prendre le code html pour les filtres de groupes geographiques du json directement
+ * @return string
+ */
 function getGroupesGeographiquesUniques() {
     // Obtention de toutes les offres d'emploi du JSON
     global $dbaccess;
@@ -688,7 +692,7 @@ function getGroupesGeographiquesUniques() {
         }
     }
     
-    // Prendre que les professions uniques
+    // Prendre que les groupes uniques
     $groupes = array_unique($groupes);
     
     // Creer code html
@@ -698,4 +702,80 @@ function getGroupesGeographiquesUniques() {
     }
     $string .= "];";
     return $string;
+}
+
+
+/**
+ * Genère un string contenant le html du combo pour les types de contrat.
+ * @param mixed $toutes_offres les offes avant filtrage
+ * @return string code html
+ */
+function creerHtmlTypesDeContrat($toutes_offres)
+{
+    // Prendre toutes les professions (même les duplicates)
+    foreach ($toutes_offres as $offre) {
+        $types[] = $offre["TypeContrat"];
+    }
+
+    // Prendre que les professions uniques
+    $types = array_unique($types);
+
+    // Trier par ordre alphabetique
+    sort($types);
+
+    // Creer code html    
+    $string_types_html = "";
+    foreach ($types as $type) {
+        $string_types_html .= "
+        <option value=\"$type\">$type</option>
+        ";
+    }
+
+    return $string_types_html;
+}
+
+/**
+ * Prendre le code html pour le combo de types de contrat, soit de la cache recente, soit du json directement
+ * @return string
+ */
+function getTypesDeContratUniques() {
+    global $ageMaxCache, $cacheTypesDeContrat;
+
+    $types_html = "";
+    $utiliser_cache = false;
+
+    // --- Essayer de charger à partir du cache ---
+    if (file_exists($cacheTypesDeContrat) && is_readable($cacheTypesDeContrat)) {
+        $cacheModifiedTime = filemtime($cacheTypesDeContrat);
+        $currentTime = time();
+
+        // Verifie si cache est recent
+        if ($cacheModifiedTime !== false && ($currentTime - $cacheModifiedTime) < $ageMaxCache) {
+            $cachedData = file_get_contents($cacheTypesDeContrat);
+            if ($cachedData !== false) {
+                $unserializedData = @unserialize($cachedData);
+
+                // Verifie la déserialisation et que les donnees sont dans la bonne format
+                if ($unserializedData !== false && is_string($unserializedData)) {
+                    $types_html = $unserializedData;
+                    $utiliser_cache = true;
+                }
+            }
+        }
+    }
+
+    // --- Autrement chargement et préparation à partir du json et stockage en cache ---
+    if (!$utiliser_cache) {
+        // Obtention de toutes les offres d'emploi du JSON
+        global $dbaccess;
+        $toutes_offres_non_traitees = $dbaccess->chargerToutesOffresJSON();
+        $types_html = creerHtmlDurees($toutes_offres_non_traitees);
+
+        // After successfully loading from DB and processing, save to cache
+        if (!empty($types_html)) {
+            $serializedData = serialize($types_html);
+            file_put_contents($cacheTypesDeContrat, $serializedData);
+        }
+    }
+    return $types_html;
 }
