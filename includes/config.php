@@ -21,11 +21,10 @@ $chemin_db_maj = dirname(__DIR__) . "/NOIRMOUTIER-PHP.JSON";
 
 // Liste de communes dans format COMMUNE BDD => COMMUNE AFFICHAGE (pour filtres)
 $groupes_geographiques = [
-"ILE NOIRMOUTIER" => "L'île Noirmoûtier",
-"La Guérinière" => "La Guérinière",
-"Noirmoutier-en-l'île" => " Noirmoutier-en-l'île",
-"Barbâtre" => " Barbâtre",
-"L'Epine" => " L'Epine",
+    "La Guérinière" => "La Guérinière",
+    "Noirmoutier-en-l'île" => " Noirmoutier-en-l'île",
+    "Barbâtre" => " Barbâtre",
+    "L'Epine" => " L'Epine",
 ];
 // $groupes_geographiques = [
 // "Département" => "Département",
@@ -33,6 +32,28 @@ $groupes_geographiques = [
 // "Bassin Nazérien" => "Bassin Nazérien",
 // "- 30 min" => "Moins de 30 minutes",
 // ];
+
+// Durées possible dans l'ordre
+$durees_possibles = [
+    "1 jour",
+    "5 semaines",
+    "1 mois",
+    "1.5 mois",
+    "2 mois",
+    "2.5 mois",
+    "3 mois",
+    "3.5 mois",
+    "4 mois",
+    "4.5 mois",
+    "5 mois",
+    "5.5 mois",
+    "6 mois",
+    "6.5 mois",
+    "7 mois",
+    "8 mois",
+    "A l'année",
+    "CDI"
+];
 
 $index_page_titre = "Consultation des Offres";
 $index_et_offre_page_description = "Consulter les offres d'emploi de l'île de Noirmoutier";

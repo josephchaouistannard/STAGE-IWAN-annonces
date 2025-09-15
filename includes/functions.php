@@ -206,28 +206,8 @@ function creerHtmlProfessionsUniques($toutes_offres)
  */
 function creerHtmlDurees($toutes_offres)
 {
-    // Durées possible dans l'ordre
-    $durees_possibles = [
-        "1 jour",
-        "5 semaines", 
-        "1 mois",
-        "1.5 mois",
-        "2 mois",
-        "2.5 mois",
-        "3 mois",
-        "3.5 mois",
-        "4 mois",
-        "4.5 mois",
-        "5 mois",
-        "5.5 mois",
-        "6 mois",
-        "6.5 mois",
-        "7 mois",
-        "8 mois",
-        "A l'année",
-        "CDI"
-    ];
-
+    global $durees_possibles;
+    
     // Prendre toutes les durees (même les duplicates)
     foreach ($toutes_offres as $offre) {
         $durees_dans_offres[] = $offre["DureeContrat"];
